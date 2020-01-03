@@ -18,11 +18,22 @@ final class HomeViewController: BaseViewController {
     private let menuCategoryCell = "MenuCategoryCell"
     private let menuCategory = ["U.S", "Business", "Technology", "Health", "Science", "Sports", "Entertainment"]
 
+    private var pageController: UIPageViewController!
+    private var viewControllers = [BaseHomeChildViewController]()
+    private var currentPage: Int = 0
+    
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         title = "Headlines"
         configMenuCategoryCollectionView()
+    }
+
+    // MARK: - Life cycle
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configPageViewController()
+        //        configCustomView() #warning("if many time ---- scroll view color")
     }
 
     // MARK: - Private funcs
@@ -37,6 +48,36 @@ final class HomeViewController: BaseViewController {
         }
     }
 
+    private func configPageViewController() {
+        pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+
+        let widthScreen = UIScreen.main.bounds.width
+        let heightScreen = UIScreen.main.bounds.height
+        let yMenuCategory = menuCategoryCollectionView.frame.maxY
+        let heightMenuCategory = menuCategoryCollectionView.frame.height
+
+        pageController.view.frame = CGRect(x: 0, y: yMenuCategory, width: widthScreen, height: heightScreen - heightMenuCategory)
+        addChild(pageController)
+        view.addSubview(pageController.view)
+
+        addChildViewController()
+
+        pageController.setViewControllers([viewControllers[0]], direction: .forward, animated: false)
+        pageController.didMove(toParent: self)
+
+        pageController.dataSource = self
+        pageController.delegate = self
+    }
+
+    private func addChildViewController() {
+        for (index, type) in BaseHomeChildViewController.ScreenType.allCases.enumerated() {
+            let viewController = BaseHomeChildViewController()
+            viewController.screenType = type
+            viewController.view.tag = index
+            viewControllers.append(viewController)
+        }
+    }
+
     private func scrollToItem(to selectedIndex: Int) {
         menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
 
@@ -45,6 +86,8 @@ final class HomeViewController: BaseViewController {
                 cell.configUI(isEnable: i == selectedIndex)
             }
         }
+
+        pageController.setViewControllers([viewControllers[selectedIndex]], direction: .reverse, animated: true)
     }
 
     private func scrollToItem(to selectedIndex: Int, a: String) {
@@ -76,5 +119,43 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
         scrollToItem(to: selectedIndex)
+    }
+}
+
+// MARK: - PageViewController DataSource
+extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
+        let index: Int = viewController.view.tag
+        guard index == 0 else {
+            let viewController = viewControllers[index - 1]
+            return viewController
+        }
+        return nil
+    }
+
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
+        var index: Int = viewController.view.tag
+        index += 1
+        guard index == menuCategory.count else {
+            let viewController = viewControllers[index]
+            return viewController
+        }
+        return nil
+    }
+
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return menuCategory.count
+    }
+
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        return 0
+    }
+
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if finished, let vc = pageViewController.viewControllers?.first {
+            scrollToItem(to: vc.view.tag, a: "")
+        }
     }
 }

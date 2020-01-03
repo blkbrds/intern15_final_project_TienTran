@@ -21,6 +21,10 @@
 		F094DB0D23BED41A008221E9 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F094DAF923BED41A008221E9 /* NewsDetailViewController.xib */; };
 		F094DB1023BED41A008221E9 /* FollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAFE23BED41A008221E9 /* FollowingViewController.swift */; };
 		F094DB1123BED41A008221E9 /* FollowingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F094DAFF23BED41A008221E9 /* FollowingViewController.xib */; };
+		F094DB2223BEE00E008221E9 /* BaseHomeChildViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F094DB1D23BEE00E008221E9 /* BaseHomeChildViewController.xib */; };
+		F094DB2323BEE00E008221E9 /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F094DB1F23BEE00E008221E9 /* NewsTableViewCell.xib */; };
+		F094DB2423BEE00E008221E9 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DB2023BEE00E008221E9 /* NewsTableViewCell.swift */; };
+		F094DB2523BEE00E008221E9 /* BaseHomeChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DB2123BEE00E008221E9 /* BaseHomeChildViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +44,10 @@
 		F094DAF923BED41A008221E9 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
 		F094DAFE23BED41A008221E9 /* FollowingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowingViewController.swift; sourceTree = "<group>"; };
 		F094DAFF23BED41A008221E9 /* FollowingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FollowingViewController.xib; sourceTree = "<group>"; };
+		F094DB1D23BEE00E008221E9 /* BaseHomeChildViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BaseHomeChildViewController.xib; sourceTree = "<group>"; };
+		F094DB1F23BEE00E008221E9 /* NewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
+		F094DB2023BEE00E008221E9 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		F094DB2123BEE00E008221E9 /* BaseHomeChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseHomeChildViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +158,9 @@
 		F094DAEF23BED41A008221E9 /* BaseHomeChild */ = {
 			isa = PBXGroup;
 			children = (
+				F094DB2123BEE00E008221E9 /* BaseHomeChildViewController.swift */,
+				F094DB1D23BEE00E008221E9 /* BaseHomeChildViewController.xib */,
+				F094DB1E23BEE00E008221E9 /* NewsCell */,
 			);
 			path = BaseHomeChild;
 			sourceTree = "<group>";
@@ -177,6 +188,15 @@
 			children = (
 			);
 			path = SearchNews;
+			sourceTree = "<group>";
+		};
+		F094DB1E23BEE00E008221E9 /* NewsCell */ = {
+			isa = PBXGroup;
+			children = (
+				F094DB1F23BEE00E008221E9 /* NewsTableViewCell.xib */,
+				F094DB2023BEE00E008221E9 /* NewsTableViewCell.swift */,
+			);
+			path = NewsCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,11 +257,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F094DB2223BEE00E008221E9 /* BaseHomeChildViewController.xib in Resources */,
 				F094DB0423BED41A008221E9 /* MenuCategoryCell.xib in Resources */,
 				F094DB0D23BED41A008221E9 /* NewsDetailViewController.xib in Resources */,
 				F094DB1123BED41A008221E9 /* FollowingViewController.xib in Resources */,
 				F094DAB123BED33B008221E9 /* LaunchScreen.storyboard in Resources */,
 				F094DAAE23BED33B008221E9 /* Assets.xcassets in Resources */,
+				F094DB2323BEE00E008221E9 /* NewsTableViewCell.xib in Resources */,
 				F094DB0A23BED41A008221E9 /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,11 +278,13 @@
 				F094DB0523BED41A008221E9 /* MenuCategoryCell.swift in Sources */,
 				F094DAEA23BED400008221E9 /* BaseTabBarController.swift in Sources */,
 				F094DB0B23BED41A008221E9 /* HomeViewController.swift in Sources */,
+				F094DB2523BEE00E008221E9 /* BaseHomeChildViewController.swift in Sources */,
 				F094DB1023BED41A008221E9 /* FollowingViewController.swift in Sources */,
 				F094DAA523BED339008221E9 /* AppDelegate.swift in Sources */,
 				F094DB0C23BED41A008221E9 /* NewsDetailViewController.swift in Sources */,
 				F094DAA723BED339008221E9 /* SceneDelegate.swift in Sources */,
 				F094DAE923BED400008221E9 /* BaseViewController.swift in Sources */,
+				F094DB2423BEE00E008221E9 /* NewsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
