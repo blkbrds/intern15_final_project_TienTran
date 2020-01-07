@@ -10,6 +10,18 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    enum ScreenType: Int {
+        case home = 0
+        case following
+
+        var title: String {
+            switch self {
+            case .home: return "Headlines"
+            case .following: return "Following"
+            }
+        }
+    }
+
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -31,7 +43,13 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) { }
 
     private func configTabBarController() {
-        let tabBarController = BaseTabBarController()
+        let homeScreen = UINavigationController(rootViewController: HomeViewController())
+        let followingScreen = UINavigationController(rootViewController: FollowingViewController())
+        followingScreen.tabBarItem = UITabBarItem(title: ScreenType.following.title, image: #imageLiteral(resourceName: "ic-following"), tag: ScreenType.following.rawValue)
+        homeScreen.tabBarItem = UITabBarItem(title: ScreenType.home.title, image: #imageLiteral(resourceName: "ic-headlines"), tag: ScreenType.home.rawValue)
+
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [homeScreen, followingScreen]
         window?.rootViewController = tabBarController
     }
 }

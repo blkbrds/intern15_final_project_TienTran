@@ -20,8 +20,7 @@ final class HomeViewController: BaseViewController {
 
     private var pageController: UIPageViewController!
     private var viewControllers = [BaseHomeChildViewController]()
-    private var currentPage: Int = 0
-    
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()
@@ -31,7 +30,7 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Life cycle
     override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewDidAppear(animated)
         configPageViewController()
         //        configCustomView() #warning("if many time ---- scroll view color")
     }
@@ -78,19 +77,13 @@ final class HomeViewController: BaseViewController {
         }
     }
 
-    private func scrollToItem(to selectedIndex: Int) {
-        menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
-
-        for i in 0..<menuCategory.count {
-            if let cell = menuCategoryCollectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? MenuCategoryCell {
-                cell.configUI(isEnable: i == selectedIndex)
-            }
-        }
+    private func scrollToPageChildViewController(at selectedIndex: Int) {
+        scrollToCategory(at: selectedIndex)
 
         pageController.setViewControllers([viewControllers[selectedIndex]], direction: .reverse, animated: true)
     }
 
-    private func scrollToItem(to selectedIndex: Int, a: String) {
+    private func scrollToCategory(at selectedIndex: Int) {
         menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
 
         for i in 0..<menuCategory.count {
@@ -118,11 +111,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     // Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
-        scrollToItem(to: selectedIndex)
+        scrollToPageChildViewController(at: selectedIndex)
     }
 }
 
-// MARK: - PageViewController DataSource
+// MARK: - PageViewController DataSource, Delegate
 extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
@@ -155,7 +148,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished, let vc = pageViewController.viewControllers?.first {
-            scrollToItem(to: vc.view.tag, a: "")
+            scrollToCategory(at: vc.view.tag)
         }
     }
 }
