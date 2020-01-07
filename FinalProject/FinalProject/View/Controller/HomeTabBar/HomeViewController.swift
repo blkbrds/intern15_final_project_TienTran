@@ -37,17 +37,7 @@ final class HomeViewController: BaseViewController {
         }
     }
 
-    private func scrollToItem(to selectedIndex: Int) {
-        menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
-
-        for i in 0..<menuCategory.count {
-            if let cell = menuCategoryCollectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? MenuCategoryCell {
-                cell.configUI(isEnable: i == selectedIndex)
-            }
-        }
-    }
-
-    private func scrollToItem(to selectedIndex: Int, a: String) {
+    private func scrollToCategoryMenu(at selectedIndex: Int) {
         menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
 
         for i in 0..<menuCategory.count {
@@ -75,6 +65,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     // Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
-        scrollToItem(to: selectedIndex)
+        scrollToCategoryMenu(at: selectedIndex)
     }
 }

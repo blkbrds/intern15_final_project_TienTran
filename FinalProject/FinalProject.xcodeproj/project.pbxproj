@@ -12,7 +12,6 @@
 		F094DAAE23BED33B008221E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F094DAAD23BED33B008221E9 /* Assets.xcassets */; };
 		F094DAB123BED33B008221E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F094DAAF23BED33B008221E9 /* LaunchScreen.storyboard */; };
 		F094DAE923BED400008221E9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAE723BED3FF008221E9 /* BaseViewController.swift */; };
-		F094DAEA23BED400008221E9 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAE823BED3FF008221E9 /* BaseTabBarController.swift */; };
 		F094DB0423BED41A008221E9 /* MenuCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F094DAED23BED41A008221E9 /* MenuCategoryCell.xib */; };
 		F094DB0523BED41A008221E9 /* MenuCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAEE23BED41A008221E9 /* MenuCategoryCell.swift */; };
 		F094DB0A23BED41A008221E9 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F094DAF523BED41A008221E9 /* HomeViewController.xib */; };
@@ -31,7 +30,6 @@
 		F094DAB023BED33B008221E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F094DAB223BED33B008221E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F094DAE723BED3FF008221E9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		F094DAE823BED3FF008221E9 /* BaseTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		F094DAED23BED41A008221E9 /* MenuCategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuCategoryCell.xib; sourceTree = "<group>"; };
 		F094DAEE23BED41A008221E9 /* MenuCategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCategoryCell.swift; sourceTree = "<group>"; };
 		F094DAF523BED41A008221E9 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 			isa = PBXGroup;
 			children = (
 				F094DAE723BED3FF008221E9 /* BaseViewController.swift */,
-				F094DAE823BED3FF008221E9 /* BaseTabBarController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -254,7 +251,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F094DB0523BED41A008221E9 /* MenuCategoryCell.swift in Sources */,
-				F094DAEA23BED400008221E9 /* BaseTabBarController.swift in Sources */,
 				F094DB0B23BED41A008221E9 /* HomeViewController.swift in Sources */,
 				F094DB1023BED41A008221E9 /* FollowingViewController.swift in Sources */,
 				F094DAA523BED339008221E9 /* AppDelegate.swift in Sources */,

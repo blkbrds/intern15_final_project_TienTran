@@ -8,11 +8,4 @@
 
 import UIKit
 
-final class NewsDetailViewController: BaseViewController {
-    
-    // MARK: - Life cycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        tabBarController?.tabBar.isHidden = true
-    }
-}
+final class NewsDetailViewController: BaseViewController { }
