@@ -12,7 +12,7 @@ final class NewsDetailViewController: BaseViewController {
     
     // MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
     }
 }

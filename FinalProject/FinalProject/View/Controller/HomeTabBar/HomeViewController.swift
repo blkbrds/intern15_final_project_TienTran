@@ -11,18 +11,18 @@ import UIKit
 final class HomeViewController: BaseViewController {
 
     // MARK: - IBOutlet
-    @IBOutlet private weak var menuCategoryCollectionView: UICollectionView!
+    @IBOutlet private weak var categoriesCollectionView: UICollectionView!
 
     // MARK: - Properties
     private var pageController: UIPageViewController!
     private var viewControllers = [BaseHomeChildViewController]()
     private var viewModel = HomeViewModel()
-    
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         title = "Headlines"
-        configMenuCategoryCollectionView()
+        configCategoriesCollectionView()
     }
 
     // MARK: - Life cycle
@@ -33,12 +33,12 @@ final class HomeViewController: BaseViewController {
     }
 
     // MARK: - Private funcs
-    private func configMenuCategoryCollectionView() {
-        menuCategoryCollectionView.register(UINib(nibName: Config.menuCategoryCell, bundle: .main), forCellWithReuseIdentifier: Config.menuCategoryCell)
-        menuCategoryCollectionView.dataSource = self
-        menuCategoryCollectionView.delegate = self
+    private func configCategoriesCollectionView() {
+        categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
+        categoriesCollectionView.dataSource = self
+        categoriesCollectionView.delegate = self
         // auto resize item
-        if let flowLayout = menuCategoryCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+        if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
             flowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
         }
@@ -49,10 +49,10 @@ final class HomeViewController: BaseViewController {
 
         let widthScreen = UIScreen.main.bounds.width
         let heightScreen = UIScreen.main.bounds.height
-        let yMenuCategory = menuCategoryCollectionView.frame.maxY
-        let heightMenuCategory = menuCategoryCollectionView.frame.height
+        let yCategories = categoriesCollectionView.frame.maxY
+        let heightCategories = categoriesCollectionView.frame.height
 
-        pageController.view.frame = CGRect(x: 0, y: yMenuCategory, width: widthScreen, height: heightScreen - heightMenuCategory)
+        pageController.view.frame = CGRect(x: 0, y: yCategories, width: widthScreen, height: heightScreen - heightCategories)
         addChild(pageController)
         view.addSubview(pageController.view)
 
@@ -76,16 +76,16 @@ final class HomeViewController: BaseViewController {
 
     private func scrollToPageChildViewController(at selectedIndex: Int) {
         scrollToCategory(at: selectedIndex)
-
         pageController.setViewControllers([viewControllers[selectedIndex]], direction: .reverse, animated: true)
     }
 
     private func scrollToCategory(at selectedIndex: Int) {
-        menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
+        categoriesCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
 
-        for i in 0..<viewModel.menuCategory.count {
-            if let cell = menuCategoryCollectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? MenuCategoryCell {
-                cell.configUI(isEnable: i == selectedIndex)
+        for i in 0..<viewModel.categories.count {
+            let indexPath = IndexPath(item: i, section: 0)
+            if let cell = categoriesCollectionView.cellForItem(at: indexPath) as? CategoryCell {
+                cell.viewModel = viewModel.getCategoryCellViewModel(indexPath: indexPath)
             }
         }
     }
@@ -96,13 +96,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     // DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.menuCategory.count
+        return viewModel.numberOfCategories()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let menuCell = menuCategoryCollectionView.dequeueReusableCell(withReuseIdentifier: Config.menuCategoryCell, for: indexPath) as? MenuCategoryCell else { return UICollectionViewCell() }
-        menuCell.configUI(category: viewModel.menuCategory[indexPath.row].titleCategory, isEnable: viewModel.selectedIndex == indexPath.row)
-        return menuCell
+        guard let categoryCell = categoriesCollectionView.dequeueReusableCell(withReuseIdentifier: Config.categoryCell, for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
+
+        categoryCell.viewModel = viewModel.getCategoryCellViewModel(indexPath: indexPath)
+        return categoryCell
     }
 
     // Delegate
@@ -128,7 +129,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
         guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
         var index: Int = viewController.view.tag
         index += 1
-        guard index == viewModel.menuCategory.count else {
+        guard index == viewModel.categories.count else {
             let viewController = viewControllers[index]
             return viewController
         }
@@ -136,11 +137,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return viewModel.menuCategory.count
-    }
-
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return 0
+        return viewModel.categories.count
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
@@ -152,8 +149,8 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
 
 // MARK: - Config
 extension HomeViewController {
-    
+
     struct Config {
-        static let menuCategoryCell = "MenuCategoryCell"
+        static let categoryCell = "CategoryCell"
     }
 }

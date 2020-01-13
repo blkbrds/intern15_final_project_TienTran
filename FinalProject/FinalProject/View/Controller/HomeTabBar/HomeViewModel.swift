@@ -10,7 +10,21 @@ import Foundation
 
 final class HomeViewModel {
     var selectedIndex = 0
-    var menuCategory: [HomeScreenType] = HomeScreenType.allCases
+    var categories: [HomeScreenType] = HomeScreenType.allCases
+}
+
+extension HomeViewModel {
+    func numberOfCategories() -> Int {
+        categories.count
+    }
+
+    func getCategoryCellViewModel(indexPath: IndexPath) -> CategoryViewCellModel {
+        return CategoryViewCellModel(textCategoryLabel: categories[indexPath.row].titleCategory, isEnable: selectedIndex == indexPath.row)
+    }
+    
+    func didSelectCategoryAt(at indexPath: IndexPath) {
+        print(indexPath.row)
+    }
 }
 
 enum HomeScreenType: Int, CaseIterable {
