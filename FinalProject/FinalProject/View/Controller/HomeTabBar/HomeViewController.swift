@@ -16,7 +16,8 @@ final class HomeViewController: BaseViewController {
     // MARK: - Properties
     private var pageController: UIPageViewController!
     private var viewControllers = [BaseHomeChildViewController]()
-
+    private var viewModel = HomeViewModel()
+    
     // MARK: - config
     override func setupUI() {
         super.setupUI()
@@ -82,7 +83,7 @@ final class HomeViewController: BaseViewController {
     private func scrollToCategory(at selectedIndex: Int) {
         menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
 
-        for i in 0..<HomeViewModel.shared().menuCategory.count {
+        for i in 0..<viewModel.menuCategory.count {
             if let cell = menuCategoryCollectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? MenuCategoryCell {
                 cell.configUI(isEnable: i == selectedIndex)
             }
@@ -95,19 +96,19 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     // DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return HomeViewModel.shared().menuCategory.count
+        return viewModel.menuCategory.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let menuCell = menuCategoryCollectionView.dequeueReusableCell(withReuseIdentifier: Config.menuCategoryCell, for: indexPath) as? MenuCategoryCell else { return UICollectionViewCell() }
-        menuCell.configUI(category: HomeViewModel.shared().menuCategory[indexPath.row], isEnable: HomeViewModel.shared().selectedIndex == indexPath.row)
+        menuCell.configUI(category: viewModel.menuCategory[indexPath.row].titleCategory, isEnable: viewModel.selectedIndex == indexPath.row)
         return menuCell
     }
 
     // Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        HomeViewModel.shared().selectedIndex = indexPath.row
-        scrollToPageChildViewController(at: HomeViewModel.shared().selectedIndex)
+        viewModel.selectedIndex = indexPath.row
+        scrollToPageChildViewController(at: viewModel.selectedIndex)
     }
 }
 
@@ -127,7 +128,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
         guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
         var index: Int = viewController.view.tag
         index += 1
-        guard index == HomeViewModel.shared().menuCategory.count else {
+        guard index == viewModel.menuCategory.count else {
             let viewController = viewControllers[index]
             return viewController
         }
@@ -135,7 +136,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return HomeViewModel.shared().menuCategory.count
+        return viewModel.menuCategory.count
     }
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {

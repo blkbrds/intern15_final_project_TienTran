@@ -9,30 +9,8 @@
 import Foundation
 
 final class HomeViewModel {
-
-    // singleton
-    private static var sharedHomeViewModel: HomeViewModel = {
-        let homeViewModel = HomeViewModel()
-        return homeViewModel
-    }()
-
-    static func shared() -> HomeViewModel {
-        return sharedHomeViewModel
-    }
-
-    private init() {
-        categories()
-    }
-
     var selectedIndex = 0
-
-    var menuCategory: [String] = []
-
-    func categories() {
-        for category in HomeScreenType.allCases {
-            menuCategory.append(category.titleCategory)
-        }
-    }
+    var menuCategory: [HomeScreenType] = HomeScreenType.allCases
 }
 
 enum HomeScreenType: Int, CaseIterable {
