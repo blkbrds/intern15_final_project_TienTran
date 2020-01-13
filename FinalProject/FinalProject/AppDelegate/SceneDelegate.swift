@@ -16,8 +16,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         var title: String {
             switch self {
-            case .home: return "Headlines"
-            case .following: return "Following"
+            case .home: return App.String.homeTabBar
+            case .following: return App.String.followingTabBar
             }
         }
     }

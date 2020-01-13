@@ -14,10 +14,6 @@ final class HomeViewController: BaseViewController {
     @IBOutlet private weak var menuCategoryCollectionView: UICollectionView!
 
     // MARK: - Properties
-    private var selectedIndex = 0
-    private let menuCategoryCell = "MenuCategoryCell"
-    private let menuCategory = ["U.S", "Business", "Technology", "Health", "Science", "Sports", "Entertainment"]
-
     private var pageController: UIPageViewController!
     private var viewControllers = [BaseHomeChildViewController]()
 
@@ -37,7 +33,7 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Private funcs
     private func configMenuCategoryCollectionView() {
-        menuCategoryCollectionView.register(UINib(nibName: menuCategoryCell, bundle: .main), forCellWithReuseIdentifier: menuCategoryCell)
+        menuCategoryCollectionView.register(UINib(nibName: Config.menuCategoryCell, bundle: .main), forCellWithReuseIdentifier: Config.menuCategoryCell)
         menuCategoryCollectionView.dataSource = self
         menuCategoryCollectionView.delegate = self
         // auto resize item
@@ -69,9 +65,9 @@ final class HomeViewController: BaseViewController {
     }
 
     private func addChildViewController() {
-        for (index, type) in BaseHomeChildViewController.ScreenType.allCases.enumerated() {
+        for (index, type) in HomeScreenType.allCases.enumerated() {
             let viewController = BaseHomeChildViewController()
-            viewController.screenType = type
+            viewController.viewModel.screenType = type
             viewController.view.tag = index
             viewControllers.append(viewController)
         }
@@ -86,7 +82,7 @@ final class HomeViewController: BaseViewController {
     private func scrollToCategory(at selectedIndex: Int) {
         menuCategoryCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
 
-        for i in 0..<menuCategory.count {
+        for i in 0..<HomeViewModel.shared().menuCategory.count {
             if let cell = menuCategoryCollectionView.cellForItem(at: IndexPath(item: i, section: 0)) as? MenuCategoryCell {
                 cell.configUI(isEnable: i == selectedIndex)
             }
@@ -99,19 +95,19 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     // DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return menuCategory.count
+        return HomeViewModel.shared().menuCategory.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let menuCell = menuCategoryCollectionView.dequeueReusableCell(withReuseIdentifier: menuCategoryCell, for: indexPath) as? MenuCategoryCell else { return UICollectionViewCell() }
-        menuCell.configUI(category: menuCategory[indexPath.row], isEnable: selectedIndex == indexPath.row)
+        guard let menuCell = menuCategoryCollectionView.dequeueReusableCell(withReuseIdentifier: Config.menuCategoryCell, for: indexPath) as? MenuCategoryCell else { return UICollectionViewCell() }
+        menuCell.configUI(category: HomeViewModel.shared().menuCategory[indexPath.row], isEnable: HomeViewModel.shared().selectedIndex == indexPath.row)
         return menuCell
     }
 
     // Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedIndex = indexPath.row
-        scrollToPageChildViewController(at: selectedIndex)
+        HomeViewModel.shared().selectedIndex = indexPath.row
+        scrollToPageChildViewController(at: HomeViewModel.shared().selectedIndex)
     }
 }
 
@@ -131,7 +127,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
         guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
         var index: Int = viewController.view.tag
         index += 1
-        guard index == menuCategory.count else {
+        guard index == HomeViewModel.shared().menuCategory.count else {
             let viewController = viewControllers[index]
             return viewController
         }
@@ -139,7 +135,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return menuCategory.count
+        return HomeViewModel.shared().menuCategory.count
     }
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
@@ -150,5 +146,13 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
         if finished, let vc = pageViewController.viewControllers?.first {
             scrollToCategory(at: vc.view.tag)
         }
+    }
+}
+
+// MARK: - Config
+extension HomeViewController {
+    
+    struct Config {
+        static let menuCategoryCell = "MenuCategoryCell"
     }
 }
