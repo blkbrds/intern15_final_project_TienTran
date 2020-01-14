@@ -40,5 +40,6 @@ final class NewsTableViewCell: UITableViewCell {
         publishedLabel.text = viewModel.publishedLabel
         newsTitleLabel.text = viewModel.newsTitleLabel
         nameSourceLabel.text = viewModel.nameSourceLabel
+        newsImageView.image = viewModel.newsImage
     }
 }

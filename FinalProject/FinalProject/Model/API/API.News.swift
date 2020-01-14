@@ -10,8 +10,8 @@ import Foundation
 
 extension APIManager.News {
     struct QueryString {
-        func getTopHeadlines(category: String, country: String) -> String {
-            return APIManager.Path.TopHeadlines(category: category, country: country).url
+        func getTopHeadlines(category: String, country: String, page: Int, pageSize: Int) -> String {
+            return APIManager.Path.TopHeadlines(category: category, country: country, pageSize: pageSize, page: page).url
         }
     }
 
@@ -21,8 +21,8 @@ extension APIManager.News {
         var listNews: [News]
     }
 
-    static func getTopHeadlines(category: String, country: String, completion: @escaping APICompletion<NewsResult>) {
-        let urlString = QueryString().getTopHeadlines(category: category, country: country)
+    static func getTopHeadlines(page: Int, pageSize: Int = 10, category: String, country: String, completion: @escaping APICompletion<NewsResult>) {
+        let urlString = QueryString().getTopHeadlines(category: category, country: country, page: page, pageSize: pageSize)
 
         API.shared().request(urlString: urlString) { result in
             switch result {

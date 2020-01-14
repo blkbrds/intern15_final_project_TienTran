@@ -43,6 +43,7 @@ final class BaseHomeChildViewController: BaseViewController {
             if done {
                 self.updateUI()
             } else {
+                #warning("show alert")
                 print("API ERROR: \(msg)")
             }
         }
@@ -58,7 +59,6 @@ extension BaseHomeChildViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
-        #warning("Config NewsCell!!!")
         newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
         return newsCell
     }

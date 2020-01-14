@@ -13,7 +13,7 @@ final class NewsTableViewCellViewModel {
     var publishedLabel: String
     var newsTitleLabel: String
     var nameSourceLabel: String
-    var newsImageView: UIImage?
+    var newsImage: UIImage?
 
     init(newsTitleLabel: String, nameSourceLabel: String, publishedLabel: String) {
         self.newsTitleLabel = newsTitleLabel

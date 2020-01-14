@@ -114,8 +114,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         viewModel.selectedIndex = indexPath.row
         scrollToPageChildViewController(at: viewModel.selectedIndex)
     }
-    
-    
 }
 
 // MARK: - PageViewController DataSource, Delegate

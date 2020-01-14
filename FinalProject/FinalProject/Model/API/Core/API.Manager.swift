@@ -29,7 +29,9 @@ extension APIManager.Path {
 
         let category: String
         let country: String
-
-        var url: String { return APIManager.Path.TopHeadlines.path + "?country=" + country + "&category=" + category + "&apiKey=" + api_key }
+        let pageSize: Int
+        let page: Int
+        
+        var url: String { return APIManager.Path.TopHeadlines.path + "?country=" + country + "&category=" + category + "&apiKey=" + api_key + "&page=" + "\(page)" +  "&pageSize=" + "\(pageSize)"}
     }
 }
