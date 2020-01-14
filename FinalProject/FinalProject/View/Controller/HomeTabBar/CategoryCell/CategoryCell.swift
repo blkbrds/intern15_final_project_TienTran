@@ -15,7 +15,7 @@ final class CategoryCell: UICollectionViewCell {
     @IBOutlet private weak var backgroundColorView: UIView!
 
     // MARK: - Properties
-    var viewModel: CategoryViewCellModel? {
+    var viewModel: CategoryCellViewModel? {
         didSet {
             updateUI()
         }

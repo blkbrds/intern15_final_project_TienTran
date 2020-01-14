@@ -14,7 +14,7 @@ final class BaseHomeChildViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
 
     // MARK: - Properties
-    var viewModel = BaseHomeChildModel()
+    var viewModel = BaseHomeChildViewModel()
 
     // MARK: - config
     override func setupUI() {
@@ -22,13 +22,30 @@ final class BaseHomeChildViewController: BaseViewController {
         configTableView()
     }
 
+    override func setupData() {
+        super.setupData()
+        loadAPI()
+    }
+
     // MARK: - Private funcs
     private func configTableView() {
-
-        // tableview
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
         tableView.dataSource = self
         tableView.delegate = self
+    }
+
+    private func updateUI() {
+        tableView.reloadData()
+    }
+
+    private func loadAPI() {
+        viewModel.loadAPI { (done, msg) in
+            if done {
+                self.updateUI()
+            } else {
+                print("API ERROR: \(msg)")
+            }
+        }
     }
 }
 
@@ -36,13 +53,13 @@ final class BaseHomeChildViewController: BaseViewController {
 extension BaseHomeChildViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // TODO: Will update later
-        return 10
+        return viewModel.numberOfListNews()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
-//        #warning("Config NewsCell!!!")
+        #warning("Config NewsCell!!!")
+        newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
         return newsCell
     }
 }

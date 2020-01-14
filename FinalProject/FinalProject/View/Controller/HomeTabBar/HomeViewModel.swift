@@ -9,21 +9,19 @@
 import Foundation
 
 final class HomeViewModel {
+    var currentIndex = 0
     var selectedIndex = 0
     var categories: [HomeScreenType] = HomeScreenType.allCases
 }
 
+// MARK: - config tableview
 extension HomeViewModel {
     func numberOfCategories() -> Int {
         categories.count
     }
 
-    func getCategoryCellViewModel(indexPath: IndexPath) -> CategoryViewCellModel {
-        return CategoryViewCellModel(textCategoryLabel: categories[indexPath.row].titleCategory, isEnable: selectedIndex == indexPath.row)
-    }
-    
-    func didSelectCategoryAt(at indexPath: IndexPath) {
-        print(indexPath.row)
+    func getCategoryCellViewModel(indexPath: IndexPath) -> CategoryCellViewModel {
+        return CategoryCellViewModel(textCategoryLabel: categories[indexPath.row].titleCategory, isEnable: selectedIndex == indexPath.row)
     }
 }
 
@@ -52,6 +50,25 @@ enum HomeScreenType: Int, CaseIterable {
             return "Sports"
         case .entertainment:
             return "Entertainment"
+        }
+    }
+    
+    var valueCategory: String {
+        switch self {
+        case .us:
+            return "general"
+        case .business:
+            return "business"
+        case .technology:
+            return "technology"
+        case .health:
+            return "health"
+        case .science:
+            return "science"
+        case .sports:
+            return "sports"
+        case .entertainment:
+            return "entertainment"
         }
     }
 }
