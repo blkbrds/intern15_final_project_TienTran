@@ -10,15 +10,18 @@ import Foundation
 
 struct APIManager {
 
+    static let api_key = "29bc913b0d1046a0a2c022139e9f003f"
+
     // MARK: - config
     struct Path {
         static let base_domain = "https://newsapi.org"
         static let base_path = "/v2"
-        static let api_key = "29bc913b0d1046a0a2c022139e9f003f"
     }
 
     //MARK: - Domain
     struct News { }
+
+    struct Downloader { }
 }
 
 extension APIManager.Path {
@@ -31,7 +34,7 @@ extension APIManager.Path {
         let country: String
         let pageSize: Int
         let page: Int
-        
-        var url: String { return APIManager.Path.TopHeadlines.path + "?country=" + country + "&category=" + category + "&apiKey=" + api_key + "&page=" + "\(page)" +  "&pageSize=" + "\(pageSize)"}
+
+        var url: String { return APIManager.Path.TopHeadlines.path + "?country=" + country + "&category=" + category + "&apiKey=" + APIManager.api_key + "&page=" + "\(page)" + "&pageSize=" + "\(pageSize)" }
     }
 }

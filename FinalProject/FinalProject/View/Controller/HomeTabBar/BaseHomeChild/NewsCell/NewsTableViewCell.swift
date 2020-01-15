@@ -21,6 +21,7 @@ final class NewsTableViewCell: UITableViewCell {
     var viewModel: NewsTableViewCellViewModel? {
         didSet {
             updateUI()
+            updateImg()
         }
     }
 
@@ -31,8 +32,7 @@ final class NewsTableViewCell: UITableViewCell {
 
     private func configUI() {
         newsImageView.clipsToBounds = true
-        newsImageView.layer.cornerRadius = 7
-        iconSourceImageView.layer.cornerRadius = 10
+        newsImageView.layer.cornerRadius = 5
     }
 
     private func updateUI() {
@@ -40,6 +40,11 @@ final class NewsTableViewCell: UITableViewCell {
         publishedLabel.text = viewModel.publishedLabel
         newsTitleLabel.text = viewModel.newsTitleLabel
         nameSourceLabel.text = viewModel.nameSourceLabel
+        newsImageView.image = viewModel.newsImage
+    }
+    
+    private func updateImg() {
+        guard let viewModel = viewModel else { return }
         newsImageView.image = viewModel.newsImage
     }
 }

@@ -26,7 +26,7 @@ extension HomeViewModel {
 }
 
 enum HomeScreenType: Int, CaseIterable {
-    case us
+    case us = 0
     case business
     case technology
     case health

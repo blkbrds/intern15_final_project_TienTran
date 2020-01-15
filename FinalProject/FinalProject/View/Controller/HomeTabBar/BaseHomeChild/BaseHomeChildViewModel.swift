@@ -40,19 +40,32 @@ extension BaseHomeChildViewModel {
     func getNewsCellViewModel(indexPath: IndexPath) -> NewsTableViewCellViewModel {
         let news = listNews[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(newsTitleLabel: news.titleNews, nameSourceLabel: news.sourceName, publishedLabel: news.publishedAt)
-        print("a \(String(describing: news.newsImage))")
-        if newsCellViewModel.newsImage != nil {
+
+        if news.newsImage != nil {
             newsCellViewModel.newsImage = news.newsImage
         } else {
-            newsCellViewModel.newsImage = nil
+            newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
             Networking.shared().downloadImage(url: news.urlImage) { image in
                 if let image = image {
                     news.newsImage = image
                     newsCellViewModel.newsImage = image
+                    print(image)
                 } else {
-                    newsCellViewModel.newsImage = nil
+                    newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
+//                    news.newsImage = #imageLiteral(resourceName: "news-default")
                 }
             }
+
+//            APIManager.Downloader.downloadImage(urlString: news.urlNews) { result in
+//                switch result {
+//                case .failure(let error):
+//                    newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
+//                    print(error.localizedDescription)
+//                case .success(let image):
+//                    news.newsImage = image
+//                    newsCellViewModel.newsImage = image
+//                }
+//            }
         }
         return newsCellViewModel
     }
@@ -60,9 +73,11 @@ extension BaseHomeChildViewModel {
 
 // MARK: - handle api
 extension BaseHomeChildViewModel {
+
+    // load api
     func loadAPI(compeltion: @escaping Completion) {
-        print("load api \(screenType.valueCategory)")
-        APIManager.News.getTopHeadlines(page: 1, category: screenType.valueCategory, country: "jp") { result in
+
+        APIManager.News.getTopHeadlines(page: 1, category: screenType.valueCategory, country: "us") { result in
             switch result {
             case .failure(let error):
                 // call back

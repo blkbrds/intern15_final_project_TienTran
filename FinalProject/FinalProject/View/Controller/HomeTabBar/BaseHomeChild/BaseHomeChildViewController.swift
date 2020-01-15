@@ -27,6 +27,11 @@ final class BaseHomeChildViewController: BaseViewController {
         loadAPI()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
     // MARK: - Private funcs
     private func configTableView() {
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
