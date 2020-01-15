@@ -11,23 +11,27 @@ import UIKit
 
 extension APIManager.Downloader {
 
-    static func downloadImage(urlString: String, completion: @escaping APICompletion<UIImage?>) {
+    static func downloadImage(urlString: String, completion: @escaping
+        (UIImage?) -> Void) {
 
-        API.shared().request(urlString: urlString) { result in
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+
+        API.shared().request(url: url) { result in
             switch result {
-            case .failure(let error):
+            case .failure:
                 // call back
-                completion(.failure(error))
+                completion(nil)
             case .success(let data):
                 if let data = data {
                     // result
                     let image = UIImage(data: data)
-                    // call back
-                    completion(.success(image))
-                    print(image)
+                    completion(image)
                 } else {
                     // call back
-                    completion(.failure(.error("Data is not format")))
+                    completion(nil)
                 }
             }
         }

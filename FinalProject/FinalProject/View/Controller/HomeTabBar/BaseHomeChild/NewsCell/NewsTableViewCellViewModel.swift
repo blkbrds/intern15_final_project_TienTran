@@ -14,10 +14,12 @@ final class NewsTableViewCellViewModel {
     var newsTitleLabel: String
     var nameSourceLabel: String
     var newsImage: UIImage?
+    var urlStringImage: String
 
-    init(newsTitleLabel: String, nameSourceLabel: String, publishedLabel: String) {
+    init(newsTitleLabel: String, nameSourceLabel: String, publishedLabel: String, urlStringImage: String) {
         self.newsTitleLabel = newsTitleLabel
         self.nameSourceLabel = nameSourceLabel
         self.publishedLabel = publishedLabel
+        self.urlStringImage = urlStringImage
     }
 }

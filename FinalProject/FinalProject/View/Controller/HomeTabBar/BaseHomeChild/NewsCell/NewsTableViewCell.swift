@@ -21,7 +21,6 @@ final class NewsTableViewCell: UITableViewCell {
     var viewModel: NewsTableViewCellViewModel? {
         didSet {
             updateUI()
-            updateImg()
         }
     }
 
@@ -40,11 +39,7 @@ final class NewsTableViewCell: UITableViewCell {
         publishedLabel.text = viewModel.publishedLabel
         newsTitleLabel.text = viewModel.newsTitleLabel
         nameSourceLabel.text = viewModel.nameSourceLabel
-        newsImageView.image = viewModel.newsImage
-    }
-    
-    private func updateImg() {
-        guard let viewModel = viewModel else { return }
+//        newsImageView.loadImage(urlString: viewModel.urlStringImage)
         newsImageView.image = viewModel.newsImage
     }
 }

@@ -31,7 +31,7 @@ final class BaseHomeChildViewController: BaseViewController {
         super.viewWillAppear(animated)
         updateUI()
     }
-    
+
     // MARK: - Private funcs
     private func configTableView() {
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)

@@ -76,8 +76,9 @@ final class HomeViewController: BaseViewController {
 
     private func scrollToPageChildViewController(at selectedIndex: Int) {
         scrollToCategory(at: selectedIndex)
-        print("selectedIndex \(viewModel.selectedIndex)")
-        print("currentIndex \(viewModel.currentIndex)")
+        #warning("delete")
+//        print("selectedIndex \(viewModel.selectedIndex)")
+//        print("currentIndex \(viewModel.currentIndex)")
         let direction: UIPageViewController.NavigationDirection = (selectedIndex < viewModel.currentIndex) ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
         pageController.setViewControllers([viewControllers[selectedIndex]], direction: direction, animated: true)
     }

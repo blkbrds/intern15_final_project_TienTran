@@ -15,22 +15,7 @@ final class BaseHomeChildViewModel {
     var screenType: HomeScreenType = .us
     var listNews: [News] = []
 }
-//
-//if news.thumbnailImage != nil {
-//    news.thumbnail.image = item.thumbnailImage
-//} else {
-//    news.thumbnail.image = nil
-//
-//    //downloader
-//    Networking.shared().downloadImage(url: item.urlToImage) { (image) in
-//        if let image = image {
-//            news.thumbnail.image = image
-//            item.thumbnailImage = image
-//        } else {
-//            news.thumbnail.image = nil
-//        }
-//    }
-//}
+
 // MARK: - config tableview
 extension BaseHomeChildViewModel {
     func numberOfListNews() -> Int {
@@ -39,34 +24,25 @@ extension BaseHomeChildViewModel {
 
     func getNewsCellViewModel(indexPath: IndexPath) -> NewsTableViewCellViewModel {
         let news = listNews[indexPath.row]
-        let newsCellViewModel = NewsTableViewCellViewModel(newsTitleLabel: news.titleNews, nameSourceLabel: news.sourceName, publishedLabel: news.publishedAt)
-
+        let newsCellViewModel = NewsTableViewCellViewModel(newsTitleLabel: news.titleNews, nameSourceLabel: news.sourceName, publishedLabel: news.publishedAt, urlStringImage: news.urlImage)
+        #warning("download image")
         if news.newsImage != nil {
             newsCellViewModel.newsImage = news.newsImage
         } else {
             newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
-            Networking.shared().downloadImage(url: news.urlImage) { image in
+
+            APIManager.Downloader.downloadImage(urlString: news.urlImage) { image in
                 if let image = image {
+                    print(image)
                     news.newsImage = image
                     newsCellViewModel.newsImage = image
-                    print(image)
                 } else {
                     newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
-//                    news.newsImage = #imageLiteral(resourceName: "news-default")
+                    news.newsImage = #imageLiteral(resourceName: "news-default")
                 }
             }
-
-//            APIManager.Downloader.downloadImage(urlString: news.urlNews) { result in
-//                switch result {
-//                case .failure(let error):
-//                    newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
-//                    print(error.localizedDescription)
-//                case .success(let image):
-//                    news.newsImage = image
-//                    newsCellViewModel.newsImage = image
-//                }
-//            }
         }
+
         return newsCellViewModel
     }
 }
