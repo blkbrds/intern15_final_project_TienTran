@@ -24,25 +24,12 @@ extension BaseHomeChildViewModel {
 
     func getNewsCellViewModel(indexPath: IndexPath) -> NewsTableViewCellViewModel {
         let news = listNews[indexPath.row]
-        let newsCellViewModel = NewsTableViewCellViewModel(newsTitleLabel: news.titleNews, nameSourceLabel: news.sourceName, publishedLabel: news.publishedAt, urlStringImage: news.urlImage)
-        #warning("download image")
-        if news.newsImage != nil {
-            newsCellViewModel.newsImage = news.newsImage
-        } else {
-            newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
-
-            APIManager.Downloader.downloadImage(urlString: news.urlImage) { image in
-                if let image = image {
-                    print(image)
-                    news.newsImage = image
-                    newsCellViewModel.newsImage = image
-                } else {
-                    newsCellViewModel.newsImage = #imageLiteral(resourceName: "news-default")
-                    news.newsImage = #imageLiteral(resourceName: "news-default")
-                }
-            }
-        }
-
+        let newsCellViewModel = NewsTableViewCellViewModel(newsTitleLabel: news.titleNews,
+            nameSourceLabel: news.sourceName,
+            publishedLabel: news.publishedAt,
+            urlStringImage: news.urlImage,
+            newsImage: news.newsImage,
+            indexPath: indexPath)
         return newsCellViewModel
     }
 }
@@ -63,6 +50,23 @@ extension BaseHomeChildViewModel {
 
                 //call back
                 compeltion(true, "")
+            }
+        }
+    }
+
+    // dowload image
+    func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
+        let news = listNews[indexPath.row]
+        if let newsImage = news.newsImage {
+            completion(newsImage)
+        } else {
+            APIManager.Downloader.downloadImage(urlString: news.urlImage) { image in
+                if let image = image {
+                    news.newsImage = image
+                    completion(image)
+                } else {
+                    completion(nil)
+                }
             }
         }
     }

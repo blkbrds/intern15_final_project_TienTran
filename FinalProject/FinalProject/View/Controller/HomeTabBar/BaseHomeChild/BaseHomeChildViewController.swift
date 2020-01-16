@@ -64,12 +64,25 @@ extension BaseHomeChildViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
+        newsCell.delegate = self
         newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
         return newsCell
     }
 }
 
-// MARK: TableView Delegate
+// MARK: -  NewsTableViewCellDelegate
+extension BaseHomeChildViewController: NewsTableViewCellDelegate {
+    func cell(_ cell: NewsTableViewCell, needPerform action: NewsTableViewCell.Action) {
+        switch action {
+        case .loadImage(let indexPath):
+            viewModel.loadImage(indexPath: indexPath) { image in
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+            }
+        }
+    }
+}
+
+// MARK: -  TableView Delegate
 extension BaseHomeChildViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 160

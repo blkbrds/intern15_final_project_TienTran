@@ -27,7 +27,6 @@
 		F094DB2523BEE00E008221E9 /* BaseHomeChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DB2123BEE00E008221E9 /* BaseHomeChildViewController.swift */; };
 		F0DF3D5A23CDBD1400E1CD48 /* DataExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DF3D4D23CDBD1400E1CD48 /* DataExt.swift */; };
 		F0DF3D5B23CDBD1400E1CD48 /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DF3D4E23CDBD1400E1CD48 /* StringExt.swift */; };
-		F0DF3D5C23CDBD1400E1CD48 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DF3D5123CDBD1400E1CD48 /* Networking.swift */; };
 		F0DF3D5D23CDBD1400E1CD48 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DF3D5323CDBD1400E1CD48 /* News.swift */; };
 		F0DF3D5E23CDBD1400E1CD48 /* APIManager.News.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DF3D5523CDBD1400E1CD48 /* APIManager.News.swift */; };
 		F0DF3D5F23CDBD1400E1CD48 /* API.Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DF3D5723CDBD1400E1CD48 /* API.Request.swift */; };
@@ -66,7 +65,6 @@
 		F094DB2123BEE00E008221E9 /* BaseHomeChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseHomeChildViewController.swift; sourceTree = "<group>"; };
 		F0DF3D4D23CDBD1400E1CD48 /* DataExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExt.swift; sourceTree = "<group>"; };
 		F0DF3D4E23CDBD1400E1CD48 /* StringExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
-		F0DF3D5123CDBD1400E1CD48 /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		F0DF3D5323CDBD1400E1CD48 /* News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		F0DF3D5523CDBD1400E1CD48 /* APIManager.News.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.News.swift; sourceTree = "<group>"; };
 		F0DF3D5723CDBD1400E1CD48 /* API.Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.Request.swift; sourceTree = "<group>"; };
@@ -258,19 +256,10 @@
 		F0DF3D4F23CDBD1400E1CD48 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F0DF3D5023CDBD1400E1CD48 /* Networking */,
 				F0DF3D5223CDBD1400E1CD48 /* Object */,
 				F0DF3D5423CDBD1400E1CD48 /* API */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		F0DF3D5023CDBD1400E1CD48 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				F0DF3D5123CDBD1400E1CD48 /* Networking.swift */,
-			);
-			path = Networking;
 			sourceTree = "<group>";
 		};
 		F0DF3D5223CDBD1400E1CD48 /* Object */ = {
@@ -388,7 +377,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F038D99323CEBD5D00482320 /* APIManager.DownLoader.swift in Sources */,
-				F0DF3D5C23CDBD1400E1CD48 /* Networking.swift in Sources */,
 				F094DB0B23BED41A008221E9 /* HomeViewController.swift in Sources */,
 				F094DB2523BEE00E008221E9 /* BaseHomeChildViewController.swift in Sources */,
 				F0E9109823CC5A1D00038918 /* HomeViewModel.swift in Sources */,

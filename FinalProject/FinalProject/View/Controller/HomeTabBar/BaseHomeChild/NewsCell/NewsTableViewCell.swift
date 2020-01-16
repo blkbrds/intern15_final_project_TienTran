@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol NewsTableViewCellDelegate: class {
+    func cell(_ cell: NewsTableViewCell, needPerform action: NewsTableViewCell.Action)
+}
+
 final class NewsTableViewCell: UITableViewCell {
+
+    enum Action {
+        case loadImage(indexPath: IndexPath)
+    }
 
     // MARK: - IBOutlet
     @IBOutlet weak var publishedLabel: UILabel!
@@ -18,6 +26,7 @@ final class NewsTableViewCell: UITableViewCell {
     @IBOutlet weak var iconSourceImageView: UIImageView!
 
     // MARK: - Properties
+    weak var delegate: NewsTableViewCellDelegate?
     var viewModel: NewsTableViewCellViewModel? {
         didSet {
             updateUI()
@@ -39,7 +48,10 @@ final class NewsTableViewCell: UITableViewCell {
         publishedLabel.text = viewModel.publishedLabel
         newsTitleLabel.text = viewModel.newsTitleLabel
         nameSourceLabel.text = viewModel.nameSourceLabel
-//        newsImageView.loadImage(urlString: viewModel.urlStringImage)
-        newsImageView.image = viewModel.newsImage
+        if let newsImage = viewModel.newsImage {
+            newsImageView.image = newsImage
+        } else {
+            delegate?.cell(self, needPerform: .loadImage(indexPath: viewModel.indexPath))
+        }
     }
 }

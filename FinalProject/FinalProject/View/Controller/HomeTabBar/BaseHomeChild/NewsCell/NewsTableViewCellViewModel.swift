@@ -15,11 +15,19 @@ final class NewsTableViewCellViewModel {
     var nameSourceLabel: String
     var newsImage: UIImage?
     var urlStringImage: String
+    var indexPath: IndexPath
 
-    init(newsTitleLabel: String, nameSourceLabel: String, publishedLabel: String, urlStringImage: String) {
+    init(newsTitleLabel: String,
+        nameSourceLabel: String,
+        publishedLabel: String,
+        urlStringImage: String,
+        newsImage: UIImage? = nil,
+        indexPath: IndexPath) {
         self.newsTitleLabel = newsTitleLabel
         self.nameSourceLabel = nameSourceLabel
         self.publishedLabel = publishedLabel
         self.urlStringImage = urlStringImage
+        self.indexPath = indexPath
+        self.newsImage = newsImage
     }
 }

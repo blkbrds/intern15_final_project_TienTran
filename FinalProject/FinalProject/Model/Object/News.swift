@@ -24,7 +24,7 @@ final class News {
         self.sourceName = source["name"] as! String
         self.titleNews = json["title"] as! String
         self.urlNews = json["url"] as! String
-        self.urlImage = json["urlToImage"] as? String ?? "https://cdn.ymaws.com/www.itsmfusa.org/resource/resmgr/images/more_images/news-3.jpg"
+        self.urlImage = json["urlToImage"] as? String ?? "https://www.feastalabang.com/wp-content/uploads/2018/07/FEAST-Series-Breaking-News-Postcard-FRONT.jpg"
         self.publishedAt = (json["publishedAt"] as! String).toTime()
     }
 }

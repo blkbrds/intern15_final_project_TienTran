@@ -76,9 +76,6 @@ final class HomeViewController: BaseViewController {
 
     private func scrollToPageChildViewController(at selectedIndex: Int) {
         scrollToCategory(at: selectedIndex)
-        #warning("delete")
-//        print("selectedIndex \(viewModel.selectedIndex)")
-//        print("currentIndex \(viewModel.currentIndex)")
         let direction: UIPageViewController.NavigationDirection = (selectedIndex < viewModel.currentIndex) ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
         pageController.setViewControllers([viewControllers[selectedIndex]], direction: direction, animated: true)
     }
@@ -86,6 +83,7 @@ final class HomeViewController: BaseViewController {
     private func scrollToCategory(at selectedIndex: Int) {
         categoriesCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
         viewModel.selectedIndex = selectedIndex
+        viewModel.currentIndex = selectedIndex
         for i in 0..<viewModel.categories.count {
             let indexPath = IndexPath(item: i, section: 0)
             if let cell = categoriesCollectionView.cellForItem(at: indexPath) as? CategoryCell {
@@ -105,7 +103,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let categoryCell = categoriesCollectionView.dequeueReusableCell(withReuseIdentifier: Config.categoryCell, for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
-
         categoryCell.viewModel = viewModel.getCategoryCellViewModel(indexPath: indexPath)
         return categoryCell
     }
