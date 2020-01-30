@@ -30,7 +30,7 @@ final class BaseHomeChildViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUI()
-        
+
         /// Remove all image data
         UserDefaults.standard.dictionaryRepresentation().keys.enumerated().forEach { (i, key) in
             if key.matchesRegex(for: "https*") && i > 150 {
@@ -51,12 +51,15 @@ final class BaseHomeChildViewController: BaseViewController {
     }
 
     private func loadAPI() {
-        viewModel.loadAPI { (done, msg) in
-            if done {
-                self.updateUI()
-            } else {
-                #warning("show alert")
-                print("API ERROR: \(msg)")
+        // MARK: - test cho mot man hinh
+        if viewModel.screenType == .us {
+            viewModel.loadAPI { (done, msg) in
+                if done {
+                    self.updateUI()
+                } else {
+                    #warning("show alert")
+                    print("API ERROR: \(msg)")
+                }
             }
         }
     }
