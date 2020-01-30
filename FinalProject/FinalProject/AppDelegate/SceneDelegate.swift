@@ -30,7 +30,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
 
-        
+        print("Say test CI")
         window = UIWindow(windowScene: windowScene)
         configTabBarController()
         window?.makeKeyAndVisible()
