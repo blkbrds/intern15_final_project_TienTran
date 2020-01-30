@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class CategoryViewCellModel {
+final class CategoryCellViewModel {
     var textCategoryLabel: String
     var isEnable: Bool
 

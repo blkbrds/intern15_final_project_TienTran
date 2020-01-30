@@ -76,12 +76,14 @@ final class HomeViewController: BaseViewController {
 
     private func scrollToPageChildViewController(at selectedIndex: Int) {
         scrollToCategory(at: selectedIndex)
-        pageController.setViewControllers([viewControllers[selectedIndex]], direction: .reverse, animated: true)
+        let direction: UIPageViewController.NavigationDirection = (selectedIndex < viewModel.currentIndex) ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
+        pageController.setViewControllers([viewControllers[selectedIndex]], direction: direction, animated: true)
     }
 
     private func scrollToCategory(at selectedIndex: Int) {
         categoriesCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
-
+        viewModel.selectedIndex = selectedIndex
+        viewModel.currentIndex = selectedIndex
         for i in 0..<viewModel.categories.count {
             let indexPath = IndexPath(item: i, section: 0)
             if let cell = categoriesCollectionView.cellForItem(at: indexPath) as? CategoryCell {
@@ -101,7 +103,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let categoryCell = categoriesCollectionView.dequeueReusableCell(withReuseIdentifier: Config.categoryCell, for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
-
         categoryCell.viewModel = viewModel.getCategoryCellViewModel(indexPath: indexPath)
         return categoryCell
     }
@@ -142,6 +143,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished, let vc = pageViewController.viewControllers?.first {
+            viewModel.currentIndex = vc.view.tag
             scrollToCategory(at: vc.view.tag)
         }
     }

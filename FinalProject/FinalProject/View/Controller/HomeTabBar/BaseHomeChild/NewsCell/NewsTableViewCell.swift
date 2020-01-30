@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol NewsTableViewCellDelegate: class {
+    func cell(_ cell: NewsTableViewCell, needPerform action: NewsTableViewCell.Action)
+}
+
 final class NewsTableViewCell: UITableViewCell {
+
+    enum Action {
+        case loadImage(indexPath: IndexPath)
+    }
 
     // MARK: - IBOutlet
     @IBOutlet weak var publishedLabel: UILabel!
@@ -16,15 +24,34 @@ final class NewsTableViewCell: UITableViewCell {
     @IBOutlet weak var newsTitleLabel: UILabel!
     @IBOutlet weak var nameSourceLabel: UILabel!
     @IBOutlet weak var iconSourceImageView: UIImageView!
-    
+
+    // MARK: - Properties
+    weak var delegate: NewsTableViewCellDelegate?
+    var viewModel: NewsTableViewCellViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         configUI()
     }
-    
+
     private func configUI() {
         newsImageView.clipsToBounds = true
-        newsImageView.layer.cornerRadius = 7
-        iconSourceImageView.layer.cornerRadius = 10
+        newsImageView.layer.cornerRadius = 5
+    }
+
+    private func updateUI() {
+        guard let viewModel = viewModel else { return }
+        publishedLabel.text = viewModel.publishedLabel
+        newsTitleLabel.text = viewModel.newsTitleLabel
+        nameSourceLabel.text = viewModel.nameSourceLabel
+        if let newsImageData = UserDefaults.standard.data(forKey: viewModel.urlStringImage) {
+            newsImageView.image = UIImage(data: newsImageData)
+        } else {
+            delegate?.cell(self, needPerform: .loadImage(indexPath: viewModel.indexPath))
+        }
     }
 }

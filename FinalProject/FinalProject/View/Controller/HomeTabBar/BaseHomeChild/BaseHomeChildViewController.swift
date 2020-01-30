@@ -14,7 +14,7 @@ final class BaseHomeChildViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
 
     // MARK: - Properties
-    var viewModel = BaseHomeChildModel()
+    var viewModel = BaseHomeChildViewModel()
 
     // MARK: - config
     override func setupUI() {
@@ -22,13 +22,36 @@ final class BaseHomeChildViewController: BaseViewController {
         configTableView()
     }
 
+    override func setupData() {
+        super.setupData()
+        loadAPI()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+
     // MARK: - Private funcs
     private func configTableView() {
-
-        // tableview
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
         tableView.dataSource = self
         tableView.delegate = self
+    }
+
+    private func updateUI() {
+        tableView.reloadData()
+    }
+
+    private func loadAPI() {
+        viewModel.loadAPI { (done, msg) in
+            if done {
+                self.updateUI()
+            } else {
+                #warning("show alert")
+                print("API ERROR: \(msg)")
+            }
+        }
     }
 }
 
@@ -36,18 +59,30 @@ final class BaseHomeChildViewController: BaseViewController {
 extension BaseHomeChildViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // TODO: Will update later
-        return 10
+        return viewModel.numberOfListNews()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
-//        #warning("Config NewsCell!!!")
+        newsCell.delegate = self
+        newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
         return newsCell
     }
 }
 
-// MARK: TableView Delegate
+// MARK: -  NewsTableViewCellDelegate
+extension BaseHomeChildViewController: NewsTableViewCellDelegate {
+    func cell(_ cell: NewsTableViewCell, needPerform action: NewsTableViewCell.Action) {
+        switch action {
+        case .loadImage(let indexPath):
+            viewModel.loadImage(indexPath: indexPath) { image in
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+            }
+        }
+    }
+}
+
+// MARK: -  TableView Delegate
 extension BaseHomeChildViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 160

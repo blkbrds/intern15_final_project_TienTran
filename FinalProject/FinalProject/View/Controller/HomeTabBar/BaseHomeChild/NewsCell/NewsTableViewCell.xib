@@ -20,25 +20,25 @@
                         <rect key="frame" x="15" y="10" width="345" height="140"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cnn-logo-white-on-red" translatesAutoresizingMaskIntoConstraints="NO" id="7sX-an-bRa">
-                                <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                <rect key="frame" x="0.0" y="0.0" width="17" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="7sX-an-bRa" secondAttribute="height" id="eCd-AP-AyL"/>
-                                    <constraint firstAttribute="height" constant="25" id="qEq-zb-O5N"/>
+                                    <constraint firstAttribute="height" constant="17" id="qEq-zb-O5N"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABC News" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9r-Lh-AHA">
-                                <rect key="frame" x="35" y="4" width="68" height="17"/>
+                                <rect key="frame" x="27" y="0.0" width="68" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The 100 Days of Swift is a free collection of videos, tutorials, tests, and more to help you learn Swift faster" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMF-MC-O7H">
-                                <rect key="frame" x="0.0" y="35" width="230" height="72"/>
+                                <rect key="frame" x="0.0" y="27" width="230" height="72"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="oto" translatesAutoresizingMaskIntoConstraints="NO" id="IaM-Dr-Y26">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="news-default" translatesAutoresizingMaskIntoConstraints="NO" id="IaM-Dr-Y26">
                                 <rect key="frame" x="235" y="5" width="110" height="110"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IaM-Dr-Y26" secondAttribute="height" id="s9M-LW-Ntw"/>
@@ -89,11 +89,11 @@
                 <outlet property="newsTitleLabel" destination="FMF-MC-O7H" id="nED-IS-80R"/>
                 <outlet property="publishedLabel" destination="sPQ-g3-wrb" id="yNS-lm-W7g"/>
             </connections>
-            <point key="canvasLocation" x="309" y="485"/>
+            <point key="canvasLocation" x="-69" y="471"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="cnn-logo-white-on-red" width="1400" height="932"/>
-        <image name="oto" width="1320" height="742"/>
+        <image name="news-default" width="600" height="400"/>
     </resources>
 </document>
