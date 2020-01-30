@@ -48,8 +48,8 @@ final class NewsTableViewCell: UITableViewCell {
         publishedLabel.text = viewModel.publishedLabel
         newsTitleLabel.text = viewModel.newsTitleLabel
         nameSourceLabel.text = viewModel.nameSourceLabel
-        if let newsImage = viewModel.newsImage {
-            newsImageView.image = newsImage
+        if let newsImageData = UserDefaults.standard.data(forKey: viewModel.urlStringImage) {
+            newsImageView.image = UIImage(data: newsImageData)
         } else {
             delegate?.cell(self, needPerform: .loadImage(indexPath: viewModel.indexPath))
         }

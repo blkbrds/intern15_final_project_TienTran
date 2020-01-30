@@ -27,6 +27,7 @@ extension APIManager.Downloader {
             case .success(let data):
                 if let data = data {
                     // result
+                    UserDefaults.standard.set(data, forKey: urlString)
                     let image = UIImage(data: data)
                     completion(image)
                 } else {

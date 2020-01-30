@@ -17,38 +17,32 @@ extension APIManager.News {
 
     struct QueryParam { }
 
-    struct NewsResult {
-        var listNews: [News]
+    struct Response: Codable {
+        var status: String
+        var articles: [News]
+
+        enum CodingKeys: String, CodingKey {
+            case status
+            case articles
+        }
     }
 
-    static func getTopHeadlines(page: Int, pageSize: Int = 10, category: String, country: String, completion: @escaping APICompletion<NewsResult>) {
+    static func getTopHeadlines(page: Int, pageSize: Int = 10, category: String, country: String, completion: @escaping APICompletion<Response>) {
         let urlString = QueryString().getTopHeadlines(category: category, country: country, page: page, pageSize: pageSize)
 
         API.shared().request(urlString: urlString) { result in
             switch result {
             case .failure(let error):
-                // call back
                 completion(.failure(error))
             case .success(let data):
-                if let data = data {
-                    // parse data
-                    let json = data.toJSON()
-                    let results = json["articles"] as! [JSON]
-
-                    // news
-                    var listNews: [News] = []
-                    for item in results {
-                        let news = News(json: item)
-                        listNews.append(news)
+                if let data = data { do {
+                    let response = try JSONDecoder().decode(Response.self, from: data)
+                    completion(.success(response))
+                } catch {
+                        completion(.failure(.error(error.localizedDescription + "---- \(category)")))
                     }
 
-                    // result
-                    let newsResult = NewsResult(listNews: listNews)
-
-                    // call back
-                    completion(.success(newsResult))
                 } else {
-                    // call back
                     completion(.failure(.error("Data is not format")))
                 }
             }

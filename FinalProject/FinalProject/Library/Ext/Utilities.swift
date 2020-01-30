@@ -1,14 +1,27 @@
 //
-//  String.Ext.swift
+//  BoolExt.swift
 //  FinalProject
 //
-//  Created by PCI0002 on 1/14/20.
+//  Created by TranVanTien on 1/30/20.
 //  Copyright © 2020 TranVanTien. All rights reserved.
 //
 
 import Foundation
 
 extension String {
+
+    func matchesRegex(for regex: String) -> Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: regex, options: .caseInsensitive)
+            let results = regex.matches(in: self, range: NSRange(location: 0, length: self.count))
+
+            return results.count == 0 ? false : true
+        } catch let error {
+            print("error regex: \(error.localizedDescription)")
+            return false
+        }
+    }
+
     func toTime() -> String {
         let dateStringT = self.replacingOccurrences(of: "T", with: " ")
         let dateStringZ = dateStringT.replacingOccurrences(of: "Z", with: "")
@@ -27,5 +40,21 @@ extension String {
         } else {
             return "\(differenceInDays) day ago"
         }
+    }
+}
+
+typealias JSON = [String: Any]
+
+extension Data {
+    func toJSON() -> JSON {
+        var json: JSON = [:]
+        do {
+            if let jsonObj = try JSONSerialization.jsonObject(with: self, options: .mutableLeaves) as? JSON {
+                json = jsonObj
+            }
+        } catch {
+            print("JSON casting error")
+        }
+        return json
     }
 }

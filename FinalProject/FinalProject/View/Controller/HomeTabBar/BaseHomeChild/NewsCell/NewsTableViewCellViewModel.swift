@@ -7,13 +7,11 @@
 //
 
 import Foundation
-import UIKit
 
 final class NewsTableViewCellViewModel {
     var publishedLabel: String
     var newsTitleLabel: String
     var nameSourceLabel: String
-    var newsImage: UIImage?
     var urlStringImage: String
     var indexPath: IndexPath
 
@@ -21,13 +19,11 @@ final class NewsTableViewCellViewModel {
         nameSourceLabel: String,
         publishedLabel: String,
         urlStringImage: String,
-        newsImage: UIImage? = nil,
         indexPath: IndexPath) {
         self.newsTitleLabel = newsTitleLabel
         self.nameSourceLabel = nameSourceLabel
         self.publishedLabel = publishedLabel
         self.urlStringImage = urlStringImage
         self.indexPath = indexPath
-        self.newsImage = newsImage
     }
 }

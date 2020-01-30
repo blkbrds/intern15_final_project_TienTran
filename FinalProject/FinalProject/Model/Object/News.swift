@@ -7,24 +7,23 @@
 //
 
 import Foundation
-import UIKit
 
-typealias JSON = [String: Any]
+struct Source: Codable {
+    var name: String
+}
 
-final class News {
+struct News: Codable {
+    var source: Source
     var titleNews: String
-    var sourceName: String
     var urlNews: String
-    var urlImage: String
-    var newsImage: UIImage?
+    var urlImageNews: String
     var publishedAt: String
 
-    init(json: JSON) {
-        let source = json["source"] as! JSON
-        self.sourceName = source["name"] as! String
-        self.titleNews = json["title"] as! String
-        self.urlNews = json["url"] as! String
-        self.urlImage = json["urlToImage"] as? String ?? "https://www.feastalabang.com/wp-content/uploads/2018/07/FEAST-Series-Breaking-News-Postcard-FRONT.jpg"
-        self.publishedAt = (json["publishedAt"] as! String).toTime()
+    enum CodingKeys: String, CodingKey {
+        case source
+        case titleNews = "title"
+        case urlNews = "url"
+        case urlImageNews = "urlToImage"
+        case publishedAt
     }
 }
