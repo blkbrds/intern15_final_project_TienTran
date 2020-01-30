@@ -45,7 +45,7 @@ final class NewsTableViewCell: UITableViewCell {
 
     private func updateUI() {
         guard let viewModel = viewModel else { return }
-        publishedLabel.text = viewModel.publishedLabel
+        publishedLabel.text = viewModel.publishedLabel.toTime()
         newsTitleLabel.text = viewModel.newsTitleLabel
         nameSourceLabel.text = viewModel.nameSourceLabel
         if let newsImageData = UserDefaults.standard.data(forKey: viewModel.urlStringImage) {
