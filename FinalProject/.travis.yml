@@ -3,7 +3,8 @@ osx_image: xcode11.2
 cache:
   - bundler
   - cocoapods
-xcode_workspace: MaruiMarui.xcworkspace
+xcode_workspace: FinalProject.xcworkspace
+xcode_project: FinalProject.xcodeproj
 xcode_scheme: "FinalProject"
 xcode_destination: platform=iOS Simulator,OS=12.0,name=iPhone 6s
 before_install:
@@ -12,7 +13,7 @@ before_install:
 install:
   - sudo systemsetup -settimezone Asia/Ho_Chi_Minh
 before_script:
-  - chmod a+x ./scripts/add-key.sh
-  - ./scripts/add-key.sh
+  - chmod a+x ./linter
+  - ./linter
 script:
-  - ./scripts/linter
+  - ./linter
