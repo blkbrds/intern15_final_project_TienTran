@@ -30,6 +30,13 @@ final class BaseHomeChildViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUI()
+        
+        /// Remove all image data
+        UserDefaults.standard.dictionaryRepresentation().keys.enumerated().forEach { (i, key) in
+            if key.matchesRegex(for: "https*") && i > 150 {
+                UserDefaults.standard.removeObject(forKey: key)
+            }
+        }
     }
 
     // MARK: - Private funcs
