@@ -14,6 +14,8 @@ typealias Completion = (Bool, String) -> Void
 final class BaseHomeChildViewModel {
     var screenType: HomeScreenType = .us
     var articles: [News] = []
+    var isLoading = false
+    var isFirstData = false
 }
 
 // MARK: - config tableview

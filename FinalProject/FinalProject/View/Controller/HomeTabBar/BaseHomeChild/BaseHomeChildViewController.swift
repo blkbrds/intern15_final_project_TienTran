@@ -42,6 +42,7 @@ final class BaseHomeChildViewController: BaseViewController {
     // MARK: - Private funcs
     private func configTableView() {
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
+        tableView.register(UINib(nibName: Config.loadingCell, bundle: .main), forCellReuseIdentifier: Config.loadingCell)
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -55,6 +56,7 @@ final class BaseHomeChildViewController: BaseViewController {
         if viewModel.screenType == .us {
             viewModel.loadAPI { (done, msg) in
                 if done {
+                    self.viewModel.isFirstData = done
                     self.updateUI()
                 } else {
                     #warning("show alert")
@@ -63,20 +65,15 @@ final class BaseHomeChildViewController: BaseViewController {
             }
         }
     }
-}
 
-// MARK: TableView Datasource
-extension BaseHomeChildViewController: UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfListNews()
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
-        newsCell.delegate = self
-        newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
-        return newsCell
+    private func loadMore() {
+        // MARK: - test cho mot man hinh
+        if viewModel.screenType == .us {
+            if !viewModel.isLoading {
+                viewModel.isLoading = true
+                print("loadmore")
+            }
+        }
     }
 }
 
@@ -92,10 +89,62 @@ extension BaseHomeChildViewController: NewsTableViewCellDelegate {
     }
 }
 
+// MARK: - TableView Datasource
+extension BaseHomeChildViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        switch section {
+        case 0:
+            return viewModel.numberOfListNews()
+        case 1:
+            return 1
+        default:
+            return 0
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if viewModel.isFirstData {
+            switch indexPath.section {
+            case 0:
+                guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
+                newsCell.delegate = self
+                newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
+                return newsCell
+            case 1:
+                guard let loadingCell = tableView.dequeueReusableCell(withIdentifier: Config.loadingCell, for: indexPath) as? LoadingCell else { return UITableViewCell() }
+                loadingCell.activityIndicator.startAnimating()
+                return loadingCell
+            default:
+                return UITableViewCell()
+            }
+        } else {
+            guard let loadingCell = tableView.dequeueReusableCell(withIdentifier: Config.loadingCell, for: indexPath) as? LoadingCell else { return UITableViewCell() }
+            loadingCell.activityIndicator.startAnimating()
+            return loadingCell
+        }
+    }
+}
+
 // MARK: -  TableView Delegate
 extension BaseHomeChildViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        if viewModel.isFirstData {
+            switch indexPath.section {
+            case 0:
+                return 160
+            case 1:
+                return 25
+            default:
+                return 0
+            }
+        } else {
+            return tableView.frame.height
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -110,5 +159,6 @@ extension BaseHomeChildViewController {
 
     struct Config {
         static let newsTableViewCell = "NewsTableViewCell"
+        static let loadingCell = "LoadingCell"
     }
 }
