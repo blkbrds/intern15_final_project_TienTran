@@ -29,11 +29,11 @@ final class BaseHomeChildViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateUI()
+        tableView.reloadData()
 
-        /// Remove all image data
+        // Remove all image data
         UserDefaults.standard.dictionaryRepresentation().keys.enumerated().forEach { (i, key) in
-            if key.matchesRegex(for: "https*") && i > 150 {
+            if key.matchesRegex(for: "https*") && i > 100 {
                 UserDefaults.standard.removeObject(forKey: key)
             }
         }
@@ -47,31 +47,29 @@ final class BaseHomeChildViewController: BaseViewController {
         tableView.delegate = self
     }
 
-    private func updateUI() {
-        tableView.reloadData()
-    }
-
     private func loadAPI() {
-        // MARK: - test cho mot man hinh
-        if viewModel.screenType == .us {
-            viewModel.loadAPI { (done, msg) in
-                if done {
-                    self.viewModel.isFirstData = done
-                    self.updateUI()
-                } else {
-                    #warning("show alert")
-                    print("API ERROR: \(msg)")
-                }
+        viewModel.loadAPI { (done, msg) in
+            if done {
+                self.viewModel.isFirstData = done
+                self.tableView.reloadData()
+            } else {
+                #warning("show page error")
+                print("API ERROR: \(msg)")
             }
         }
     }
 
     private func loadMore() {
-        // MARK: - test cho mot man hinh
-        if viewModel.screenType == .us {
-            if !viewModel.isLoading {
-                viewModel.isLoading = true
-                print("loadmore")
+        if !viewModel.isLoading {
+            viewModel.isLoading = true
+            viewModel.loadMoreAPI { (done, msg) in
+                if done {
+                    self.viewModel.isLoading = false
+                    self.tableView.reloadData()
+                } else {
+                    print("API ERROR: \(msg)")
+                    self.viewModel.isLoading = false
+                }
             }
         }
     }
@@ -83,7 +81,9 @@ extension BaseHomeChildViewController: NewsTableViewCellDelegate {
         switch action {
         case .loadImage(let indexPath):
             viewModel.loadImage(indexPath: indexPath) { image in
-                self.tableView.reloadRows(at: [indexPath], with: .none)
+                if image != nil {
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
             }
         }
     }
@@ -92,36 +92,23 @@ extension BaseHomeChildViewController: NewsTableViewCellDelegate {
 // MARK: - TableView Datasource
 extension BaseHomeChildViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        switch section {
-        case 0:
+        if viewModel.isFirstData {
             return viewModel.numberOfListNews()
-        case 1:
+        } else {
             return 1
-        default:
-            return 0
         }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if viewModel.isFirstData {
-            switch indexPath.section {
-            case 0:
-                guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
-                newsCell.delegate = self
-                newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
-                return newsCell
-            case 1:
-                guard let loadingCell = tableView.dequeueReusableCell(withIdentifier: Config.loadingCell, for: indexPath) as? LoadingCell else { return UITableViewCell() }
-                loadingCell.activityIndicator.startAnimating()
-                return loadingCell
-            default:
-                return UITableViewCell()
-            }
+            guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
+            newsCell.delegate = self
+            newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
+            return newsCell
         } else {
             guard let loadingCell = tableView.dequeueReusableCell(withIdentifier: Config.loadingCell, for: indexPath) as? LoadingCell else { return UITableViewCell() }
             loadingCell.activityIndicator.startAnimating()
@@ -134,23 +121,30 @@ extension BaseHomeChildViewController: UITableViewDataSource {
 extension BaseHomeChildViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if viewModel.isFirstData {
-            switch indexPath.section {
-            case 0:
-                return 160
-            case 1:
-                return 25
-            default:
-                return 0
-            }
+            return 160
         } else {
             return tableView.frame.height
         }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newsDetail = NewsDetailViewController()
-//        #warning("Config: send link show news")
-        pushViewController(viewcontroller: newsDetail)
+        if viewModel.isFirstData {
+            let newsDetail = NewsDetailViewController()
+            //        #warning("Config: send link show news")
+            pushViewController(viewcontroller: newsDetail)
+        }
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let contentOffsetY = scrollView.contentOffset.y
+        let contentSizeHeight = scrollView.contentSize.height
+        let scrollViewFrameHeigth = scrollView.frame.height
+
+        if !decelerate {
+            if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth {
+                loadMore()
+            }
+        }
     }
 }
 

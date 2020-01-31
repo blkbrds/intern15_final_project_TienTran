@@ -19,10 +19,12 @@ extension APIManager.News {
 
     struct Response: Codable {
         var status: String
+        var totalResults: Int
         var articles: [News]
 
         enum CodingKeys: String, CodingKey {
             case status
+            case totalResults
             case articles
         }
     }
@@ -35,13 +37,13 @@ extension APIManager.News {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let data):
-                if let data = data { do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    completion(.success(response))
-                } catch {
+                if let data = data {
+                    do {
+                        let response = try JSONDecoder().decode(Response.self, from: data)
+                        completion(.success(response))
+                    } catch {
                         completion(.failure(.error(error.localizedDescription + "---- \(category)")))
                     }
-
                 } else {
                     completion(.failure(.error("Data is not format")))
                 }
