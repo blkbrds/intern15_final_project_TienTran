@@ -12,18 +12,18 @@ final class NewsTableViewCellViewModel {
     var publishedLabel: String
     var newsTitleLabel: String
     var nameSourceLabel: String
-    var urlStringImage: String
+    var urlImage: String
     var indexPath: IndexPath
 
     init(newsTitleLabel: String,
         nameSourceLabel: String,
         publishedLabel: String,
-        urlStringImage: String,
+        urlImage: String,
         indexPath: IndexPath) {
         self.newsTitleLabel = newsTitleLabel
         self.nameSourceLabel = nameSourceLabel
         self.publishedLabel = publishedLabel
-        self.urlStringImage = urlStringImage
+        self.urlImage = urlImage
         self.indexPath = indexPath
     }
 }

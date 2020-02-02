@@ -19,7 +19,7 @@ extension APIManager.Downloader {
             return
         }
 
-        API.shared().request(url: url) { result in
+        API.shared().request(url: url, urlSessionConfiguration: URLSessionConfiguration.default) { result in
             switch result {
             case .failure:
                 // call back
@@ -27,7 +27,7 @@ extension APIManager.Downloader {
             case .success(let data):
                 if let data = data {
                     // result
-                    UserDefaults.standard.set(data, forKey: urlString)
+//                    UserDefaults.standard.set(data, forKey: urlString)
                     let image = UIImage(data: data)
                     completion(image)
                 } else {

@@ -19,17 +19,10 @@ extension APIManager.News {
 
     struct Response: Codable {
         var status: String
-        var totalResults: Int
         var articles: [News]
-
-        enum CodingKeys: String, CodingKey {
-            case status
-            case totalResults
-            case articles
-        }
     }
 
-    static func getTopHeadlines(page: Int, pageSize: Int = 10, category: String, country: String, completion: @escaping APICompletion<Response>) {
+    static func getTopHeadlines(page: Int, pageSize: Int = 25, category: String, country: String, completion: @escaping APICompletion<Response>) {
         let urlString = QueryString().getTopHeadlines(category: category, country: country, page: page, pageSize: pageSize)
 
         API.shared().request(urlString: urlString) { result in

@@ -33,7 +33,6 @@ final class HomeViewController: BaseViewController {
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
         
-        categoriesCollectionView.bounces = false
         // auto resize item
         if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
@@ -43,7 +42,6 @@ final class HomeViewController: BaseViewController {
 
     private func configPageViewController() {
         pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        
         addChild(pageController)
         contentView.addSubview(pageController.view)
         pageController.view.frame = contentView.bounds

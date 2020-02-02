@@ -9,15 +9,16 @@
 import Foundation
 
 struct Source: Codable {
-    var name: String?
+    var id: String?
+    var name: String = ""
 }
 
 struct News: Codable {
-    var source: Source?
-    var titleNews: String?
-    var urlNews: String?
+    var source: Source = Source()
+    var titleNews: String = ""
+    var urlNews: String = ""
     var urlImageNews: String?
-    var publishedAt: String?
+    var publishedAt: String = ""
 
     enum CodingKeys: String, CodingKey {
         case source
