@@ -34,11 +34,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidDisconnect(_ scene: UIScene) {
         /// Remove all image data
-//        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
-//            if key.matchesRegex(for: "https*") {
-//                UserDefaults.standard.removeObject(forKey: key)
-//            }
-//        }
+        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
+            if key.matchesRegex(for: "https*") {
+                UserDefaults.standard.removeObject(forKey: key)
+            }
+        }
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) { }

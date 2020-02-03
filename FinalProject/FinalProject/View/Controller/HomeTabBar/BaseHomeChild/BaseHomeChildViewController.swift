@@ -33,12 +33,7 @@ final class BaseHomeChildViewController: BaseViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Remove all image data
-//        UserDefaults.standard.dictionaryRepresentation().keys.enumerated().forEach { (i, key) in
-//            if key.matchesRegex(for: "https*") && i > 100 {
-//                UserDefaults.standard.removeObject(forKey: key)
-//            }
-//        }
+
     }
 
     // MARK: - Private funcs
@@ -67,7 +62,6 @@ final class BaseHomeChildViewController: BaseViewController {
                 self.tableView.reloadData()
             } else {
                 print("\(self.viewModel.screenType.titleCategory): \(done)")
-                print("Curent: \(Thread.current)")
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
                 print("API ERROR: \(msg)")
@@ -131,15 +125,13 @@ extension BaseHomeChildViewController: UITableViewDelegate {
         pushViewController(viewcontroller: newsDetail)
     }
 
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffsetY = scrollView.contentOffset.y
         let contentSizeHeight = scrollView.contentSize.height
         let scrollViewFrameHeigth = scrollView.frame.height
 
-        if !decelerate {
-            if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth {
-                loadMore()
-            }
+        if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth {
+            loadMore()
         }
     }
 }

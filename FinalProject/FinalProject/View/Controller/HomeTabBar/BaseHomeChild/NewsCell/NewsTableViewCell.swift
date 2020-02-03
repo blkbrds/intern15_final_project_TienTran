@@ -48,12 +48,14 @@ final class NewsTableViewCell: UITableViewCell {
         publishedLabel.text = viewModel.publishedLabel.toTime()
         newsTitleLabel.text = viewModel.newsTitleLabel
         nameSourceLabel.text = viewModel.nameSourceLabel
-//        if let newsImageData = UserDefaults.standard.data(forKey: viewModel.urlStringImage) {
-//            newsImageView.image = UIImage(data: newsImageData)
-//        } else {
-//            delegate?.cell(self, needPerform: .loadImage(indexPath: viewModel.indexPath))
-//        }
+        
+        if let newsImageData = UserDefaults.standard.data(forKey: viewModel.urlImage) {
+            newsImageView.image = UIImage(data: newsImageData)
+        } else {
+             newsImageView.image = #imageLiteral(resourceName: "news-default")
+            delegate?.cell(self, needPerform: .loadImage(indexPath: viewModel.indexPath))
+        }
 
-        newsImageView.loadImageFormURL(urlString: viewModel.urlImage)
+//        newsImageView.loadImageFormURL(urlString: viewModel.urlImage)
     }
 }

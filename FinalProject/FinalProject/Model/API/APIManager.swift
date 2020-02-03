@@ -10,7 +10,7 @@ import Foundation
 
 struct APIManager {
 
-    static let api_key = "29bc913b0d1046a0a2c022139e9f003f"
+    static let api_key = "60f0d8ac682040768931b4d4611d7f50"
 
     // MARK: - config
     struct Path {

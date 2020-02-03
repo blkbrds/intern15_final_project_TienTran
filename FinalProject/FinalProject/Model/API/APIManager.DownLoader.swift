@@ -19,15 +19,14 @@ extension APIManager.Downloader {
             return
         }
 
-        API.shared().request(url: url, urlSessionConfiguration: URLSessionConfiguration.default) { result in
+        API.shared().request(url: url, urlSessionConfiguration: URLSessionConfiguration.ephemeral) { result in
             switch result {
             case .failure:
                 // call back
                 completion(nil)
             case .success(let data):
                 if let data = data {
-                    // result
-//                    UserDefaults.standard.set(data, forKey: urlString)
+                    configSaveImage(urlString, data)
                     let image = UIImage(data: data)
                     completion(image)
                 } else {
@@ -35,6 +34,18 @@ extension APIManager.Downloader {
                     completion(nil)
                 }
             }
+        }
+    }
+
+    static var imageDataKeys = [String]()
+    static private func configSaveImage(_ urlString: String, _ data: Data) {
+        UserDefaults.standard.set(data, forKey: urlString)
+
+        imageDataKeys.append(urlString)
+
+        if imageDataKeys.count > 30 {
+            UserDefaults.standard.removeObject(forKey: imageDataKeys[0])
+            imageDataKeys.remove(at: 0)
         }
     }
 }

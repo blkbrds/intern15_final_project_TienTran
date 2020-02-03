@@ -16,7 +16,7 @@ final class BaseHomeChildViewModel {
     var articles: [News] = []
     var isLoading = false
     var isFirstData = false
-    private var breakLoadMore = false
+    private var canLoadMore = true
     private var currentPageParam = 1
 }
 
@@ -43,30 +43,25 @@ extension BaseHomeChildViewModel {
 
     // load api
     func loadAPI(compeltion: @escaping Completion) {
-        #warning("test one screen !! delete later")
-//        if screenType == .us {
-            APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.valueCategory, country: "us") { result in
-                switch result {
-                case .failure(let error):
-                    // call back
-                    compeltion(false, error.localizedDescription)
-                case .success(let response):
-                    self.articles.append(contentsOf: response.articles)
+        APIManager.News.getTopHeadlines(page: 1, category: screenType.valueCategory, country: "us") { result in
+            switch result {
+            case .failure(let error):
+                // call back
+                compeltion(false, error.localizedDescription)
+            case .success(let response):
+                self.articles.append(contentsOf: response.articles)
 
-                    //call back
-                    compeltion(true, "")
-                }
+                //call back
+                compeltion(true, "")
             }
-//        } else {
-//            compeltion(false, "test 1 man hinh")
-//        }
+        }
     }
 
     // loadmore api
     func loadMoreAPI(compeltion: @escaping Completion) {
-        if !self.breakLoadMore {
-            self.currentPageParam += 1
-            APIManager.News.getTopHeadlines(page: self.currentPageParam, category: self.screenType.valueCategory, country: "us") { result in
+        if canLoadMore {
+            currentPageParam += 1
+            APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.valueCategory, country: "us") { result in
                 switch result {
                 case .failure(let error):
                     compeltion(false, error.localizedDescription)
@@ -77,7 +72,7 @@ extension BaseHomeChildViewModel {
                         //call back
                         compeltion(true, "")
                     } else {
-                        self.breakLoadMore = true
+                        self.canLoadMore = false
                         compeltion(false, "Can't loadmore!")
                     }
                 }
@@ -89,17 +84,17 @@ extension BaseHomeChildViewModel {
     func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
         let news = articles[indexPath.row]
 
-//        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImageNews) {
-//            let newsImage = UIImage(data: newsImageData)
-//            completion(newsImage)
-//        } else {
-        APIManager.Downloader.downloadImage(urlString: news.urlImageNews ?? "") { image in
-            if let image = image {
-                completion(image)
-            } else {
-                completion(nil) /// tra ve anh default && khi vao lai cell do no se tiep tuc tai lai anh
+        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImageNews ?? "") {
+            let newsImage = UIImage(data: newsImageData)
+            completion(newsImage)
+        } else {
+            APIManager.Downloader.downloadImage(urlString: news.urlImageNews ?? "") { image in
+                if let image = image {
+                    completion(image)
+                } else {
+                    completion(nil) /// tra ve anh default && khi vao lai cell do no se tiep tuc tai lai anh
+                }
             }
         }
-//        }
     }
 }
