@@ -14,6 +14,7 @@ typealias Completion = (Bool, String) -> Void
 final class BaseHomeChildViewModel {
     var screenType: HomeScreenType = .us
     var articles: [News] = []
+    var isRefreshing = false
     var isLoading = false
     var isFirstData = false
     private var canLoadMore = true
@@ -76,6 +77,22 @@ extension BaseHomeChildViewModel {
                         compeltion(false, "Can't loadmore!")
                     }
                 }
+            }
+        }
+    }
+
+    // load api
+    func refreshData(compeltion: @escaping Completion) {
+        APIManager.News.getTopHeadlines(page: 1, category: screenType.valueCategory, country: "us") { result in
+            switch result {
+            case .failure(let error):
+                // call back
+                compeltion(false, error.localizedDescription)
+            case .success(let response):
+                self.articles = response.articles
+
+                //call back
+                compeltion(true, "")
             }
         }
     }
