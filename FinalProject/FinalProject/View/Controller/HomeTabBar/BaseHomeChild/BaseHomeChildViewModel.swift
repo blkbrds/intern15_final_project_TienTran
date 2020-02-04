@@ -29,10 +29,10 @@ extension BaseHomeChildViewModel {
     func getNewsCellViewModel(indexPath: IndexPath) -> NewsTableViewCellViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
-            newsTitleLabel: news.titleNews,
-            nameSourceLabel: news.source.name,
-            publishedLabel: news.publishedAt,
-            urlImage: news.urlImageNews ?? "",
+            newsTitle: news.titleNews,
+            nameSource: news.source.name,
+            publishedAt: news.publishedAt,
+            urlImage: news.urlImage ?? "",
             indexPath: indexPath)
         return newsCellViewModel
     }
@@ -43,7 +43,7 @@ extension BaseHomeChildViewModel {
 
     // load api
     func loadAPI(compeltion: @escaping Completion) {
-        APIManager.News.getTopHeadlines(page: 1, category: screenType.valueCategory, country: "us") { result in
+        APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
             switch result {
             case .failure(let error):
                 // call back
@@ -61,7 +61,7 @@ extension BaseHomeChildViewModel {
     func loadMoreAPI(compeltion: @escaping Completion) {
         if canLoadMore {
             currentPageParam += 1
-            APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.valueCategory, country: "us") { result in
+            APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.param, country: "us") { result in
                 switch result {
                 case .failure(let error):
                     compeltion(false, error.localizedDescription)
@@ -77,6 +77,8 @@ extension BaseHomeChildViewModel {
                     }
                 }
             }
+        } else {
+            compeltion(false, "Can't loadmore!")
         }
     }
 
@@ -84,11 +86,11 @@ extension BaseHomeChildViewModel {
     func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
         let news = articles[indexPath.row]
 
-        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImageNews ?? "") {
+        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage ?? "") {
             let newsImage = UIImage(data: newsImageData)
             completion(newsImage)
         } else {
-            APIManager.Downloader.downloadImage(urlString: news.urlImageNews ?? "") { image in
+            APIManager.Downloader.downloadImage(urlString: news.urlImage ?? "") { image in
                 if let image = image {
                     completion(image)
                 } else {

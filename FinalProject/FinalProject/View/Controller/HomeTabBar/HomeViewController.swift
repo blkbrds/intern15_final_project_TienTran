@@ -13,7 +13,7 @@ final class HomeViewController: BaseViewController {
     // MARK: - IBOutlet
     @IBOutlet private weak var categoriesCollectionView: UICollectionView!
     @IBOutlet private weak var contentView: UIView!
-    
+
     // MARK: - Properties
     private var pageController: UIPageViewController!
     private var viewControllers = [BaseHomeChildViewController]()
@@ -32,7 +32,7 @@ final class HomeViewController: BaseViewController {
         categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
-        
+
         // auto resize item
         if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
@@ -45,6 +45,7 @@ final class HomeViewController: BaseViewController {
         addChild(pageController)
         contentView.addSubview(pageController.view)
         pageController.view.frame = contentView.bounds
+
         addChildViewController()
 
         pageController.setViewControllers([viewControllers[0]], direction: .forward, animated: false)
@@ -64,12 +65,12 @@ final class HomeViewController: BaseViewController {
     }
 
     private func scrollToPageChildViewController() {
-        let direction: UIPageViewController.NavigationDirection = (viewModel.selectedIndex < viewModel.currentIndex) ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
-        pageController.setViewControllers([viewControllers[viewModel.selectedIndex]], direction: direction, animated: true)
+        let direction: UIPageViewController.NavigationDirection = viewModel.navigationDirection ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
+        pageController.setViewControllers([viewControllers[viewModel.currentPage]], direction: direction, animated: true)
     }
 
     private func scrollToCategory() {
-        categoriesCollectionView.scrollToItem(at: IndexPath(row: viewModel.selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
+        categoriesCollectionView.scrollToItem(at: IndexPath(row: viewModel.currentPage, section: 0), at: .centeredHorizontally, animated: true)
         for i in 0..<viewModel.categories.count {
             let indexPath = IndexPath(item: i, section: 0)
             if let cell = categoriesCollectionView.cellForItem(at: indexPath) as? CategoryCell {
@@ -95,11 +96,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     // Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if viewModel.selectedIndex != indexPath.row {
-            viewModel.selectedIndex = indexPath.row
+        if viewModel.currentPage != indexPath.row {
+            viewModel.currentPage = indexPath.row
             scrollToPageChildViewController()
             scrollToCategory()
-            viewModel.currentIndex = viewModel.selectedIndex
         }
     }
 }
@@ -133,8 +133,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished, let vc = pageViewController.viewControllers?.first {
-            viewModel.currentIndex = vc.view.tag
-            viewModel.selectedIndex = vc.view.tag
+            viewModel.currentPage = vc.view.tag
             scrollToCategory()
         }
     }

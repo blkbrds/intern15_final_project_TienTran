@@ -22,7 +22,7 @@ extension String {
         }
     }
 
-    func toTime() -> String {
+    func toTimeString() -> String {
         let dateStringT = self.replacingOccurrences(of: "T", with: " ")
         let dateStringZ = dateStringT.replacingOccurrences(of: "Z", with: "")
         let currentDate = Date()

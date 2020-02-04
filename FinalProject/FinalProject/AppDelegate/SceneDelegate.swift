@@ -30,15 +30,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         configTabBarController()
         window?.makeKeyAndVisible()
+
+        let dataImages: DictionaryDataImage = [:]
+        UserDefaults.standard.set(dataImages, forKey: "dataImages")
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         /// Remove all image data
-        UserDefaults.standard.dictionaryRepresentation().keys.forEach { key in
-            if key.matchesRegex(for: "https*") {
-                UserDefaults.standard.removeObject(forKey: key)
-            }
-        }
+        UserDefaults.standard.removeObject(forKey: "dataImages")
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) { }

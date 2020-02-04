@@ -31,11 +31,6 @@ final class BaseHomeChildViewController: BaseViewController {
         loadAPI()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-    }
-
     // MARK: - Private funcs
     private func configTableView() {
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
@@ -61,7 +56,7 @@ final class BaseHomeChildViewController: BaseViewController {
                 self.loadingView.isHidden = true
                 self.tableView.reloadData()
             } else {
-                print("\(self.viewModel.screenType.titleCategory): \(done)")
+                print("\(self.viewModel.screenType.text): \(done)")
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
                 print("API ERROR: \(msg)")
@@ -130,7 +125,7 @@ extension BaseHomeChildViewController: UITableViewDelegate {
         let contentSizeHeight = scrollView.contentSize.height
         let scrollViewFrameHeigth = scrollView.frame.height
 
-        if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth {
+        if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth * 1.25 {
             loadMore()
         }
     }

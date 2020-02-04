@@ -9,8 +9,18 @@
 import Foundation
 
 final class HomeViewModel {
-    var currentIndex = 0
-    var selectedIndex = 0
+    var navigationDirection = false
+    
+    var currentPage = 0 {
+        didSet {
+            if oldValue > currentPage {
+                navigationDirection = true
+            } else {
+                navigationDirection = false
+            }
+        }
+    }
+
     var categories: [HomeScreenType] = HomeScreenType.allCases
 }
 
@@ -21,7 +31,7 @@ extension HomeViewModel {
     }
 
     func getCategoryCellViewModel(indexPath: IndexPath) -> CategoryCellViewModel {
-        return CategoryCellViewModel(textCategoryLabel: categories[indexPath.row].titleCategory, isEnable: selectedIndex == indexPath.row)
+        return CategoryCellViewModel(textCategoryLabel: categories[indexPath.row].text, isEnable: currentPage == indexPath.row)
     }
 }
 
@@ -34,7 +44,7 @@ enum HomeScreenType: Int, CaseIterable {
     case sports
     case entertainment
 
-    var titleCategory: String {
+    var text: String {
         switch self {
         case .us:
             return "U.S."
@@ -52,8 +62,8 @@ enum HomeScreenType: Int, CaseIterable {
             return "Entertainment"
         }
     }
-    
-    var valueCategory: String {
+
+    var param: String {
         switch self {
         case .us:
             return "general"
