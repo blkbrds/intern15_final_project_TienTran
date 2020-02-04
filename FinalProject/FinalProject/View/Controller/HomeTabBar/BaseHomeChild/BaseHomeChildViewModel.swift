@@ -15,7 +15,6 @@ final class BaseHomeChildViewModel {
     var screenType: HomeScreenType = .us
     var articles: [News] = []
     var isLoading = false
-    var isFirstData = false
     private var canLoadMore = true
     private var currentPageParam = 1
 }

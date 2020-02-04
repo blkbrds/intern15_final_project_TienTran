@@ -41,17 +41,14 @@ final class BaseHomeChildViewController: BaseViewController {
 
     /// Config Loading View
     private func configLoadingView() {
-        if !self.viewModel.isFirstData {
-            self.errorView.isHidden = true
-            self.loadingView.backgroundColor = .white
-            self.activityIndicatorView.startAnimating()
-        }
+        errorView.isHidden = true
+        loadingView.backgroundColor = .white
+        activityIndicatorView.startAnimating()
     }
 
     private func loadAPI() {
         viewModel.loadAPI { (done, msg) in
             if done {
-                self.viewModel.isFirstData = done
                 self.activityIndicatorView.stopAnimating()
                 self.loadingView.isHidden = true
                 self.tableView.reloadData()
