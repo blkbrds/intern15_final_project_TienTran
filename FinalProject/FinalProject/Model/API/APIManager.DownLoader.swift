@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+typealias DictionaryDataImage = [String: Data]
+
 extension APIManager.Downloader {
 
     static func downloadImage(urlString: String, completion: @escaping
@@ -37,15 +39,20 @@ extension APIManager.Downloader {
         }
     }
 
-    static var imageDataKeys = [String]()
+    static var dataImageKeys = [String]()
+
     static private func configSaveImage(_ urlString: String, _ data: Data) {
-        UserDefaults.standard.set(data, forKey: urlString)
-
-        imageDataKeys.append(urlString)
-
-        if imageDataKeys.count > 30 {
-            UserDefaults.standard.removeObject(forKey: imageDataKeys[0])
-            imageDataKeys.remove(at: 0)
+        guard var dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage else {
+            return
         }
+        dataImageKeys.append(urlString)
+        dataImages[urlString] = data
+
+        if dataImageKeys.count > 60 {
+            dataImages.removeValue(forKey: dataImageKeys[0])
+            dataImageKeys.remove(at: 0)
+        }
+
+        UserDefaults.standard.set(dataImages, forKey: "dataImages")
     }
 }

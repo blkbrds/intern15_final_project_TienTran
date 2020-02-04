@@ -17,14 +17,14 @@ struct News: Codable {
     var source: Source = Source()
     var titleNews: String = ""
     var urlNews: String = ""
-    var urlImageNews: String?
+    var urlImage: String?
     var publishedAt: String = ""
 
     enum CodingKeys: String, CodingKey {
         case source
         case titleNews = "title"
         case urlNews = "url"
-        case urlImageNews = "urlToImage"
+        case urlImage = "urlToImage"
         case publishedAt
     }
 }

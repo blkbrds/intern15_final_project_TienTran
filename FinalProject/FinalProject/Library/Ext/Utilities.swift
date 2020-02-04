@@ -10,19 +10,7 @@ import Foundation
 
 extension String {
 
-    func matchesRegex(for regex: String) -> Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: regex, options: .caseInsensitive)
-            let results = regex.matches(in: self, range: NSRange(location: 0, length: self.count))
-
-            return results.count == 0 ? false : true
-        } catch let error {
-            print("error regex: \(error.localizedDescription)")
-            return false
-        }
-    }
-
-    func toTime() -> String {
+    func toTimeString() -> String {
         let dateStringT = self.replacingOccurrences(of: "T", with: " ")
         let dateStringZ = dateStringT.replacingOccurrences(of: "Z", with: "")
         let currentDate = Date()

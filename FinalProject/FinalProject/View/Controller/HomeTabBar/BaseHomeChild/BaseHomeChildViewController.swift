@@ -46,11 +46,9 @@ final class BaseHomeChildViewController: BaseViewController {
 
     /// config Loading View
     private func configLoadingView() {
-        if !viewModel.isFirstData {
-            errorView.isHidden = true
-            loadingView.backgroundColor = .white
-            activityIndicatorView.startAnimating()
-        }
+        errorView.isHidden = true
+        loadingView.backgroundColor = .white
+        activityIndicatorView.startAnimating()
     }
 
     @objc private func refreshViewController() {
@@ -60,24 +58,23 @@ final class BaseHomeChildViewController: BaseViewController {
                 if done {
                     self.tableView.reloadData()
                     self.viewModel.isRefreshing = false
+                    self.refreshControl.endRefreshing()
                 } else {
                     self.viewModel.isRefreshing = false
                     print("API ERROR: \(error)")
                 }
             }
-            refreshControl.endRefreshing()
         }
     }
 
     private func loadAPI() {
         viewModel.loadAPI { (done, error) in
             if done {
-                self.viewModel.isFirstData = done
                 self.activityIndicatorView.stopAnimating()
                 self.loadingView.isHidden = true
                 self.tableView.reloadData()
             } else {
-                print("\(self.viewModel.screenType.titleCategory): \(done)")
+                print("\(self.viewModel.screenType.text): \(done)")
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
                 print("API ERROR: \(error)")
@@ -146,7 +143,7 @@ extension BaseHomeChildViewController: UITableViewDelegate {
         let contentSizeHeight = scrollView.contentSize.height
         let scrollViewFrameHeigth = scrollView.frame.height
 
-        if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth {
+        if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth * 1.25 {
             loadMore()
         }
     }
