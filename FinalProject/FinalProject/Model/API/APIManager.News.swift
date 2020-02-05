@@ -20,28 +20,23 @@ extension APIManager.News {
     struct Response: Codable {
         var status: String
         var articles: [News]
-
-        enum CodingKeys: String, CodingKey {
-            case status
-            case articles
-        }
     }
 
     static func getTopHeadlines(page: Int, pageSize: Int = 10, category: String, country: String, completion: @escaping APICompletion<Response>) {
         let urlString = QueryString().getTopHeadlines(category: category, country: country, page: page, pageSize: pageSize)
-
         API.shared().request(urlString: urlString) { result in
             switch result {
             case .failure(let error):
                 completion(.failure(error))
             case .success(let data):
-                if let data = data { do {
-                    let response = try JSONDecoder().decode(Response.self, from: data)
-                    completion(.success(response))
-                } catch {
+                if let data = data {
+                    do {
+                        let response = try JSONDecoder().decode(Response.self, from: data)
+                        completion(.success(response))
+                    } catch {
+                        print(urlString)
                         completion(.failure(.error(error.localizedDescription + "---- \(category)")))
                     }
-
                 } else {
                     completion(.failure(.error("Data is not format")))
                 }

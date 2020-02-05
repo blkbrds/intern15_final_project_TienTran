@@ -23,4 +23,24 @@ extension UIImageView {
             }
         }
     }
+
+    func loadImageFormURL(urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+
+        let config = URLSessionConfiguration.default
+        config.waitsForConnectivity = true
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: url) { (data, _, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                } else {
+                    if let data = data, let image = UIImage(data: data) {
+                        self.image = image
+                    }
+                }
+            }
+        }
+        dataTask.resume()
+    }
 }

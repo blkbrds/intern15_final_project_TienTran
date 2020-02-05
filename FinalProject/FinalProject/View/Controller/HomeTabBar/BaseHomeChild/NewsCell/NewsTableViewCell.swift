@@ -45,12 +45,14 @@ final class NewsTableViewCell: UITableViewCell {
 
     private func updateUI() {
         guard let viewModel = viewModel else { return }
-        publishedLabel.text = viewModel.publishedLabel
-        newsTitleLabel.text = viewModel.newsTitleLabel
-        nameSourceLabel.text = viewModel.nameSourceLabel
-        if let newsImageData = UserDefaults.standard.data(forKey: viewModel.urlStringImage) {
-            newsImageView.image = UIImage(data: newsImageData)
+        publishedLabel.text = viewModel.publishedAt.toString()
+        newsTitleLabel.text = viewModel.newsTitle
+        nameSourceLabel.text = viewModel.nameSource
+
+        if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage, let dataImage = dataImages[viewModel.urlImage] {
+            newsImageView.image = UIImage(data: dataImage)
         } else {
+            newsImageView.image = #imageLiteral(resourceName: "news-default")
             delegate?.cell(self, needPerform: .loadImage(indexPath: viewModel.indexPath))
         }
     }

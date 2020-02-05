@@ -32,8 +32,8 @@ extension API {
     }
 
     // with url
-    func request(url: URL, completion: @escaping (APIResult) -> Void) {
-        let config = URLSessionConfiguration.ephemeral
+    func request(url: URL, urlSessionConfiguration: URLSessionConfiguration = URLSessionConfiguration.ephemeral, completion: @escaping (APIResult) -> Void) {
+        let config = urlSessionConfiguration
         config.waitsForConnectivity = true
         let session = URLSession.shared
         let dataTask = session.dataTask(with: url) { (data, _, error) in

@@ -12,6 +12,7 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - IBOutlet
     @IBOutlet private weak var categoriesCollectionView: UICollectionView!
+    @IBOutlet private weak var contentView: UIView!
 
     // MARK: - Properties
     private var pageController: UIPageViewController!
@@ -23,13 +24,12 @@ final class HomeViewController: BaseViewController {
         super.setupUI()
         title = "Headlines"
         configCategoriesCollectionView()
+        configPageViewController()
     }
 
-    // MARK: - Life cycle
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        configPageViewController()
-        //        configCustomView() #warning("if many time ---- scroll view color")
+    override func setupData() {
+        super.setupData()
+        APIManager.Downloader.configImageDataStorage()
     }
 
     // MARK: - Private funcs
@@ -37,6 +37,7 @@ final class HomeViewController: BaseViewController {
         categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
+
         // auto resize item
         if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
@@ -46,15 +47,9 @@ final class HomeViewController: BaseViewController {
 
     private func configPageViewController() {
         pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-
-        let widthScreen = UIScreen.main.bounds.width
-        let heightScreen = UIScreen.main.bounds.height
-        let yCategories = categoriesCollectionView.frame.maxY
-        let heightCategories = categoriesCollectionView.frame.height
-
-        pageController.view.frame = CGRect(x: 0, y: yCategories, width: widthScreen, height: heightScreen - heightCategories)
         addChild(pageController)
-        view.addSubview(pageController.view)
+        contentView.addSubview(pageController.view)
+        pageController.view.frame = contentView.bounds
 
         addChildViewController()
 
@@ -74,16 +69,13 @@ final class HomeViewController: BaseViewController {
         }
     }
 
-    private func scrollToPageChildViewController(at selectedIndex: Int) {
-        scrollToCategory(at: selectedIndex)
-        let direction: UIPageViewController.NavigationDirection = (selectedIndex < viewModel.currentIndex) ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
-        pageController.setViewControllers([viewControllers[selectedIndex]], direction: direction, animated: true)
+    private func scrollToPageChildViewController() {
+        let direction: UIPageViewController.NavigationDirection = viewModel.navigationDirection ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
+        pageController.setViewControllers([viewControllers[viewModel.currentPage]], direction: direction, animated: true)
     }
 
-    private func scrollToCategory(at selectedIndex: Int) {
-        categoriesCollectionView.scrollToItem(at: IndexPath(row: selectedIndex, section: 0), at: .centeredHorizontally, animated: true)
-        viewModel.selectedIndex = selectedIndex
-        viewModel.currentIndex = selectedIndex
+    private func scrollToCategory() {
+        categoriesCollectionView.scrollToItem(at: IndexPath(row: viewModel.currentPage, section: 0), at: .centeredHorizontally, animated: true)
         for i in 0..<viewModel.categories.count {
             let indexPath = IndexPath(item: i, section: 0)
             if let cell = categoriesCollectionView.cellForItem(at: indexPath) as? CategoryCell {
@@ -109,8 +101,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     // Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.selectedIndex = indexPath.row
-        scrollToPageChildViewController(at: viewModel.selectedIndex)
+        if viewModel.currentPage != indexPath.row {
+            viewModel.currentPage = indexPath.row
+            scrollToPageChildViewController()
+            scrollToCategory()
+        }
     }
 }
 
@@ -143,8 +138,8 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
 
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished, let vc = pageViewController.viewControllers?.first {
-            viewModel.currentIndex = vc.view.tag
-            scrollToCategory(at: vc.view.tag)
+            viewModel.currentPage = vc.view.tag
+            scrollToCategory()
         }
     }
 }

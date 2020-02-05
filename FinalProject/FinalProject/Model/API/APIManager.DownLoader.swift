@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+typealias DictionaryDataImage = [String: Data]
+
 extension APIManager.Downloader {
 
     static func downloadImage(urlString: String, completion: @escaping
@@ -19,15 +21,14 @@ extension APIManager.Downloader {
             return
         }
 
-        API.shared().request(url: url) { result in
+        API.shared().request(url: url, urlSessionConfiguration: URLSessionConfiguration.ephemeral) { result in
             switch result {
             case .failure:
                 // call back
                 completion(nil)
             case .success(let data):
                 if let data = data {
-                    // result
-                    UserDefaults.standard.set(data, forKey: urlString)
+                    configSaveImage(urlString, data)
                     let image = UIImage(data: data)
                     completion(image)
                 } else {
@@ -36,5 +37,31 @@ extension APIManager.Downloader {
                 }
             }
         }
+    }
+
+    static var dataImageKeys = [String]()
+
+    static private func configSaveImage(_ urlString: String, _ data: Data) {
+        guard var dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage else {
+            return
+        }
+        dataImageKeys.append(urlString)
+        dataImages[urlString] = data
+
+        if dataImageKeys.count > 60 {
+            dataImages.removeValue(forKey: dataImageKeys[0])
+            dataImageKeys.remove(at: 0)
+        }
+
+        UserDefaults.standard.set(dataImages, forKey: "dataImages")
+    }
+
+    static func clearImageData() {
+        UserDefaults.standard.removeObject(forKey: "dataImages")
+    }
+
+    static func configImageDataStorage() {
+        let dataImages: DictionaryDataImage = [:]
+        UserDefaults.standard.set(dataImages, forKey: "dataImages")
     }
 }

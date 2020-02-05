@@ -190,10 +190,10 @@
 		F094DAEF23BED41A008221E9 /* BaseHomeChild */ = {
 			isa = PBXGroup;
 			children = (
+				F094DB1E23BEE00E008221E9 /* NewsCell */,
 				F094DB1D23BEE00E008221E9 /* BaseHomeChildViewController.xib */,
 				F094DB2123BEE00E008221E9 /* BaseHomeChildViewController.swift */,
 				F0E9109923CC657400038918 /* BaseHomeChildViewModel.swift */,
-				F094DB1E23BEE00E008221E9 /* NewsCell */,
 			);
 			path = BaseHomeChild;
 			sourceTree = "<group>";
