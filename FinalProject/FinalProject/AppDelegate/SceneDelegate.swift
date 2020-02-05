@@ -30,14 +30,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         configTabBarController()
         window?.makeKeyAndVisible()
-
-        let dataImages: DictionaryDataImage = [:]
-        UserDefaults.standard.set(dataImages, forKey: "dataImages")
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         /// Remove all image data
-        UserDefaults.standard.removeObject(forKey: "dataImages")
+        APIManager.Downloader.clearImageData()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) { }

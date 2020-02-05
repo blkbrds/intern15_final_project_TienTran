@@ -27,6 +27,11 @@ final class HomeViewController: BaseViewController {
         configPageViewController()
     }
 
+    override func setupData() {
+        super.setupData()
+        APIManager.Downloader.configImageDataStorage()
+    }
+
     // MARK: - Private funcs
     private func configCategoriesCollectionView() {
         categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
