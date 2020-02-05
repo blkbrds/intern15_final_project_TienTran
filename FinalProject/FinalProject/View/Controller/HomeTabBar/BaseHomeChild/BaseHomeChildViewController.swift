@@ -122,7 +122,7 @@ extension BaseHomeChildViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
         newsCell.delegate = self
-        newsCell.viewModel = viewModel.getNewsCellViewModel(indexPath: indexPath)
+        newsCell.viewModel = viewModel.getNewsCellViewModel(at: indexPath)
         return newsCell
     }
 }
@@ -135,7 +135,9 @@ extension BaseHomeChildViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newsDetail = NewsDetailViewController()
-        //        #warning("Config: send link show news")
+        #warning("Config: send link show news")
+        let urlNews = viewModel.getNewsCellViewModel(at: indexPath).urlNews
+        newsDetail.viewModel = NewsDetailViewModel(urlNews: urlNews)
         pushViewController(viewcontroller: newsDetail)
     }
 

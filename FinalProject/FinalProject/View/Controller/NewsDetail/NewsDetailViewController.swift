@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 final class NewsDetailViewController: BaseViewController {
 
@@ -14,20 +15,24 @@ final class NewsDetailViewController: BaseViewController {
     @IBOutlet private weak var favoritesButton: UIButton!
     @IBOutlet private weak var commentTextField: UITextField!
     @IBOutlet private weak var shareButton: UIButton!
-    @IBOutlet weak var customView: UIView!
+    @IBOutlet private weak var customView: UIView!
+    @IBOutlet weak var webView: WKWebView!
 
     // MARK: - Propertites
+    var viewModel: NewsDetailViewModel?
 
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         configUI()
         configCustomNavigationBar()
+        configNewsWebView()
     }
 
     // MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
     }
 
@@ -35,7 +40,6 @@ final class NewsDetailViewController: BaseViewController {
     private func configUI() {
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
 
-//        navigationController?.navigationBar.isHidden = true
         commentTextField.clipsToBounds = true
         commentTextField.layer.cornerRadius = 15
         commentTextField.layer.borderColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
@@ -43,21 +47,24 @@ final class NewsDetailViewController: BaseViewController {
     }
 
     private func configCustomNavigationBar() {
-
-//        guard let navi = navigationController else { return }
-//        let navBarSize = navi.navigationBar.bounds.size
-//        let origin = CGPoint(x: navBarSize.width / 2, y: navBarSize.height / 2)
-////        pageControl.frame = CGRect(x: <#T##Int#>, y: <#T##Int#>, width: <#T##Int#>, height: <#T##Int#>)
-//
-//        navigationItem.titleView?.addSubview(pageControl)
         guard let customNavigationBarView = Bundle.main.loadNibNamed("CustomNavigationBarView", owner: self, options: nil)?.first as? CustomNavigationBarView else { return }
-        customNavigationBarView.frame = customView.frame
+        customNavigationBarView.frame = customView.bounds
         customNavigationBarView.delegate = self
         customView.addSubview(customNavigationBarView)
     }
+
+    private func configNewsWebView() {
+        guard let viewModel = viewModel, let newsURL = URL(string: viewModel.urlNews) else { return }
+        let urlRequest = URLRequest(url: newsURL)
+        webView.load(urlRequest)
+        webView.uiDelegate = self
+    }
 }
 
-//
+// MARK: - WKUIDelegate
+extension NewsDetailViewController: WKUIDelegate { }
+
+// MARK: - CustomNavigationBarViewDelegate
 extension NewsDetailViewController: CustomNavigationBarViewDelegate {
     func customView(_ customView: CustomNavigationBarView, needPerform action: CustomNavigationBarView.Action) {
         switch action {

@@ -98,8 +98,8 @@
 		F04D0B8323EAB96200CA0208 /* CustomNavigationBarView */ = {
 			isa = PBXGroup;
 			children = (
-				F04D0B8423EABA0700CA0208 /* CustomNavigationBarView.swift */,
 				F04D0B8623EABA2900CA0208 /* CustomNavigationBarView.xib */,
+				F04D0B8423EABA0700CA0208 /* CustomNavigationBarView.swift */,
 			);
 			path = CustomNavigationBarView;
 			sourceTree = "<group>";

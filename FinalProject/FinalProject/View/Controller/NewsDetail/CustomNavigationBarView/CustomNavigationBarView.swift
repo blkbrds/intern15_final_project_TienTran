@@ -17,16 +17,24 @@ final class CustomNavigationBarView: UIView {
     enum Action {
         case backToView
     }
-
-    // MARK: - Outlets
+    
+    typealias GetCurrentPage = () -> Int
+    
+    // MARK: - IBOutlets
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var pageControl: UIPageControl!
 
     // MARK: - Properties
     weak var delegate: CustomNavigationBarViewDelegate?
-
-
-    @IBAction func backToViewTouchUpInside(_ sender: Any) {
+    
+    // MARK: - Private funcs
+    private func configUI(getCurrentPage: GetCurrentPage) {
+        let currentPage = getCurrentPage()
+        pageControl.currentPage = currentPage
+    }
+    
+    // MARK: - IBAction
+    @IBAction private func backToViewTouchUpInside(_ sender: Any) {
         delegate?.customView(self, needPerform: .backToView)
     }
 }

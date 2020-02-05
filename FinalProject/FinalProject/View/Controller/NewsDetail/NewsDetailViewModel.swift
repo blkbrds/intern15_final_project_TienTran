@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+final class NewsDetailViewModel {
+
+    var urlNews: String
+
+    init(urlNews: String) {
+        self.urlNews = urlNews
+    }
+}

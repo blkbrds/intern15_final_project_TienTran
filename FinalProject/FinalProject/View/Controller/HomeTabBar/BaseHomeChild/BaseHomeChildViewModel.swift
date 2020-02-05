@@ -26,13 +26,14 @@ extension BaseHomeChildViewModel {
         return articles.count
     }
 
-    func getNewsCellViewModel(indexPath: IndexPath) -> NewsTableViewCellViewModel {
+    func getNewsCellViewModel(at indexPath: IndexPath) -> NewsTableViewCellViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: news.titleNews,
             nameSource: news.source.name,
             publishedAt: news.publishedAt ?? Date.currentDate(),
             urlImage: news.urlImage ?? "",
+            urlNews: news.urlNews,
             indexPath: indexPath)
         return newsCellViewModel
     }
