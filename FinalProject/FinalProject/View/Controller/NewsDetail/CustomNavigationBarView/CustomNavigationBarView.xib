@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomNavigationBarView" customModule="FinalProject" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FK9-kR-EmZ">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ozs-yh-Ea6">
+                            <rect key="frame" x="12" y="5" width="12.5" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" image="chevron.left" catalog="system"/>
+                            <connections>
+                                <action selector="backToViewTouchUpInside:" destination="iN0-l3-epB" eventType="touchUpInside" id="c6Q-k6-b0R"/>
+                            </connections>
+                        </button>
+                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="10" translatesAutoresizingMaskIntoConstraints="NO" id="7BW-Ha-ZO6">
+                            <rect key="frame" x="131.5" y="3.5" width="151" height="37"/>
+                            <color key="pageIndicatorTintColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="currentPageIndicatorTintColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </pageControl>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="Ozs-yh-Ea6" firstAttribute="top" secondItem="FK9-kR-EmZ" secondAttribute="top" constant="5" id="6RV-cu-DUM"/>
+                        <constraint firstItem="Ozs-yh-Ea6" firstAttribute="leading" secondItem="FK9-kR-EmZ" secondAttribute="leading" constant="12" id="ARw-99-iZe"/>
+                        <constraint firstAttribute="bottom" secondItem="Ozs-yh-Ea6" secondAttribute="bottom" constant="5" id="KZY-T9-JLX"/>
+                        <constraint firstItem="7BW-Ha-ZO6" firstAttribute="centerX" secondItem="FK9-kR-EmZ" secondAttribute="centerX" id="hap-7A-9ul"/>
+                        <constraint firstItem="7BW-Ha-ZO6" firstAttribute="centerY" secondItem="Ozs-yh-Ea6" secondAttribute="centerY" id="ndL-4i-Wef"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="FK9-kR-EmZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="7VL-f5-CnP"/>
+                <constraint firstAttribute="bottom" secondItem="FK9-kR-EmZ" secondAttribute="bottom" id="Dbg-zS-71K"/>
+                <constraint firstItem="FK9-kR-EmZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="RlU-Sy-O1N"/>
+                <constraint firstAttribute="trailing" secondItem="FK9-kR-EmZ" secondAttribute="trailing" id="XNe-gg-zR0"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="backButton" destination="Ozs-yh-Ea6" id="O13-lP-75B"/>
+                <outlet property="contentView" destination="FK9-kR-EmZ" id="0Tp-iG-Z1t"/>
+                <outlet property="pageControl" destination="7BW-Ha-ZO6" id="okg-V8-ueO"/>
+            </connections>
+            <point key="canvasLocation" x="-270" y="5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevron.left" catalog="system" width="48" height="64"/>
+    </resources>
+</document>
