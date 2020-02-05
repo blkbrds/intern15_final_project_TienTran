@@ -45,7 +45,7 @@ final class NewsTableViewCell: UITableViewCell {
 
     private func updateUI() {
         guard let viewModel = viewModel else { return }
-        publishedLabel.text = viewModel.publishedAt.toTimeString()
+        publishedLabel.text = viewModel.publishedAt.toString()
         newsTitleLabel.text = viewModel.newsTitle
         nameSourceLabel.text = viewModel.nameSource
 

@@ -21,7 +21,7 @@ extension APIManager.Downloader {
             return
         }
 
-        API.shared().request(url: url, urlSessionConfiguration: URLSessionConfiguration.default) { result in
+        API.shared().request(url: url, urlSessionConfiguration: URLSessionConfiguration.ephemeral) { result in
             switch result {
             case .failure:
                 // call back

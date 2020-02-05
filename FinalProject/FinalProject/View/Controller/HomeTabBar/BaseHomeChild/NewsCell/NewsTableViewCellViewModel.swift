@@ -9,7 +9,7 @@
 import Foundation
 
 final class NewsTableViewCellViewModel {
-    var publishedAt: String
+    var publishedAt: Date
     var newsTitle: String
     var nameSource: String
     var urlImage: String
@@ -17,7 +17,7 @@ final class NewsTableViewCellViewModel {
 
     init(newsTitle: String,
         nameSource: String,
-        publishedAt: String,
+        publishedAt: Date,
         urlImage: String,
         indexPath: IndexPath) {
         self.newsTitle = newsTitle
