@@ -55,4 +55,13 @@ extension APIManager.Downloader {
 
         UserDefaults.standard.set(dataImages, forKey: "dataImages")
     }
+
+    static func clearImageData() {
+        UserDefaults.standard.removeObject(forKey: "dataImages")
+    }
+
+    static func configImageDataStorage() {
+        let dataImages: DictionaryDataImage = [:]
+        UserDefaults.standard.set(dataImages, forKey: "dataImages")
+    }
 }
