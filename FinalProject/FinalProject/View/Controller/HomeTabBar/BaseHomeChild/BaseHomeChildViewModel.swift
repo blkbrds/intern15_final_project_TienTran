@@ -16,7 +16,7 @@ final class BaseHomeChildViewModel {
     var articles: [News] = []
     var isRefreshing = false
     var isLoading = false
-    private var canLoadMore = true
+    var canLoadMore = true
     private var currentPageParam = 1
 }
 
@@ -31,7 +31,7 @@ extension BaseHomeChildViewModel {
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: news.titleNews,
             nameSource: news.source.name,
-            publishedAt: news.publishedAt,
+            publishedAt: news.publishedAt ?? Date.currentDate(),
             urlImage: news.urlImage ?? "",
             indexPath: indexPath)
         return newsCellViewModel
@@ -59,26 +59,22 @@ extension BaseHomeChildViewModel {
 
     // loadmore api
     func loadMoreAPI(compeltion: @escaping Completion) {
-        if canLoadMore {
-            currentPageParam += 1
-            APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.param, country: "us") { result in
-                switch result {
-                case .failure(let error):
-                    compeltion(false, error.localizedDescription)
-                case .success(let response):
-                    if response.articles.count > 0 {
-                        self.articles.append(contentsOf: response.articles)
+        currentPageParam += 1
+        APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.param, country: "us") { result in
+            switch result {
+            case .failure(let error):
+                compeltion(false, error.localizedDescription)
+            case .success(let response):
+                if response.articles.count > 0 {
+                    self.articles.append(contentsOf: response.articles)
 
-                        //call back
-                        compeltion(true, "")
-                    } else {
-                        self.canLoadMore = false
-                        compeltion(false, "Can't loadmore!")
-                    }
+                    //call back
+                    compeltion(true, "")
+                } else {
+                    self.canLoadMore = false
+                    compeltion(false, "Can't loadmore!")
                 }
             }
-        } else {
-            compeltion(false, "Can't loadmore!")
         }
     }
 

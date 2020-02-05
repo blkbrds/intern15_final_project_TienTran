@@ -18,7 +18,7 @@ struct News: Codable {
     var titleNews: String = ""
     var urlNews: String = ""
     var urlImage: String?
-    var publishedAt: String = ""
+    var publishedAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case source
@@ -26,5 +26,25 @@ struct News: Codable {
         case urlNews = "url"
         case urlImage = "urlToImage"
         case publishedAt
+    }
+}
+
+extension News {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        source = try container.decode(Source.self, forKey: .source)
+        titleNews = try container.decode(String.self, forKey: .titleNews)
+        urlNews = try container.decode(String.self, forKey: .urlNews)
+        urlImage = try container.decode(String.self, forKey: .urlImage)
+
+        let dateString = try container.decode(String.self, forKey: .publishedAt)
+        let formatter = DateFormatter.iso8601Full
+        if let date = formatter.date(from: dateString) {
+            publishedAt = date
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .publishedAt,
+                in: container,
+                debugDescription: "Date string does not match format expected by formatter.")
+        }
     }
 }

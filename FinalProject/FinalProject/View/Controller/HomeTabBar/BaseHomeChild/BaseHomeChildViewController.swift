@@ -83,16 +83,17 @@ final class BaseHomeChildViewController: BaseViewController {
     }
 
     private func loadMore() {
-        if !viewModel.isLoading {
-            viewModel.isLoading = true
-            viewModel.loadMoreAPI { (done, error) in
-                if done {
-                    self.viewModel.isLoading = false
-                    self.tableView.reloadData()
-                } else {
-                    self.viewModel.isLoading = false
-                    print("API ERROR: \(error)")
-                }
+        guard !viewModel.isLoading, viewModel.canLoadMore else { return }
+
+        viewModel.isLoading = true
+        viewModel.loadMoreAPI { (done, msg) in
+            if done {
+                self.viewModel.isLoading = false
+                self.tableView.reloadData()
+            } else {
+                self.viewModel.isLoading = false
+                self.viewModel.canLoadMore = false
+                print("API ERROR: \(msg)")
             }
         }
     }
