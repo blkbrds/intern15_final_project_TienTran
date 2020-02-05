@@ -10,7 +10,7 @@ import Foundation
 
 final class HomeViewModel {
     var navigationDirection = false
-    
+
     var currentPage = 0 {
         didSet {
             if oldValue > currentPage {

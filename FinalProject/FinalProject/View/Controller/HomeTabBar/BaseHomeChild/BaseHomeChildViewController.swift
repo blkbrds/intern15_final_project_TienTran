@@ -13,11 +13,12 @@ final class BaseHomeChildViewController: BaseViewController {
     // MARK: - IBOutlet
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var loadingView: UIView!
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    @IBOutlet weak var errorView: UIView!
+    @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private weak var errorView: UIView!
 
     // MARK: - Properties
     var viewModel = BaseHomeChildViewModel()
+    private var refreshControl = UIRefreshControl()
 
     // MARK: - config
     override func setupUI() {
@@ -37,17 +38,37 @@ final class BaseHomeChildViewController: BaseViewController {
         tableView.register(UINib(nibName: Config.loadingCell, bundle: .main), forCellReuseIdentifier: Config.loadingCell)
         tableView.dataSource = self
         tableView.delegate = self
+
+        /// config Refresh Control
+        tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(refreshViewController), for: .valueChanged)
     }
 
-    /// Config Loading View
+    /// config Loading View
     private func configLoadingView() {
         errorView.isHidden = true
         loadingView.backgroundColor = .white
         activityIndicatorView.startAnimating()
     }
 
+    @objc private func refreshViewController() {
+        if !viewModel.isRefreshing {
+            viewModel.isRefreshing = true
+            viewModel.refreshData { (done, error) in
+                if done {
+                    self.tableView.reloadData()
+                    self.viewModel.isRefreshing = false
+                    self.refreshControl.endRefreshing()
+                } else {
+                    self.viewModel.isRefreshing = false
+                    print("API ERROR: \(error)")
+                }
+            }
+        }
+    }
+
     private func loadAPI() {
-        viewModel.loadAPI { (done, msg) in
+        viewModel.loadAPI { (done, error) in
             if done {
                 self.activityIndicatorView.stopAnimating()
                 self.loadingView.isHidden = true
@@ -56,7 +77,7 @@ final class BaseHomeChildViewController: BaseViewController {
                 print("\(self.viewModel.screenType.text): \(done)")
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
-                print("API ERROR: \(msg)")
+                print("API ERROR: \(error)")
             }
         }
     }
@@ -106,7 +127,7 @@ extension BaseHomeChildViewController: UITableViewDataSource {
     }
 }
 
-// MARK: -  TableView Delegate
+// MARK: - TableView Delegate
 extension BaseHomeChildViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 160
