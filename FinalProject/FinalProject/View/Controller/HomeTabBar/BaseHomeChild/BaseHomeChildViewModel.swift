@@ -42,6 +42,7 @@ extension BaseHomeChildViewModel {
         let news = articles[indexPath.row]
         let newsDetailViewModel = NewsDetailViewModel(
             urlNews: news.urlNews,
+            nameSource: news.source.name,
             isFavorites: news.isFavorites,
             indexPath: indexPath)
         return newsDetailViewModel

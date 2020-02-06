@@ -13,9 +13,7 @@ final class NewsDetailViewController: BaseViewController {
 
     // MARK: - Outlets
     @IBOutlet private weak var favoritesButton: UIButton!
-    @IBOutlet private weak var commentTextField: UITextField!
     @IBOutlet private weak var shareButton: UIButton!
-    @IBOutlet private weak var customView: UIView!
     @IBOutlet weak var webView: WKWebView!
 
     // MARK: - Propertites
@@ -25,32 +23,21 @@ final class NewsDetailViewController: BaseViewController {
     override func setupUI() {
         super.setupUI()
         configUI()
-        configCustomNavigationBar()
         configNewsWebView()
+        configBackForwardListNews()
     }
 
     // MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
     }
 
     // MARK: - Private funcs
     private func configUI() {
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-
-        commentTextField.clipsToBounds = true
-        commentTextField.layer.cornerRadius = 15
-        commentTextField.layer.borderColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-        commentTextField.layer.borderWidth = 1
-    }
-
-    private func configCustomNavigationBar() {
-        guard let customNavigationBarView = Bundle.main.loadNibNamed("CustomNavigationBarView", owner: self, options: nil)?.first as? CustomNavigationBarView else { return }
-        customNavigationBarView.frame = customView.bounds
-        customNavigationBarView.delegate = self
-        customView.addSubview(customNavigationBarView)
+        navigationItem.title = ""
+        guard let viewModel = viewModel else { return }
+        title = viewModel.nameSource
     }
 
     private func configNewsWebView() {
@@ -59,27 +46,34 @@ final class NewsDetailViewController: BaseViewController {
         webView.load(urlRequest)
         webView.uiDelegate = self
     }
-    
+
+    private func configBackForwardListNews() {
+        let backForwardNews = UIBarButtonItem(title: "<", style: .done, target: self, action: #selector(forwardListNews))
+        navigationItem.rightBarButtonItem = backForwardNews
+    }
+
+    @objc private func forwardListNews() {
+        let list = webView.backForwardList.backList
+        
+    }
+
     // MARK: - IBAction
-    
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
         #warning("change favorites")
     }
 }
 
 // MARK: - WKUIDelegate
-extension NewsDetailViewController: WKUIDelegate { }
+extension NewsDetailViewController: WKUIDelegate {
+
+}
 
 // MARK: - CustomNavigationBarViewDelegate
 extension NewsDetailViewController: CustomNavigationBarViewDelegate {
     func customView(_ customView: CustomNavigationBarView, needPerform action: CustomNavigationBarView.Action) {
         switch action {
         case .previousToViewController:
-            guard let viewControllers = navigationController?.viewControllers else { return }
-            for vc in viewControllers where vc is HomeViewController {
-                let homeViewVC = vc as! HomeViewController
-                previousToViewController(viewcontroller: homeViewVC)
-            }
+            previousToViewController()
         }
     }
 }
