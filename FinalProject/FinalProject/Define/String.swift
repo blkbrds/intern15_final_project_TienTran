@@ -14,5 +14,5 @@ extension App {
 
 extension App.String {
     static let homeTabBar = "Headlines"
-    static let followingTabBar = "Following"
+    static let followingTabBar = "Favorites"
 }

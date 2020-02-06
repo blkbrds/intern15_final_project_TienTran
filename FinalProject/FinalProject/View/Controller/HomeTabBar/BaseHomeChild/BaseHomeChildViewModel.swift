@@ -12,7 +12,7 @@ import UIKit
 typealias Completion = (Bool, String) -> Void
 
 final class BaseHomeChildViewModel {
-    var screenType: HomeScreenType = .us
+    var screenType: CategoryType = .us
     var articles: [News] = []
     var isRefreshing = false
     var isLoading = false

@@ -12,12 +12,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     enum ScreenType: Int {
         case home = 0
-        case following
+        case favorites
 
         var title: String {
             switch self {
             case .home: return App.String.homeTabBar
-            case .following: return App.String.followingTabBar
+            case .favorites: return App.String.followingTabBar
             }
         }
     }
@@ -47,12 +47,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func configTabBarController() {
         let homeScreen = UINavigationController(rootViewController: HomeViewController())
-        let followingScreen = UINavigationController(rootViewController: FollowingViewController())
-        followingScreen.tabBarItem = UITabBarItem(title: ScreenType.following.title, image: #imageLiteral(resourceName: "ic-following"), tag: ScreenType.following.rawValue)
+        let favoritesScreen = UINavigationController(rootViewController: FavoritesViewController())
+        favoritesScreen.tabBarItem = UITabBarItem(title: ScreenType.favorites.title, image: #imageLiteral(resourceName: "ic-following"), tag: ScreenType.favorites.rawValue)
         homeScreen.tabBarItem = UITabBarItem(title: ScreenType.home.title, image: #imageLiteral(resourceName: "ic-headlines"), tag: ScreenType.home.rawValue)
 
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [homeScreen, followingScreen]
+        tabBarController.viewControllers = [homeScreen, favoritesScreen]
         window?.rootViewController = tabBarController
     }
 }

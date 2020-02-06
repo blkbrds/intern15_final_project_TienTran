@@ -21,7 +21,7 @@ final class HomeViewModel {
         }
     }
 
-    var categories: [HomeScreenType] = HomeScreenType.allCases
+    var categories: [CategoryType] = CategoryType.allCases
 }
 
 // MARK: - config tableview
@@ -35,7 +35,7 @@ extension HomeViewModel {
     }
 }
 
-enum HomeScreenType: Int, CaseIterable {
+enum CategoryType: Int, CaseIterable {
     case us = 0
     case business
     case technology
@@ -80,5 +80,28 @@ enum HomeScreenType: Int, CaseIterable {
         case .entertainment:
             return "entertainment"
         }
+    }
+
+    var imageName: String {
+        switch self {
+        case .us:
+            return "us"
+        case .business:
+            return "business"
+        case .technology:
+            return "technology"
+        case .health:
+            return "health"
+        case .science:
+            return "science"
+        case .sports:
+            return "sports"
+        case .entertainment:
+            return "entertainment"
+        }
+    }
+    
+    static var allCases: [CategoryType] {
+        return [.us, .health, .science, .technology, .sports, .entertainment, .business]
     }
 }
