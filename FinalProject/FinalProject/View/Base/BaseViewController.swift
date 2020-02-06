@@ -28,15 +28,15 @@ class BaseViewController: UIViewController {
 
     func setupUI() { }
 
-    func pushViewController(viewcontroller: UIViewController) {
+    func nextToViewController(viewcontroller: UIViewController) {
         navigationController?.pushViewController(viewcontroller, animated: true)
     }
 
-    @objc func popViewController() {
+    func previousToViewController() {
         navigationController?.popViewController(animated: true)
     }
 
-    func popToViewController(viewcontroller: UIViewController) {
+    func previousToViewController(viewcontroller: UIViewController) {
         navigationController?.popToViewController(viewcontroller, animated: true)
     }
 }

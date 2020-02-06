@@ -74,11 +74,11 @@ extension NewsDetailViewController: WKUIDelegate { }
 extension NewsDetailViewController: CustomNavigationBarViewDelegate {
     func customView(_ customView: CustomNavigationBarView, needPerform action: CustomNavigationBarView.Action) {
         switch action {
-        case .backToView:
+        case .previousToViewController:
             guard let viewControllers = navigationController?.viewControllers else { return }
             for vc in viewControllers where vc is HomeViewController {
                 let homeViewVC = vc as! HomeViewController
-                popToViewController(viewcontroller: homeViewVC)
+                previousToViewController(viewcontroller: homeViewVC)
             }
         }
     }

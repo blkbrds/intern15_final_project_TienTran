@@ -135,9 +135,8 @@ extension BaseHomeChildViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newsDetail = NewsDetailViewController()
-        #warning("Config: send link show news")
         newsDetail.viewModel = viewModel.getNewsDetailViewModel(at: indexPath)
-        pushViewController(viewcontroller: newsDetail)
+        nextToViewController(viewcontroller: newsDetail)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

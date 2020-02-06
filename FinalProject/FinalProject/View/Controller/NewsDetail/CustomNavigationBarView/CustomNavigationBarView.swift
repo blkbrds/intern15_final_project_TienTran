@@ -15,26 +15,18 @@ protocol CustomNavigationBarViewDelegate: class {
 final class CustomNavigationBarView: UIView {
 
     enum Action {
-        case backToView
+        case previousToViewController
     }
-    
-    typealias GetCurrentPage = () -> Int
-    
+
     // MARK: - IBOutlets
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var pageControl: UIPageControl!
 
     // MARK: - Properties
     weak var delegate: CustomNavigationBarViewDelegate?
-    
-    // MARK: - Private funcs
-    private func configUI(getCurrentPage: GetCurrentPage) {
-        let currentPage = getCurrentPage()
-        pageControl.currentPage = currentPage
-    }
-    
+
     // MARK: - IBAction
     @IBAction private func backToViewTouchUpInside(_ sender: Any) {
-        delegate?.customView(self, needPerform: .backToView)
+        delegate?.customView(self, needPerform: .previousToViewController)
     }
 }
