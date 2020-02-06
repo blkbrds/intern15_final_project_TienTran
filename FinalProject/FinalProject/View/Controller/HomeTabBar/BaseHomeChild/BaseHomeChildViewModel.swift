@@ -37,6 +37,15 @@ extension BaseHomeChildViewModel {
             indexPath: indexPath)
         return newsCellViewModel
     }
+
+    func getNewsDetailViewModel(at indexPath: IndexPath) -> NewsDetailViewModel {
+        let news = articles[indexPath.row]
+        let newsDetailViewModel = NewsDetailViewModel(
+            urlNews: news.urlNews,
+            isFavorites: news.isFavorites,
+            indexPath: indexPath)
+        return newsDetailViewModel
+    }
 }
 
 // MARK: - handle api

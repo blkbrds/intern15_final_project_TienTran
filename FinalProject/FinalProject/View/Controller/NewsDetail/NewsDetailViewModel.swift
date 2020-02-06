@@ -11,8 +11,19 @@ import Foundation
 final class NewsDetailViewModel {
 
     var urlNews: String
+    var isFavorites: Bool
+    var indexPath: IndexPath
+    var favoritesImage: String {
+        if isFavorites {
+            return "heart.fill"
+        } else {
+            return "heart"
+        }
+    }
 
-    init(urlNews: String) {
+    init(urlNews: String, isFavorites: Bool = false, indexPath: IndexPath) {
         self.urlNews = urlNews
+        self.isFavorites = isFavorites
+        self.indexPath = indexPath
     }
 }

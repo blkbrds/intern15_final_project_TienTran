@@ -59,6 +59,12 @@ final class NewsDetailViewController: BaseViewController {
         webView.load(urlRequest)
         webView.uiDelegate = self
     }
+    
+    // MARK: - IBAction
+    
+    @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
+        #warning("change favorites")
+    }
 }
 
 // MARK: - WKUIDelegate
