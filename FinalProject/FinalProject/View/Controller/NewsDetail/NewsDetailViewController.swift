@@ -88,13 +88,3 @@ extension NewsDetailViewController: WKNavigationDelegate {
         activityIndicatorView.isHidden = true
     }
 }
-
-// MARK: - CustomNavigationBarViewDelegate
-extension NewsDetailViewController: CustomNavigationBarViewDelegate {
-    func customView(_ customView: CustomNavigationBarView, needPerform action: CustomNavigationBarView.Action) {
-        switch action {
-        case .previousToViewController:
-            previousToViewController()
-        }
-    }
-}

@@ -45,6 +45,8 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         #warning("show detail favorites")
+        let favoritesDetailVC = FavoritesDetailViewController()
+        nextToViewController(viewcontroller: favoritesDetailVC)
     }
 }
 

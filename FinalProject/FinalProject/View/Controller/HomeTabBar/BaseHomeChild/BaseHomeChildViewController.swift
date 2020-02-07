@@ -35,7 +35,6 @@ final class BaseHomeChildViewController: BaseViewController {
     // MARK: - Private funcs
     private func configTableView() {
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
-        tableView.register(UINib(nibName: Config.loadingCell, bundle: .main), forCellReuseIdentifier: Config.loadingCell)
         tableView.dataSource = self
         tableView.delegate = self
 
@@ -155,6 +154,5 @@ extension BaseHomeChildViewController {
 
     struct Config {
         static let newsTableViewCell = "NewsTableViewCell"
-        static let loadingCell = "LoadingCell"
     }
 }
