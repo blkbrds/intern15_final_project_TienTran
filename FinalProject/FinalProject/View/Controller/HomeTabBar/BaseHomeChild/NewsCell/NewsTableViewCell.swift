@@ -19,11 +19,11 @@ final class NewsTableViewCell: UITableViewCell {
     }
 
     // MARK: - IBOutlet
-    @IBOutlet weak var publishedLabel: UILabel!
-    @IBOutlet weak var newsImageView: UIImageView!
-    @IBOutlet weak var newsTitleLabel: UILabel!
-    @IBOutlet weak var nameSourceLabel: UILabel!
-    @IBOutlet weak var iconSourceImageView: UIImageView!
+    @IBOutlet private weak var publishedLabel: UILabel!
+    @IBOutlet private weak var newsImageView: UIImageView!
+    @IBOutlet private weak var newsTitleLabel: UILabel!
+    @IBOutlet private weak var nameSourceLabel: UILabel!
+    @IBOutlet private weak var iconSourceImageView: UIImageView!
 
     // MARK: - Properties
     weak var delegate: NewsTableViewCellDelegate?
