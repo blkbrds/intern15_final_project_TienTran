@@ -44,7 +44,7 @@
                 <outlet property="backgroundColorView" destination="qnZ-l5-C6X" id="0eK-nS-wd7"/>
                 <outlet property="categoryLabel" destination="cF8-5g-h6W" id="zI7-yz-PTJ"/>
             </connections>
-            <point key="canvasLocation" x="-1222" y="-60"/>
+            <point key="canvasLocation" x="-988" y="-142"/>
         </collectionViewCell>
     </objects>
 </document>

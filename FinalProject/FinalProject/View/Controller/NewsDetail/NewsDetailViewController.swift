@@ -14,7 +14,9 @@ final class NewsDetailViewController: BaseViewController {
     // MARK: - Outlets
     @IBOutlet private weak var favoritesButton: UIButton!
     @IBOutlet private weak var shareButton: UIButton!
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet private weak var webView: WKWebView!
+    @IBOutlet private weak var previousNewsButton: UIButton!
+    @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
 
     // MARK: - Propertites
     var viewModel: NewsDetailViewModel?
@@ -24,7 +26,6 @@ final class NewsDetailViewController: BaseViewController {
         super.setupUI()
         configUI()
         configNewsWebView()
-        configBackForwardListNews()
     }
 
     // MARK: - Life cycle
@@ -38,34 +39,54 @@ final class NewsDetailViewController: BaseViewController {
         navigationItem.title = ""
         guard let viewModel = viewModel else { return }
         title = viewModel.nameSource
+
+        let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(leftBarButtonItemTouchUpInside))
+        leftBarButtonItem.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+        navigationItem.leftBarButtonItem = leftBarButtonItem
+
+        activityIndicatorView.startAnimating()
+        view.addSubview(activityIndicatorView)
+
+        previousNewsButton.isHidden = true
+    }
+
+    @objc private func leftBarButtonItemTouchUpInside() {
+        previousToViewController()
     }
 
     private func configNewsWebView() {
+        loadWebView()
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+    }
+
+    private func loadWebView() {
         guard let viewModel = viewModel, let newsURL = URL(string: viewModel.urlNews) else { return }
         let urlRequest = URLRequest(url: newsURL)
         webView.load(urlRequest)
-        webView.uiDelegate = self
-    }
-
-    private func configBackForwardListNews() {
-        let backForwardNews = UIBarButtonItem(title: "<", style: .done, target: self, action: #selector(forwardListNews))
-        navigationItem.rightBarButtonItem = backForwardNews
-    }
-
-    @objc private func forwardListNews() {
-        let list = webView.backForwardList.backList
-        
     }
 
     // MARK: - IBAction
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
         #warning("change favorites")
     }
+
+    @IBAction private func previousNewsButtonTouchUpInside(_ sender: Any) {
+        loadWebView()
+    }
 }
 
 // MARK: - WKUIDelegate
-extension NewsDetailViewController: WKUIDelegate {
+extension NewsDetailViewController: WKUIDelegate { }
 
+extension NewsDetailViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        if webView.backForwardList.backList.count > 0 {
+            previousNewsButton.isHidden = false
+        }
+        activityIndicatorView.stopAnimating()
+        activityIndicatorView.isHidden = true
+    }
 }
 
 // MARK: - CustomNavigationBarViewDelegate
