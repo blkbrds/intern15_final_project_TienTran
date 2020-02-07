@@ -61,7 +61,7 @@ final class HomeViewController: BaseViewController {
     }
 
     private func addChildViewController() {
-        for (index, type) in HomeScreenType.allCases.enumerated() {
+        for (index, type) in CategoryType.allCases.enumerated() {
             let viewController = BaseHomeChildViewController()
             viewController.viewModel.screenType = type
             viewController.view.tag = index
