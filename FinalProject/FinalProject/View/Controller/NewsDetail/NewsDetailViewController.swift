@@ -39,19 +39,11 @@ final class NewsDetailViewController: BaseViewController {
         navigationItem.title = ""
         guard let viewModel = viewModel else { return }
         title = viewModel.nameSource
-
-        let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(leftBarButtonItemTouchUpInside))
-        leftBarButtonItem.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-        navigationItem.leftBarButtonItem = leftBarButtonItem
-
+        
         activityIndicatorView.startAnimating()
         view.addSubview(activityIndicatorView)
-
+        
         previousNewsButton.isHidden = true
-    }
-
-    @objc private func leftBarButtonItemTouchUpInside() {
-        previousToViewController()
     }
 
     private func configNewsWebView() {

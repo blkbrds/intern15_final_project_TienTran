@@ -9,6 +9,7 @@
 import Foundation
 
 final class FavoritesDetailViewModel {
+    var categoryType: CategoryType = .us
     var articles: [News] = []
 }
 
@@ -18,7 +19,6 @@ extension FavoritesDetailViewModel {
     }
 
     func getNewsCellViewModel(at indexPath: IndexPath) -> NewsTableViewCellViewModel {
-        _ = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: "newsTitle",
             nameSource: "nameSource",
@@ -27,9 +27,5 @@ extension FavoritesDetailViewModel {
             urlNews: "urlNews",
             indexPath: indexPath)
         return newsCellViewModel
-    }
-    
-    func getArticlesFormReaml(){
-        
     }
 }
