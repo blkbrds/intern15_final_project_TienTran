@@ -10,8 +10,7 @@ import Foundation
 
 final class NewsDetailViewModel {
 
-    var urlNews: String?
-    var nameSource: String?
+    var news: News?
     var isFavorited: Bool = false
     var indexPath: IndexPath?
     var favoritesImage: String? {
@@ -23,24 +22,36 @@ final class NewsDetailViewModel {
     }
 
     init() { }
-    
-    init(urlNews: String, nameSource: String, isFavorited: Bool = false, indexPath: IndexPath) {
-        self.urlNews = urlNews
-        self.nameSource = nameSource
-        self.isFavorited = isFavorited
+
+    init(news: News, indexPath: IndexPath) {
+        self.news = news
         self.indexPath = indexPath
     }
 }
 
 extension NewsDetailViewModel {
-    
-    func addNewsInFavorites() {
-        isFavorited = true
-        print("Add oke")
+
+    func addNewsInFavorites(completion: @escaping Completion) {
+        guard let news = news else { return }
+        RealmManager.shared().addObject(object: news) { (done, error) in
+            if done {
+                self.isFavorited = true
+                completion(done, "")
+            } else {
+                completion(done, error)
+            }
+        }
     }
-    
-    func removeNewsInFavorites() {
-        isFavorited = false
-        print("Remove oke")
+
+    func removeNewsInFavorites(completion: @escaping Completion) {
+        guard let news = news else { return }
+        RealmManager.shared().deleteObject(object: news, forPrimaryKey: news.titleNews) { (done, error) in
+            if done {
+                self.isFavorited = false
+                completion(done, "")
+            } else {
+                completion(done, error)
+            }
+        }
     }
 }

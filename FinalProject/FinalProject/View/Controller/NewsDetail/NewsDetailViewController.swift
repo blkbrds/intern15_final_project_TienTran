@@ -26,6 +26,7 @@ final class NewsDetailViewController: BaseViewController {
         super.setupUI()
         configUI()
         configNewsWebView()
+        print(RealmManager.shared().configurationFileeURL())
     }
 
     // MARK: - Life cycle
@@ -37,7 +38,7 @@ final class NewsDetailViewController: BaseViewController {
     // MARK: - Private funcs
     private func configUI() {
         navigationItem.title = ""
-        title = viewModel.nameSource
+        title = viewModel.news?.source?.name
 
         activityIndicatorView.startAnimating()
         view.addSubview(activityIndicatorView)
@@ -52,7 +53,7 @@ final class NewsDetailViewController: BaseViewController {
     }
 
     private func loadWebView() {
-        guard let urlNews = viewModel.urlNews, let newsURL = URL(string: urlNews) else { return }
+        guard let urlNews = viewModel.news?.urlNews, let newsURL = URL(string: urlNews) else { return }
         let urlRequest = URLRequest(url: newsURL)
         webView.load(urlRequest)
     }
@@ -66,15 +67,29 @@ final class NewsDetailViewController: BaseViewController {
             print("News not in Favorite!")
         }
     }
-    
+
     // MARK: - IBAction
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
         if viewModel.isFavorited {
-            viewModel.removeNewsInFavorites()
-            checkNewsInFavorites()
+            viewModel.removeNewsInFavorites { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    this.checkNewsInFavorites()
+                    print("delete news oke :D")
+                } else {
+                    print("Realm ERROR: \(error)")
+                }
+            }
         } else {
-            viewModel.addNewsInFavorites()
-            checkNewsInFavorites()
+            viewModel.addNewsInFavorites { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    this.checkNewsInFavorites()
+                    print("add in favorites oke :D")
+                } else {
+                    print("can't add favorite!!")
+                }
+            }
         }
     }
 

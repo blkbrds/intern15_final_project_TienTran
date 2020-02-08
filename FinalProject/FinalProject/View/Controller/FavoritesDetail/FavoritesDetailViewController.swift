@@ -22,12 +22,27 @@ final class FavoritesDetailViewController: BaseViewController {
         title = "Favorites Detail"
         configTableView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchData()
+    }
 
     // MARK: - Private funcs
     private func configTableView() {
         tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    private func fetchData() {
+        viewModel.fetchData { (done, msg) in
+            if done {
+                self.tableView.reloadData()
+            } else {
+                print("Realm Error: \(msg)")
+            }
+        }
     }
 }
 
@@ -41,7 +56,7 @@ extension FavoritesDetailViewController: UITableViewDelegate {
 // MARK: - TableViewDataSource
 extension FavoritesDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return viewModel.articles.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

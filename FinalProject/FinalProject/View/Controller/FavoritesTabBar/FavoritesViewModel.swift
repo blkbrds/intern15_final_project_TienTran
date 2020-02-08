@@ -19,6 +19,10 @@ extension FavoritesViewModel {
     }
 
     func getFavoritesCellViewModel(at indexPath: IndexPath) -> FavoritesCellViewModel {
-        return FavoritesCellViewModel(imageName: categories[indexPath.row].imageName)
+        return FavoritesCellViewModel(imageName: categories[indexPath.row].imageName, numberFavorites: getNumberArticlesForCategory(at: indexPath))
+    }
+    
+    func getNumberArticlesForCategory(at indexPath: IndexPath) -> Int {
+        return RealmManager.shared().getCountOfObjects()
     }
 }

@@ -5,20 +5,23 @@
 //  Created by PCI0002 on 1/13/20.
 //  Copyright © 2020 TranVanTien. All rights reserved.
 //
+import RealmSwift
+import Realm
 
-import Foundation
-
-struct Source: Codable {
-    var id: String?
-    var name: String = ""
+final class Source: Object, Codable {
+    @objc dynamic var name: String = ""
+    
+    override class func primaryKey() -> String? {
+        return "name"
+    }
 }
 
-struct News: Codable {
-    var source: Source = Source()
-    var titleNews: String = ""
-    var urlNews: String = ""
-    var urlImage: String?
-    var publishedAt: Date?
+final class News: Object, Codable {
+    var source: Source? = Source()
+    @objc dynamic var titleNews: String = ""
+    @objc dynamic var urlNews: String = ""
+    @objc dynamic var urlImage: String = ""
+    @objc dynamic var publishedAt: Date = Date.currentDate()
     
     enum CodingKeys: String, CodingKey {
         case source
@@ -27,10 +30,16 @@ struct News: Codable {
         case urlImage = "urlToImage"
         case publishedAt
     }
-}
 
-extension News {
-    init(from decoder: Decoder) throws {
+    override class func primaryKey() -> String? {
+        return "titleNews"
+    }
+    
+    required init() {
+        super.init()
+    }
+    
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         source = try container.decode(Source.self, forKey: .source)
         titleNews = try container.decode(String.self, forKey: .titleNews)

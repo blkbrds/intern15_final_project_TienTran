@@ -19,13 +19,23 @@ extension FavoritesDetailViewModel {
     }
 
     func getNewsCellViewModel(at indexPath: IndexPath) -> NewsTableViewCellViewModel {
+        let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
-            newsTitle: "newsTitle",
-            nameSource: "nameSource",
-            publishedAt: Date.currentDate(),
-            urlImage: "urlImage",
-            urlNews: "urlNews",
+            newsTitle: news.titleNews,
+            nameSource: news.source?.name ?? "",
+            publishedAt: news.publishedAt,
+            urlImage: news.urlImage,
+            urlNews: news.urlNews,
             indexPath: indexPath)
         return newsCellViewModel
+    }
+}
+
+extension FavoritesDetailViewModel {
+    
+    func fetchData(completion: @escaping Completion) {
+        let articles = RealmManager.shared().gets(News.self)
+        self.articles = articles
+        completion(true, "")
     }
 }
