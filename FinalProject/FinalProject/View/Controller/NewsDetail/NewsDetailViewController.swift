@@ -19,7 +19,7 @@ final class NewsDetailViewController: BaseViewController {
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
 
     // MARK: - Propertites
-    var viewModel: NewsDetailViewModel?
+    var viewModel = NewsDetailViewModel()
 
     // MARK: - config
     override func setupUI() {
@@ -37,12 +37,11 @@ final class NewsDetailViewController: BaseViewController {
     // MARK: - Private funcs
     private func configUI() {
         navigationItem.title = ""
-        guard let viewModel = viewModel else { return }
         title = viewModel.nameSource
-        
+
         activityIndicatorView.startAnimating()
         view.addSubview(activityIndicatorView)
-        
+
         previousNewsButton.isHidden = true
     }
 
@@ -53,14 +52,30 @@ final class NewsDetailViewController: BaseViewController {
     }
 
     private func loadWebView() {
-        guard let viewModel = viewModel, let newsURL = URL(string: viewModel.urlNews) else { return }
+        guard let urlNews = viewModel.urlNews, let newsURL = URL(string: urlNews) else { return }
         let urlRequest = URLRequest(url: newsURL)
         webView.load(urlRequest)
     }
 
+    private func checkNewsInFavorites() {
+        if viewModel.isFavorited {
+            favoritesButton.setImage(UIImage(named: "heart.fill"), for: .normal)
+            print("News in Favorite!")
+        } else {
+            favoritesButton.setImage(UIImage(named: "heart"), for: .normal)
+            print("News not in Favorite!")
+        }
+    }
+    
     // MARK: - IBAction
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
-        #warning("change favorites")
+        if viewModel.isFavorited {
+            viewModel.removeNewsInFavorites()
+            checkNewsInFavorites()
+        } else {
+            viewModel.addNewsInFavorites()
+            checkNewsInFavorites()
+        }
     }
 
     @IBAction private func previousNewsButtonTouchUpInside(_ sender: Any) {

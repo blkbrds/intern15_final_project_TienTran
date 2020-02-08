@@ -19,8 +19,7 @@ struct News: Codable {
     var urlNews: String = ""
     var urlImage: String?
     var publishedAt: Date?
-    var isFavorites: Bool = false
-
+    
     enum CodingKeys: String, CodingKey {
         case source
         case titleNews = "title"

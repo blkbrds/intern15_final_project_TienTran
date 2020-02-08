@@ -10,22 +10,37 @@ import Foundation
 
 final class NewsDetailViewModel {
 
-    var urlNews: String
-    var nameSource: String
-    var isFavorites: Bool
-    var indexPath: IndexPath
-    var favoritesImage: String {
-        if isFavorites {
+    var urlNews: String?
+    var nameSource: String?
+    var isFavorited: Bool = false
+    var indexPath: IndexPath?
+    var favoritesImage: String? {
+        if isFavorited {
             return "heart.fill"
         } else {
             return "heart"
         }
     }
 
-    init(urlNews: String, nameSource: String, isFavorites: Bool = false, indexPath: IndexPath) {
+    init() { }
+    
+    init(urlNews: String, nameSource: String, isFavorited: Bool = false, indexPath: IndexPath) {
         self.urlNews = urlNews
         self.nameSource = nameSource
-        self.isFavorites = isFavorites
+        self.isFavorited = isFavorited
         self.indexPath = indexPath
+    }
+}
+
+extension NewsDetailViewModel {
+    
+    func addNewsInFavorites() {
+        isFavorited = true
+        print("Add oke")
+    }
+    
+    func removeNewsInFavorites() {
+        isFavorited = false
+        print("Remove oke")
     }
 }

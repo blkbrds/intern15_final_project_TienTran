@@ -43,7 +43,6 @@ extension BaseHomeChildViewModel {
         let newsDetailViewModel = NewsDetailViewModel(
             urlNews: news.urlNews,
             nameSource: news.source.name,
-            isFavorites: news.isFavorites,
             indexPath: indexPath)
         return newsDetailViewModel
     }
