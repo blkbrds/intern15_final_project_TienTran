@@ -59,7 +59,6 @@ extension NewsDetailViewModel {
     /// check favorites contains news?
     func isRealmContainsObject() -> Bool {
         guard let news = news else { return false }
-
         return RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews)
     }
 }

@@ -20,6 +20,7 @@ final class News: Object, Codable {
     @objc dynamic var urlNews: String = ""
     @objc dynamic var urlImage: String = ""
     @objc dynamic var publishedAt: Date = Date.currentDate()
+    @objc dynamic var categoryNews: String = ""
 
     enum CodingKeys: String, CodingKey {
         case nameSource = "source"

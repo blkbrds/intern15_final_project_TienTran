@@ -51,7 +51,7 @@ extension BaseHomeChildViewModel {
 // MARK: - handle api
 extension BaseHomeChildViewModel {
 
-    // load api
+    /// load api
     func loadAPI(compeltion: @escaping Completion) {
         APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
             switch result {
@@ -60,14 +60,14 @@ extension BaseHomeChildViewModel {
                 compeltion(false, error.localizedDescription)
             case .success(let response):
                 self.articles.append(contentsOf: response.articles)
-
+                self.setCategoryInNews()
                 //call back
                 compeltion(true, "")
             }
         }
     }
 
-    // loadmore api
+    /// loadmore api
     func loadMoreAPI(compeltion: @escaping Completion) {
         currentPageParam += 1
         APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.param, country: "us") { result in
@@ -77,7 +77,7 @@ extension BaseHomeChildViewModel {
             case .success(let response):
                 if response.articles.count > 0 {
                     self.articles.append(contentsOf: response.articles)
-
+                    self.setCategoryInNews()
                     //call back
                     compeltion(true, "")
                 } else {
@@ -88,7 +88,7 @@ extension BaseHomeChildViewModel {
         }
     }
 
-    // load api
+    /// load api
     func refreshData(compeltion: @escaping Completion) {
         APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
             switch result {
@@ -97,14 +97,14 @@ extension BaseHomeChildViewModel {
                 compeltion(false, error.localizedDescription)
             case .success(let response):
                 self.articles = response.articles
-
+                self.setCategoryInNews()
                 //call back
                 compeltion(true, "")
             }
         }
     }
 
-    // dowload image
+    /// dowload image
     func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
         let news = articles[indexPath.row]
 
@@ -120,5 +120,10 @@ extension BaseHomeChildViewModel {
                 }
             }
         }
+    }
+
+    /// add category
+    func setCategoryInNews() {
+        articles.forEach { $0.categoryNews = screenType.param }
     }
 }
