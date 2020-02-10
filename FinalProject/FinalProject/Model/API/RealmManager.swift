@@ -42,25 +42,30 @@ extension RealmManager {
     func addObject<T: Object>(object: T, completion: @escaping Completion) {
         do {
             try realm.write {
-                realm.add(object)
-                completion(true, "")
+                if realm.isInWriteTransaction {
+                    realm.add(object)
+
+                    completion(true, "")
+                } else {
+                    completion(false, "Object has been saved in Realm")
+                }
             }
         } catch {
             completion(false, error.localizedDescription)
         }
     }
 
-    /// Delete  object from the Realm
-    func deleteObject<T: Object, KeyType>(object: T, forPrimaryKey key: KeyType, completion: @escaping Completion) {
-        guard let objectFormRealm = realm.object(ofType: T.self, forPrimaryKey: key) else {
-            completion(false, "Object no in realm")
-            return
-        }
 
+    /// Delete  object from the Realm
+    func deleteObject<T: Object>(object: T, completion: @escaping Completion) {
         do {
             try realm.write {
-                realm.delete(objectFormRealm)
-                completion(true, "")
+                if realm.isInWriteTransaction {
+                    realm.delete(object)
+                    completion(true, "")
+                } else {
+                    completion(false, "Object has been saved in Realm")
+                }
             }
         } catch {
             completion(false, error.localizedDescription)
@@ -68,7 +73,7 @@ extension RealmManager {
     }
 
     /// Get all object in the Realm
-    func gets<T: Object>(_ type: T.Type) -> [T] {
+    func getObjects<T: Object>(_ type: T.Type) -> [T] {
         let objects = Array(realm.objects(type))
         return objects
     }
@@ -79,7 +84,25 @@ extension RealmManager {
     }
 
     /// The local URL of the Realm file
-    func configurationFileeURL() -> URL? {
+    func configurationFileURL() -> URL? {
         return realm.configuration.fileURL
     }
+
+    // check realm have contains news?
+    func isRealmContainsObject<Element: Object, KeyType>(object: Element, forPrimaryKey key: KeyType) -> Bool {
+        guard realm.object(ofType: Element.self, forPrimaryKey: key) != nil else { return false }
+        return true
+    }
 }
+
+/*
+ func getObjectForKey<T: Object, K>(object: T.Type, forPrimaryKey: K, completion: @escaping (T?, APIError?) -> Void) {
+     guard let object = realm.object(ofType: T.self, forPrimaryKey: forPrimaryKey) else {
+         completion(nil, APIError.error("Empty Object with for Primary Key."))
+         return
+     }
+     completion(object, nil)
+ }
+ 
+ 
+ */

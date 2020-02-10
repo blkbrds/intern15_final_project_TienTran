@@ -22,19 +22,28 @@ extension FavoritesDetailViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: news.titleNews,
-            nameSource: news.source?.name ?? "",
+            nameSource: news.nameSource,
             publishedAt: news.publishedAt,
             urlImage: news.urlImage,
             urlNews: news.urlNews,
             indexPath: indexPath)
         return newsCellViewModel
     }
+
+    func getNewsDetailViewModel(at indexPath: IndexPath) -> NewsDetailViewModel {
+        let news = articles[indexPath.row]
+        let newsDetailViewModel = NewsDetailViewModel(
+            news: news,
+            indexPath: indexPath,
+            isFavorited: RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews))
+        return newsDetailViewModel
+    }
 }
 
 extension FavoritesDetailViewModel {
-    
+
     func fetchData(completion: @escaping Completion) {
-        let articles = RealmManager.shared().gets(News.self)
+        let articles = RealmManager.shared().getObjects(News.self)
         self.articles = articles
         completion(true, "")
     }

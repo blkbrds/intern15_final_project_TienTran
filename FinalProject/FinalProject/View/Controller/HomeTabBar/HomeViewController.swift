@@ -37,8 +37,6 @@ final class HomeViewController: BaseViewController {
         categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
-
-
     }
 
     override func viewWillAppear(_ animated: Bool) {

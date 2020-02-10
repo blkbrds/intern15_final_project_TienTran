@@ -21,6 +21,7 @@ final class FavoritesViewController: BaseViewController {
         super.setupUI()
         title = "Favorites"
         configCollectionView()
+        print(RealmManager.shared().configurationFileURL())
     }
 
     // MARK: - Private funcs

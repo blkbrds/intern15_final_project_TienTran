@@ -23,9 +23,10 @@ final class NewsDetailViewModel {
 
     init() { }
 
-    init(news: News, indexPath: IndexPath) {
+    init(news: News, indexPath: IndexPath, isFavorited: Bool = false) {
         self.news = news
         self.indexPath = indexPath
+        self.isFavorited = isFavorited
     }
 }
 
@@ -45,7 +46,7 @@ extension NewsDetailViewModel {
 
     func removeNewsInFavorites(completion: @escaping Completion) {
         guard let news = news else { return }
-        RealmManager.shared().deleteObject(object: news, forPrimaryKey: news.titleNews) { (done, error) in
+        RealmManager.shared().deleteObject(object: news) { (done, error) in
             if done {
                 self.isFavorited = false
                 completion(done, "")
@@ -53,5 +54,12 @@ extension NewsDetailViewModel {
                 completion(done, error)
             }
         }
+    }
+
+    /// check favorites contains news?
+    func isRealmContainsObject() -> Bool {
+        guard let news = news else { return false }
+
+        return RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews)
     }
 }

@@ -8,23 +8,21 @@
 import RealmSwift
 import Realm
 
-final class Source: Object, Codable {
-    @objc dynamic var name: String = ""
-    
-    override class func primaryKey() -> String? {
-        return "name"
-    }
+final class Source: Codable {
+    var id: String? = ""
+    var name: String = ""
 }
 
 final class News: Object, Codable {
-    var source: Source? = Source()
+//    @objc dynamic var source: Source? = Source()
+    @objc dynamic var nameSource: String = ""
     @objc dynamic var titleNews: String = ""
     @objc dynamic var urlNews: String = ""
     @objc dynamic var urlImage: String = ""
     @objc dynamic var publishedAt: Date = Date.currentDate()
-    
+
     enum CodingKeys: String, CodingKey {
-        case source
+        case nameSource = "source"
         case titleNews = "title"
         case urlNews = "url"
         case urlImage = "urlToImage"
@@ -32,16 +30,16 @@ final class News: Object, Codable {
     }
 
     override class func primaryKey() -> String? {
-        return "titleNews"
+        return "urlNews"
     }
-    
+
     required init() {
         super.init()
     }
-    
+
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        source = try container.decode(Source.self, forKey: .source)
+        nameSource = try container.decode(Source.self, forKey: .nameSource).name
         titleNews = try container.decode(String.self, forKey: .titleNews)
         urlNews = try container.decode(String.self, forKey: .urlNews)
         urlImage = try container.decode(String.self, forKey: .urlImage)

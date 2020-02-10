@@ -22,7 +22,7 @@ final class FavoritesDetailViewController: BaseViewController {
         title = "Favorites Detail"
         configTableView()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchData()
@@ -34,7 +34,7 @@ final class FavoritesDetailViewController: BaseViewController {
         tableView.dataSource = self
         tableView.delegate = self
     }
-    
+
     private func fetchData() {
         viewModel.fetchData { (done, msg) in
             if done {
@@ -50,6 +50,12 @@ final class FavoritesDetailViewController: BaseViewController {
 extension FavoritesDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 160
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newsDetail = NewsDetailViewController()
+        newsDetail.viewModel = viewModel.getNewsDetailViewModel(at: indexPath)
+        nextToViewController(viewcontroller: newsDetail)
     }
 }
 

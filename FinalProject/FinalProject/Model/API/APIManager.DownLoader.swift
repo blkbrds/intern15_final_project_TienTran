@@ -47,10 +47,11 @@ extension APIManager.Downloader {
         }
         dataImageKeys.append(urlString)
         dataImages[urlString] = data
+        let indexMidDataImageKeys = (dataImageKeys.count - 1) / 2
 
         if dataImageKeys.count > 60 {
-            dataImages.removeValue(forKey: dataImageKeys[0])
-            dataImageKeys.remove(at: 0)
+            dataImages.removeValue(forKey: dataImageKeys[indexMidDataImageKeys])
+            dataImageKeys.remove(at: indexMidDataImageKeys)
         }
 
         UserDefaults.standard.set(dataImages, forKey: "dataImages")

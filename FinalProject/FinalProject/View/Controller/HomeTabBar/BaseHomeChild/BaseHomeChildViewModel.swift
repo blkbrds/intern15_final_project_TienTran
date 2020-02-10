@@ -30,7 +30,7 @@ extension BaseHomeChildViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: news.titleNews,
-            nameSource: news.source?.name ?? "",
+            nameSource: news.nameSource,
             publishedAt: news.publishedAt,
             urlImage: news.urlImage,
             urlNews: news.urlNews,
@@ -42,7 +42,8 @@ extension BaseHomeChildViewModel {
         let news = articles[indexPath.row]
         let newsDetailViewModel = NewsDetailViewModel(
             news: news,
-            indexPath: indexPath)
+            indexPath: indexPath,
+            isFavorited: RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews))
         return newsDetailViewModel
     }
 }

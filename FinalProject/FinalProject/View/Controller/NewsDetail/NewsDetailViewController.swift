@@ -26,24 +26,29 @@ final class NewsDetailViewController: BaseViewController {
         super.setupUI()
         configUI()
         configNewsWebView()
-        print(RealmManager.shared().configurationFileeURL())
     }
 
     // MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        configStatusFavoriteButton()
     }
 
     // MARK: - Private funcs
     private func configUI() {
         navigationItem.title = ""
-        title = viewModel.news?.source?.name
-
+        title = viewModel.news?.nameSource
         activityIndicatorView.startAnimating()
         view.addSubview(activityIndicatorView)
 
         previousNewsButton.isHidden = true
+    }
+
+    private func configStatusFavoriteButton() {
+        if viewModel.isRealmContainsObject() {
+            checkNewsInFavorites()
+        }
     }
 
     private func configNewsWebView() {
