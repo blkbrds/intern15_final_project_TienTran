@@ -6,5 +6,7 @@ target 'FinalProject' do
   use_frameworks!
 
   # Pods for FinalProject
-  pod 'RealmSwift' 
+  pod 'SwiftLint' # A tool to enforce Swift style and conventions.
+
+
 end
