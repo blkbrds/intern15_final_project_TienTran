@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import RealmSwift
 
 final class FavoritesViewModel {
     var categories: [CategoryType] = CategoryType.allCases
+    var notificationToken: NotificationToken? = nil
 }
 
 extension FavoritesViewModel {
@@ -19,10 +21,16 @@ extension FavoritesViewModel {
     }
 
     func getFavoritesCellViewModel(at indexPath: IndexPath) -> FavoritesCellViewModel {
-        return FavoritesCellViewModel(imageName: categories[indexPath.row].imageName, numberFavorites: getNumberArticlesForCategory(at: indexPath))
+        return FavoritesCellViewModel(imageName: categories[indexPath.row].imageName, numberFavorites: getNumberArticlesForCategory(at: indexPath), favoritesType: categories[indexPath.row])
     }
-    
+
     func getNumberArticlesForCategory(at indexPath: IndexPath) -> Int {
-        return RealmManager.shared().getCountOfObjects()
+        let categoryType = categories[indexPath.row]
+        return RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param).count
+    }
+
+    func getFavoritesDetailViewModel(at indexPath: IndexPath) -> FavoritesDetailViewModel {
+        let categoryType = categories[indexPath.row]
+        return FavoritesDetailViewModel(categoryType: categoryType)
     }
 }

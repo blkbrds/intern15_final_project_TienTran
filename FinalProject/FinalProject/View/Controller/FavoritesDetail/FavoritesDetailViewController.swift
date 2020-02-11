@@ -19,13 +19,19 @@ final class FavoritesDetailViewController: BaseViewController {
     // MARK: - config
     override func setupUI() {
         super.setupUI()
-        title = "Favorites Detail"
+        title = "Favorites of \(viewModel.categoryType.text)"
         configTableView()
+
+    }
+
+    override func setupData() {
+        super.setupData()
+        fetchData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchData()
+//        fetchData()
     }
 
     // MARK: - Private funcs

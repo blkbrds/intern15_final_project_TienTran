@@ -25,6 +25,7 @@ final class CategoryCell: UICollectionViewCell {
         super.awakeFromNib()
         backgroundColorView.clipsToBounds = true
         backgroundColorView.layer.cornerRadius = 2
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.autoresizingMask = [.flexibleWidth]
     }
 

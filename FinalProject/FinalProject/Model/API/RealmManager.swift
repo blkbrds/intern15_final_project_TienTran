@@ -34,37 +34,50 @@ final class RealmManager {
             fatalError("Realm not exist! \(error.localizedDescription)")
         }
     }()
+
+    private var notificationToken: NotificationToken?
 }
 
 extension RealmManager {
+
+    // MARK: Notifications
+    func setupObserve<T: Object>(_ type: T.Type, completion: @escaping Completion) {
+        notificationToken = realm.objects(type).observe({ change in
+            switch change {
+            case .error(let error):
+                completion(false, error.localizedDescription)
+            default:
+                completion(true, "")
+            }
+        })
+    }
+
+    /// invalidate
+    func invalidateNotificationToken() {
+        notificationToken?.invalidate()
+    }
 
     /// Add object to the Realm
     func addObject<T: Object>(object: T, completion: @escaping Completion) {
         do {
             try realm.write {
-                if realm.isInWriteTransaction {
-                    realm.add(object)
-
-                    completion(true, "")
-                } else {
-                    completion(false, "Object has been saved in Realm")
-                }
+                realm.create(T.self, value: object, update: .all)
+                completion(true, "")
             }
         } catch {
             completion(false, error.localizedDescription)
         }
     }
 
-
     /// Delete  object from the Realm
-    func deleteObject<T: Object>(object: T, completion: @escaping Completion) {
+    func deleteObject<T: Object, KeyType>(object: T, forPrimaryKey key: KeyType, completion: @escaping Completion) {
         do {
             try realm.write {
-                if realm.isInWriteTransaction {
-                    realm.delete(object)
+                if let obj = getObjectForKey(object: object, forPrimaryKey: key) {
+                    realm.delete(obj)
                     completion(true, "")
                 } else {
-                    completion(false, "Object has been saved in Realm")
+                    completion(false, "No object in Realm")
                 }
             }
         } catch {
@@ -78,31 +91,26 @@ extension RealmManager {
         return objects
     }
 
-    /// getNumberArticlesForCategory
-    func getCountOfObjects() -> Int {
-        return 10
-    }
-
     /// The local URL of the Realm file
     func configurationFileURL() -> URL? {
         return realm.configuration.fileURL
     }
 
-    // check realm have contains news?
-    func isRealmContainsObject<Element: Object, KeyType>(object: Element, forPrimaryKey key: KeyType) -> Bool {
-        guard realm.object(ofType: Element.self, forPrimaryKey: key) != nil else { return false }
+    /// Check Realm have contains news?
+    func isRealmContainsObject<T: Object, KeyType>(object: T, forPrimaryKey key: KeyType) -> Bool {
+        guard getObjectForKey(object: object, forPrimaryKey: key) != nil else { return false }
         return true
     }
-}
 
-/*
- func getObjectForKey<T: Object, K>(object: T.Type, forPrimaryKey: K, completion: @escaping (T?, APIError?) -> Void) {
-     guard let object = realm.object(ofType: T.self, forPrimaryKey: forPrimaryKey) else {
-         completion(nil, APIError.error("Empty Object with for Primary Key."))
-         return
-     }
-     completion(object, nil)
- }
- 
- 
- */
+    /// Get objec for key
+    func getObjectForKey<Element: Object, KeyType>(object: Element, forPrimaryKey key: KeyType) -> Element? {
+        return realm.object(ofType: Element.self, forPrimaryKey: key)
+    }
+
+    /// Get all news for Category in the Realm
+    func getNewsForCategoryInRealm(query: String) -> [News] {
+        let objects = realm.objects(News.self).filter { $0.categoryNews == query }
+        let ars = Array(objects)
+        return ars
+    }
+}

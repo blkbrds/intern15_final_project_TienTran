@@ -33,6 +33,7 @@ final class NewsDetailViewController: BaseViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
         configStatusFavoriteButton()
+        print(viewModel.news?.categoryNews ?? "")
     }
 
     // MARK: - Private funcs

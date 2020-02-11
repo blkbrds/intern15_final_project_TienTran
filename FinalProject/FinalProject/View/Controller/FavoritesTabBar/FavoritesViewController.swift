@@ -15,20 +15,39 @@ final class FavoritesViewController: BaseViewController {
 
     // MARK: - Properties
     var viewModel = FavoritesViewModel()
-    
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         title = "Favorites"
         configCollectionView()
-        print(RealmManager.shared().configurationFileURL())
+        
+        
+        RealmManager.shared().setupObserve(News.self) { (done, erro) in
+            if done {
+                self.collectionView.reloadData()
+            } else {
+                print("Reaml ERROR: \(erro)")
+            }
+        }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        collectionView.reloadData()
+    }
+    
     // MARK: - Private funcs
     private func configCollectionView() {
         collectionView.register(UINib(nibName: Config.favoritesCell, bundle: .main), forCellWithReuseIdentifier: Config.favoritesCell)
         collectionView.dataSource = self
         collectionView.delegate = self
+    }
+    
+    
+
+    deinit {
+        RealmManager.shared().invalidateNotificationToken()
     }
 }
 
@@ -47,6 +66,7 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         #warning("show detail favorites")
         let favoritesDetailVC = FavoritesDetailViewController() /// truyen category type vao viewModel
+        favoritesDetailVC.viewModel = viewModel.getFavoritesDetailViewModel(at: indexPath)
         nextToViewController(viewcontroller: favoritesDetailVC)
     }
 }

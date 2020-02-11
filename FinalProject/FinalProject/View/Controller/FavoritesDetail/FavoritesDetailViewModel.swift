@@ -9,8 +9,14 @@
 import Foundation
 
 final class FavoritesDetailViewModel {
-    var categoryType: CategoryType = .us
+
+    var categoryType: CategoryType
     var articles: [News] = []
+
+    init(articles: [News] = [], categoryType: CategoryType = .us) {
+        self.articles = articles
+        self.categoryType = categoryType
+    }
 }
 
 extension FavoritesDetailViewModel {
@@ -43,7 +49,7 @@ extension FavoritesDetailViewModel {
 extension FavoritesDetailViewModel {
 
     func fetchData(completion: @escaping Completion) {
-        let articles = RealmManager.shared().getObjects(News.self)
+        let articles = RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param)
         self.articles = articles
         completion(true, "")
     }
