@@ -34,6 +34,7 @@ extension APIManager.News {
                         let response = try JSONDecoder().decode(Response.self, from: data)
                         completion(.success(response))
                     } catch {
+                        print(urlString)
                         completion(.failure(.error(error.localizedDescription + "---- \(category)")))
                     }
                 } else {

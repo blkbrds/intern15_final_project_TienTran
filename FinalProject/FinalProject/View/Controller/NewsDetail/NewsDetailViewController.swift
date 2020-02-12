@@ -26,6 +26,7 @@ final class NewsDetailViewController: BaseViewController {
         super.setupUI()
         configUI()
         configNewsWebView()
+        configStatusFavoriteButton()
     }
 
     // MARK: - Life cycle
@@ -44,6 +45,12 @@ final class NewsDetailViewController: BaseViewController {
         previousNewsButton.isHidden = true
     }
 
+    private func configStatusFavoriteButton() {
+        if viewModel.isRealmContainsObject() {
+            checkNewsInFavorites()
+        }
+    }
+
     private func configNewsWebView() {
         loadWebView()
         webView.uiDelegate = self
@@ -56,9 +63,37 @@ final class NewsDetailViewController: BaseViewController {
         webView.load(urlRequest)
     }
 
+    private func checkNewsInFavorites() {
+        if viewModel.isFavorited {
+            favoritesButton.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
+        } else {
+            favoritesButton.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
+        }
+    }
+
     // MARK: - IBAction
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
-        #warning("change favorites")
+        if viewModel.isFavorited {
+            viewModel.removeNewsInFavorites { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    this.checkNewsInFavorites()
+                    print("delete news, ok!")
+                } else {
+                    print("Realm ERROR: \(error)")
+                }
+            }
+        } else {
+            viewModel.addNewsInFavorites { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    this.checkNewsInFavorites()
+                    print("add in favorites, ok!")
+                } else {
+                    print("can't add favorite!, Realm Error: \(error)")
+                }
+            }
+        }
     }
 
     @IBAction private func previousNewsButtonTouchUpInside(_ sender: Any) {

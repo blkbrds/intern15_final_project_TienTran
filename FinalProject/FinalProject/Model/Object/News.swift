@@ -19,12 +19,12 @@ final class Source: Object, Codable {
 
 final class News: Object, Codable {
     @objc dynamic var source: Source? = Source()
-    @objc dynamic var titleNews: String = ""
-    @objc dynamic var urlNews: String = ""
-    @objc dynamic var urlImage: String = ""
-    @objc dynamic var publishedAt: Date = Date.currentDate()
-    @objc dynamic var content: String = ""
-    @objc dynamic var categoryNews: String = ""
+    @objc dynamic var titleNews: String? = ""
+    @objc dynamic var urlNews: String? = ""
+    @objc dynamic var urlImage: String? = ""
+    @objc dynamic var publishedAt: Date? = Date.currentDate()
+    @objc dynamic var content: String? = ""
+    @objc dynamic var categoryNews: String? = ""
 
     enum CodingKeys: String, CodingKey {
         case source = "source"
