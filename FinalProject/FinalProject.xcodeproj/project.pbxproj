@@ -18,6 +18,12 @@
 		F06C195723EBC5FA00EA77C4 /* FavoritesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C195623EBC5FA00EA77C4 /* FavoritesCellViewModel.swift */; };
 		F082A75423F3B5CA002CB0EF /* NewsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */; };
 		F082A75623F3B7D2002CB0EF /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A75523F3B7D2002CB0EF /* RealmManager.swift */; };
+		F082A76E23F3EE65002CB0EF /* FavoritesDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A76823F3EE65002CB0EF /* FavoritesDetailCell.swift */; };
+		F082A76F23F3EE65002CB0EF /* FavoritesDetailCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A76923F3EE65002CB0EF /* FavoritesDetailCellViewModel.swift */; };
+		F082A77023F3EE65002CB0EF /* FavoritesDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F082A76A23F3EE65002CB0EF /* FavoritesDetailCell.xib */; };
+		F082A77123F3EE65002CB0EF /* FavoritesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A76B23F3EE65002CB0EF /* FavoritesDetailViewController.swift */; };
+		F082A77223F3EE65002CB0EF /* FavoritesDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F082A76C23F3EE65002CB0EF /* FavoritesDetailViewController.xib */; };
+		F082A77323F3EE65002CB0EF /* FavoritesDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A76D23F3EE65002CB0EF /* FavoritesDetailViewModel.swift */; };
 		F094DAA523BED339008221E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAA423BED339008221E9 /* AppDelegate.swift */; };
 		F094DAA723BED339008221E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAA623BED339008221E9 /* SceneDelegate.swift */; };
 		F094DAAE23BED33B008221E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F094DAAD23BED33B008221E9 /* Assets.xcassets */; };
@@ -62,6 +68,12 @@
 		F06C195623EBC5FA00EA77C4 /* FavoritesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCellViewModel.swift; sourceTree = "<group>"; };
 		F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModel.swift; sourceTree = "<group>"; };
 		F082A75523F3B7D2002CB0EF /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		F082A76823F3EE65002CB0EF /* FavoritesDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesDetailCell.swift; sourceTree = "<group>"; };
+		F082A76923F3EE65002CB0EF /* FavoritesDetailCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesDetailCellViewModel.swift; sourceTree = "<group>"; };
+		F082A76A23F3EE65002CB0EF /* FavoritesDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoritesDetailCell.xib; sourceTree = "<group>"; };
+		F082A76B23F3EE65002CB0EF /* FavoritesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesDetailViewController.swift; sourceTree = "<group>"; };
+		F082A76C23F3EE65002CB0EF /* FavoritesDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoritesDetailViewController.xib; sourceTree = "<group>"; };
+		F082A76D23F3EE65002CB0EF /* FavoritesDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesDetailViewModel.swift; sourceTree = "<group>"; };
 		F094DAA123BED339008221E9 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F094DAA423BED339008221E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F094DAA623BED339008221E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +164,28 @@
 			path = Realm;
 			sourceTree = "<group>";
 		};
+		F082A76623F3EE65002CB0EF /* FavoritesDetail */ = {
+			isa = PBXGroup;
+			children = (
+				F082A76723F3EE65002CB0EF /* FavoritesDetailCell */,
+				F082A76B23F3EE65002CB0EF /* FavoritesDetailViewController.swift */,
+				F082A76C23F3EE65002CB0EF /* FavoritesDetailViewController.xib */,
+				F082A76D23F3EE65002CB0EF /* FavoritesDetailViewModel.swift */,
+			);
+			name = FavoritesDetail;
+			path = ../../../../../final/FinalProject/FinalProject/View/Controller/FavoritesDetail;
+			sourceTree = "<group>";
+		};
+		F082A76723F3EE65002CB0EF /* FavoritesDetailCell */ = {
+			isa = PBXGroup;
+			children = (
+				F082A76823F3EE65002CB0EF /* FavoritesDetailCell.swift */,
+				F082A76923F3EE65002CB0EF /* FavoritesDetailCellViewModel.swift */,
+				F082A76A23F3EE65002CB0EF /* FavoritesDetailCell.xib */,
+			);
+			path = FavoritesDetailCell;
+			sourceTree = "<group>";
+		};
 		F094DA9823BED338008221E9 = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +256,7 @@
 		F094DAE623BED3ED008221E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F082A76623F3EE65002CB0EF /* FavoritesDetail */,
 				F094DAF723BED41A008221E9 /* NewsDetail */,
 				F094DB0023BED41A008221E9 /* SearchNewsTabBar */,
 				F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */,
@@ -422,8 +457,10 @@
 				F094DAB123BED33B008221E9 /* LaunchScreen.storyboard in Resources */,
 				F094DAAE23BED33B008221E9 /* Assets.xcassets in Resources */,
 				F06C195523EBC5E300EA77C4 /* FavoritesCell.xib in Resources */,
+				F082A77023F3EE65002CB0EF /* FavoritesDetailCell.xib in Resources */,
 				F094DB2323BEE00E008221E9 /* NewsTableViewCell.xib in Resources */,
 				F06C194A23EBBEEB00EA77C4 /* FavoritesViewController.xib in Resources */,
+				F082A77223F3EE65002CB0EF /* FavoritesDetailViewController.xib in Resources */,
 				F094DB0A23BED41A008221E9 /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -504,6 +541,8 @@
 				F06C194C23EBC55100EA77C4 /* FavoritesViewModel.swift in Sources */,
 				F0E910A323CC6D2600038918 /* String.swift in Sources */,
 				F0DF3D6323CDC22300E1CD48 /* UIImageViewExt.swift in Sources */,
+				F082A77323F3EE65002CB0EF /* FavoritesDetailViewModel.swift in Sources */,
+				F082A76F23F3EE65002CB0EF /* FavoritesDetailCellViewModel.swift in Sources */,
 				F0DF3D5E23CDBD1400E1CD48 /* APIManager.News.swift in Sources */,
 				F0DF3D6023CDBD1400E1CD48 /* APIManager.swift in Sources */,
 				F094DAA523BED339008221E9 /* AppDelegate.swift in Sources */,
@@ -513,6 +552,7 @@
 				F02657CF23CD675300C530EC /* NewsTableViewCellViewModel.swift in Sources */,
 				F094DB0C23BED41A008221E9 /* NewsDetailViewController.swift in Sources */,
 				F0E910A123CC6D0900038918 /* Errors.swift in Sources */,
+				F082A76E23F3EE65002CB0EF /* FavoritesDetailCell.swift in Sources */,
 				F094DAA723BED339008221E9 /* SceneDelegate.swift in Sources */,
 				F094DAE923BED400008221E9 /* BaseViewController.swift in Sources */,
 				F0E9109F23CC6CF400038918 /* App.swift in Sources */,
@@ -520,6 +560,7 @@
 				F06C195423EBC5E300EA77C4 /* FavoritesCell.swift in Sources */,
 				F094DB2423BEE00E008221E9 /* NewsTableViewCell.swift in Sources */,
 				F0E9109A23CC657400038918 /* BaseHomeChildViewModel.swift in Sources */,
+				F082A77123F3EE65002CB0EF /* FavoritesDetailViewController.swift in Sources */,
 				F0E910A923CC78BF00038918 /* CategoryCell.swift in Sources */,
 				F0DF3D5D23CDBD1400E1CD48 /* News.swift in Sources */,
 				F0DF3D6123CDBD1400E1CD48 /* API.swift in Sources */,

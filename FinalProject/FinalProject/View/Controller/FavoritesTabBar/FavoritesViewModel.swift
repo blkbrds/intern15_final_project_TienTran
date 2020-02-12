@@ -26,4 +26,9 @@ extension FavoritesViewModel {
         let categoryType = categories[indexPath.row]
         return RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param).count
     }
+
+    func getFavoritesDetailViewModel(at indexPath: IndexPath) -> FavoritesDetailViewModel {
+        let categoryType = categories[indexPath.row]
+        return FavoritesDetailViewModel(categoryType: categoryType)
+    }
 }
