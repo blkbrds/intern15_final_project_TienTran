@@ -53,6 +53,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [homeScreen, favoritesScreen]
-        window?.rootViewController = UIViewController()
+        window?.rootViewController = tabBarController
     }
 }
