@@ -47,7 +47,7 @@ final class NewsDetailViewController: BaseViewController {
 
     private func configStatusFavoriteButton() {
         if viewModel.isRealmContainsObject() {
-            checkNewsInFavorites()
+            checkNewsInRealm()
         }
     }
 
@@ -63,7 +63,7 @@ final class NewsDetailViewController: BaseViewController {
         webView.load(urlRequest)
     }
 
-    private func checkNewsInFavorites() {
+    private func checkNewsInRealm() {
         if viewModel.isFavorited {
             favoritesButton.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
         } else {
@@ -77,7 +77,7 @@ final class NewsDetailViewController: BaseViewController {
             viewModel.removeNewsInFavorites { [weak self] (done, error) in
                 guard let this = self else { return }
                 if done {
-                    this.checkNewsInFavorites()
+                    this.checkNewsInRealm()
                     print("delete news, ok!")
                 } else {
                     print("Realm ERROR: \(error)")
@@ -87,7 +87,7 @@ final class NewsDetailViewController: BaseViewController {
             viewModel.addNewsInFavorites { [weak self] (done, error) in
                 guard let this = self else { return }
                 if done {
-                    this.checkNewsInFavorites()
+                    this.checkNewsInRealm()
                     print("add in favorites, ok!")
                 } else {
                     print("can't add favorite!, Realm Error: \(error)")
