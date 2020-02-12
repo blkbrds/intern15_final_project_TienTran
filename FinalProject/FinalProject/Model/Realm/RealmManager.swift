@@ -41,6 +41,18 @@ final class RealmManager {
 extension RealmManager {
 
     // MARK: Notifications
+    func setupObserve2<T: Object>(_ type: T.Type, completion: @escaping Completion) -> NotificationToken {
+        let notificationToken = realm.objects(type).observe({ change in
+            switch change {
+            case .error(let error):
+                completion(false, error.localizedDescription)
+            default:
+                completion(true, "")
+            }
+        })
+        return notificationToken
+    }
+
     func setupObserve<T: Object>(_ type: T.Type, completion: @escaping Completion) {
         notificationToken = realm.objects(type).observe({ change in
             switch change {

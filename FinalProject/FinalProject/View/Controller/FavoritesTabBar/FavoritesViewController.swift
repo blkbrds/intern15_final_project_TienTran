@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class FavoritesViewController: BaseViewController {
 
@@ -15,6 +16,8 @@ final class FavoritesViewController: BaseViewController {
 
     // MARK: - Properties
     var viewModel = FavoritesViewModel()
+    var notify: NotificationToken?
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()
@@ -31,17 +34,25 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        RealmManager.shared().setupObserve(News.self) { (done, error) in
+        notify = RealmManager.shared().setupObserve2(News.self) { (done, error) in
             if done {
                 self.collectionView.reloadData()
             } else {
                 print("Reaml ERROR: \(error)")
             }
         }
+//        RealmManager.shared().setupObserve(News.self) { (done, error) in
+//            if done {
+//                self.collectionView.reloadData()
+//            } else {
+//                print("Reaml ERROR: \(error)")
+//            }
+//        }
     }
 
     deinit {
-        RealmManager.shared().invalidateNotificationToken()
+//        RealmManager.shared().invalidateNotificationToken()
+        notify?.invalidate()
     }
 }
 
