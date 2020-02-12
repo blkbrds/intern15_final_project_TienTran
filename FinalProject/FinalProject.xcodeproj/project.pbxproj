@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,8 @@
 		F06C195423EBC5E300EA77C4 /* FavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C195223EBC5E300EA77C4 /* FavoritesCell.swift */; };
 		F06C195523EBC5E300EA77C4 /* FavoritesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F06C195323EBC5E300EA77C4 /* FavoritesCell.xib */; };
 		F06C195723EBC5FA00EA77C4 /* FavoritesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C195623EBC5FA00EA77C4 /* FavoritesCellViewModel.swift */; };
+		F082A75423F3B5CA002CB0EF /* NewsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */; };
+		F082A75623F3B7D2002CB0EF /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A75523F3B7D2002CB0EF /* RealmManager.swift */; };
 		F094DAA523BED339008221E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAA423BED339008221E9 /* AppDelegate.swift */; };
 		F094DAA723BED339008221E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAA623BED339008221E9 /* SceneDelegate.swift */; };
 		F094DAAE23BED33B008221E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F094DAAD23BED33B008221E9 /* Assets.xcassets */; };
@@ -58,6 +60,8 @@
 		F06C195223EBC5E300EA77C4 /* FavoritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesCell.swift; sourceTree = "<group>"; };
 		F06C195323EBC5E300EA77C4 /* FavoritesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoritesCell.xib; sourceTree = "<group>"; };
 		F06C195623EBC5FA00EA77C4 /* FavoritesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCellViewModel.swift; sourceTree = "<group>"; };
+		F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModel.swift; sourceTree = "<group>"; };
+		F082A75523F3B7D2002CB0EF /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F094DAA123BED339008221E9 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F094DAA423BED339008221E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F094DAA623BED339008221E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +150,14 @@
 			children = (
 			);
 			path = FavoritesForCategoryDetail;
+			sourceTree = "<group>";
+		};
+		F082A75723F3B7D7002CB0EF /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				F082A75523F3B7D2002CB0EF /* RealmManager.swift */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		F094DA9823BED338008221E9 = {
@@ -262,6 +274,7 @@
 		F094DAF723BED41A008221E9 /* NewsDetail */ = {
 			isa = PBXGroup;
 			children = (
+				F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */,
 				F094DAF823BED41A008221E9 /* NewsDetailViewController.swift */,
 				F094DAF923BED41A008221E9 /* NewsDetailViewController.xib */,
 			);
@@ -306,6 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				F0DF3D5223CDBD1400E1CD48 /* Object */,
+				F082A75723F3B7D7002CB0EF /* Realm */,
 				F0DF3D5423CDBD1400E1CD48 /* API */,
 			);
 			path = Model;
@@ -361,6 +375,7 @@
 				F094DA9D23BED339008221E9 /* Sources */,
 				F094DA9E23BED339008221E9 /* Frameworks */,
 				F094DA9F23BED339008221E9 /* Resources */,
+				F5ACC12C9E0C7C398D226FD4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -464,6 +479,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F5ACC12C9E0C7C398D226FD4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinalProject/Pods-FinalProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -471,6 +503,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F082A75423F3B5CA002CB0EF /* NewsDetailViewModel.swift in Sources */,
 				F038D99323CEBD5D00482320 /* APIManager.DownLoader.swift in Sources */,
 				F094DB0B23BED41A008221E9 /* HomeViewController.swift in Sources */,
 				F094DB2523BEE00E008221E9 /* BaseHomeChildViewController.swift in Sources */,
@@ -484,6 +517,7 @@
 				F094DAA523BED339008221E9 /* AppDelegate.swift in Sources */,
 				F06C194923EBBEEB00EA77C4 /* FavoritesViewController.swift in Sources */,
 				F06C195723EBC5FA00EA77C4 /* FavoritesCellViewModel.swift in Sources */,
+				F082A75623F3B7D2002CB0EF /* RealmManager.swift in Sources */,
 				F02657CF23CD675300C530EC /* NewsTableViewCellViewModel.swift in Sources */,
 				F094DB0C23BED41A008221E9 /* NewsDetailViewController.swift in Sources */,
 				F0E910A123CC6D0900038918 /* Errors.swift in Sources */,

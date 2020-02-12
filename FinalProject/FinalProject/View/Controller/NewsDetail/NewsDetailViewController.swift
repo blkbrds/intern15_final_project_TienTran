@@ -19,7 +19,7 @@ final class NewsDetailViewController: BaseViewController {
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
 
     // MARK: - Propertites
-    var viewModel: NewsDetailViewModel?
+    var viewModel = NewsDetailViewModel()
 
     // MARK: - config
     override func setupUI() {
@@ -37,13 +37,7 @@ final class NewsDetailViewController: BaseViewController {
     // MARK: - Private funcs
     private func configUI() {
         navigationItem.title = ""
-        guard let viewModel = viewModel else { return }
-        title = viewModel.nameSource
-
-        let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .done, target: self, action: #selector(leftBarButtonItemTouchUpInside))
-        leftBarButtonItem.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
-        navigationItem.leftBarButtonItem = leftBarButtonItem
-
+        title = viewModel.news?.source?.name
         activityIndicatorView.startAnimating()
         view.addSubview(activityIndicatorView)
 
@@ -61,7 +55,7 @@ final class NewsDetailViewController: BaseViewController {
     }
 
     private func loadWebView() {
-        guard let viewModel = viewModel, let newsURL = URL(string: viewModel.urlNews) else { return }
+        guard let urlNews = viewModel.news?.urlNews, let newsURL = URL(string: urlNews) else { return }
         let urlRequest = URLRequest(url: newsURL)
         webView.load(urlRequest)
     }
@@ -86,15 +80,5 @@ extension NewsDetailViewController: WKNavigationDelegate {
         }
         activityIndicatorView.stopAnimating()
         activityIndicatorView.isHidden = true
-    }
-}
-
-// MARK: - CustomNavigationBarViewDelegate
-extension NewsDetailViewController: CustomNavigationBarViewDelegate {
-    func customView(_ customView: CustomNavigationBarView, needPerform action: CustomNavigationBarView.Action) {
-        switch action {
-        case .previousToViewController:
-            previousToViewController()
-        }
     }
 }
