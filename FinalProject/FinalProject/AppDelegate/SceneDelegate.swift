@@ -13,11 +13,16 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     enum ScreenType: Int {
         case home = 0
         case favorites
+        case search
 
         var title: String {
             switch self {
-            case .home: return App.String.homeTabBar
-            case .favorites: return App.String.followingTabBar
+            case .home:
+                return App.String.homeTabBar
+            case .favorites:
+                return App.String.followingTabBar
+            case .search:
+                return App.String.searchTabBar
             }
         }
     }
@@ -48,11 +53,12 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func configTabBarController() {
         let homeScreen = UINavigationController(rootViewController: HomeViewController())
         let favoritesScreen = UINavigationController(rootViewController: FavoritesViewController())
-        favoritesScreen.tabBarItem = UITabBarItem(title: ScreenType.favorites.title, image: #imageLiteral(resourceName: "ic-following"), tag: ScreenType.favorites.rawValue)
-        homeScreen.tabBarItem = UITabBarItem(title: ScreenType.home.title, image: #imageLiteral(resourceName: "ic-headlines"), tag: ScreenType.home.rawValue)
-
+        let searchScreen = UINavigationController(rootViewController: SearchNewsViewController())
+        favoritesScreen.tabBarItem = UITabBarItem(title: ScreenType.favorites.title, image: #imageLiteral(resourceName: "bookmark"), tag: ScreenType.favorites.rawValue)
+        homeScreen.tabBarItem = UITabBarItem(title: ScreenType.home.title, image: #imageLiteral(resourceName: "logo"), tag: ScreenType.home.rawValue)
+        searchScreen.tabBarItem = UITabBarItem(title: ScreenType.search.title, image: #imageLiteral(resourceName: "search"), tag: ScreenType.search.rawValue)
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [homeScreen, favoritesScreen]
+        tabBarController.viewControllers = [homeScreen, favoritesScreen, searchScreen]
         window?.rootViewController = tabBarController
     }
 }

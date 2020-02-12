@@ -18,7 +18,7 @@ final class FavoritesViewController: BaseViewController {
     // MARK: - config
     override func setupUI() {
         super.setupUI()
-        title = "Favorites"
+        title = "BookMarks"
         configCollectionView()
         configObserve()
     }
@@ -48,7 +48,7 @@ final class FavoritesViewController: BaseViewController {
 // MARK: - CollectionView DataSource, Delegate
 extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfCategories()
+        return viewModel.getNumberOfCategories()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

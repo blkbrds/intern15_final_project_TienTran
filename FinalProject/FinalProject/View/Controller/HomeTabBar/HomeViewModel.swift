@@ -26,7 +26,8 @@ final class HomeViewModel {
 
 // MARK: - config tableview
 extension HomeViewModel {
-    func numberOfCategories() -> Int {
+
+    func getNumberOfCategories() -> Int {
         categories.count
     }
 

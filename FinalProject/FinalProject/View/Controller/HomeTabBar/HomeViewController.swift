@@ -22,7 +22,7 @@ final class HomeViewController: BaseViewController {
     // MARK: - config
     override func setupUI() {
         super.setupUI()
-        title = "Headlines"
+        title = "News"
         configCategoriesCollectionView()
         configPageViewController()
     }
@@ -94,7 +94,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     // DataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfCategories()
+        return viewModel.getNumberOfCategories()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

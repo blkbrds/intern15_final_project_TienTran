@@ -39,4 +39,19 @@ extension APIManager.Path {
             return APIManager.Path.TopHeadlines.path + "?country=" + country + "&category=" + category + "&apiKey=" + APIManager.apiKey + "&page=" + "\(page)" + "&pageSize=" + "\(pageSize)"
         }
     }
+
+    struct Everything {
+        static let everything = "/everything"
+        static var path: String { return baseDomain + basePath + everything }
+
+        let query: String
+        let country: String
+        let pageSize: Int
+        let page: Int
+
+        var url: String {
+            return APIManager.Path.TopHeadlines.path + "?country=" + country + "&query=" + query + "&apiKey=" + APIManager.apiKey + "&page=" + "\(page)" + "&pageSize=" + "\(pageSize)"
+        }
+    }
+
 }

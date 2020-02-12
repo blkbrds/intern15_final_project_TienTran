@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+final class SearchNewsCellViewModel {
+    var news: News
+    var indexPath: IndexPath
+
+    init(news: News, indexPath: IndexPath) {
+        self.news = news
+        self.indexPath = indexPath
+    }
+}

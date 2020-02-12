@@ -14,7 +14,7 @@ final class FavoritesViewModel {
 
 extension FavoritesViewModel {
 
-    func numberOfCategories() -> Int {
+    func getNumberOfCategories() -> Int {
         categories.count
     }
 

@@ -116,7 +116,7 @@ extension BaseHomeChildViewController: NewsTableViewCellDelegate {
 // MARK: - TableView Datasource
 extension BaseHomeChildViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfListNews()
+        return viewModel.getNumberOfListNews()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
