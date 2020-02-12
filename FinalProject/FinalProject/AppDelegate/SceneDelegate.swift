@@ -33,7 +33,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        /// Remove all image data
+        // Remove all image data
         APIManager.Downloader.clearImageData()
     }
 
@@ -53,7 +53,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [homeScreen, favoritesScreen]
-        window?.rootViewController = tabBarController
+        window?.rootViewController = UIViewController()
     }
 }
-

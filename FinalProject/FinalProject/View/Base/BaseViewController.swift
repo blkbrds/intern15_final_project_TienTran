@@ -19,14 +19,15 @@ class BaseViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = false
         tabBarController?.tabBar.isHidden = false
     }
 
-    // MARK : setup Data & UI
+    // MARK: setup Data & UI
     func setupData() { }
 
-    func setupUI() { }
+    func setupUI() {
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+    }
 
     func nextToViewController(viewcontroller: UIViewController) {
         navigationController?.pushViewController(viewcontroller, animated: true)

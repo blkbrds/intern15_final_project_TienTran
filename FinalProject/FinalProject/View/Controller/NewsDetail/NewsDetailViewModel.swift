@@ -29,7 +29,7 @@ final class NewsDetailViewModel {
         }
     }
 
-    var delegate: NewsDetailViewModelDelegate?
+    weak var delegate: NewsDetailViewModelDelegate?
 
     init() { }
 

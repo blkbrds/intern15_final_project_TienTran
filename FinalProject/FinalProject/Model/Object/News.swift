@@ -27,7 +27,7 @@ final class News: Object, Codable {
     @objc dynamic var categoryNews: String = ""
 
     enum CodingKeys: String, CodingKey {
-        case nameSource = "source"
+        case source = "source"
         case titleNews = "title"
         case urlNews = "url"
         case urlImage = "urlToImage"
@@ -45,7 +45,7 @@ final class News: Object, Codable {
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        source = try container.decode(Source.self, forKey: .nameSource)
+        source = try container.decode(Source.self, forKey: .source)
         titleNews = try container.decode(String.self, forKey: .titleNews)
         urlNews = try container.decode(String.self, forKey: .urlNews)
         urlImage = try container.decode(String.self, forKey: .urlImage)
@@ -61,4 +61,3 @@ final class News: Object, Codable {
         }
     }
 }
-

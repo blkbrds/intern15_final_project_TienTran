@@ -30,9 +30,9 @@ extension BaseHomeChildViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: news.titleNews,
-            nameSource: news.source.name,
-            publishedAt: news.publishedAt ?? Date.currentDate(),
-            urlImage: news.urlImage ?? "",
+            nameSource: news.source?.name ?? "",
+            publishedAt: news.publishedAt,
+            urlImage: news.urlImage,
             urlNews: news.urlNews,
             indexPath: indexPath)
         return newsCellViewModel
@@ -41,10 +41,9 @@ extension BaseHomeChildViewModel {
     func getNewsDetailViewModel(at indexPath: IndexPath) -> NewsDetailViewModel {
         let news = articles[indexPath.row]
         let newsDetailViewModel = NewsDetailViewModel(
-            urlNews: news.urlNews,
-            nameSource: news.source.name,
-            isFavorites: news.isFavorites,
-            indexPath: indexPath)
+            news: news,
+            indexPath: indexPath,
+            isFavorited: RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews))
         return newsDetailViewModel
     }
 }
@@ -52,7 +51,7 @@ extension BaseHomeChildViewModel {
 // MARK: - handle api
 extension BaseHomeChildViewModel {
 
-    // load api
+    /// load api
     func loadAPI(compeltion: @escaping Completion) {
         APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
             switch result {
@@ -61,14 +60,14 @@ extension BaseHomeChildViewModel {
                 compeltion(false, error.localizedDescription)
             case .success(let response):
                 self.articles.append(contentsOf: response.articles)
-
-                //call back
+                self.setCategoryInNews()
+                // call back
                 compeltion(true, "")
             }
         }
     }
 
-    // loadmore api
+    /// loadmore api
     func loadMoreAPI(compeltion: @escaping Completion) {
         currentPageParam += 1
         APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.param, country: "us") { result in
@@ -78,8 +77,8 @@ extension BaseHomeChildViewModel {
             case .success(let response):
                 if response.articles.count > 0 {
                     self.articles.append(contentsOf: response.articles)
-
-                    //call back
+                    self.setCategoryInNews()
+                    // call back
                     compeltion(true, "")
                 } else {
                     self.canLoadMore = false
@@ -89,7 +88,7 @@ extension BaseHomeChildViewModel {
         }
     }
 
-    // load api
+    /// load api
     func refreshData(compeltion: @escaping Completion) {
         APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
             switch result {
@@ -98,28 +97,33 @@ extension BaseHomeChildViewModel {
                 compeltion(false, error.localizedDescription)
             case .success(let response):
                 self.articles = response.articles
-
-                //call back
+                self.setCategoryInNews()
+                // call back
                 compeltion(true, "")
             }
         }
     }
 
-    // dowload image
+    /// dowload image
     func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
         let news = articles[indexPath.row]
 
-        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage ?? "") {
+        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage) {
             let newsImage = UIImage(data: newsImageData)
             completion(newsImage)
         } else {
-            APIManager.Downloader.downloadImage(urlString: news.urlImage ?? "") { image in
+            APIManager.Downloader.downloadImage(urlString: news.urlImage) { image in
                 if let image = image {
                     completion(image)
                 } else {
-                    completion(nil) /// tra ve anh default && khi vao lai cell do no se tiep tuc tai lai anh
+                    completion(nil)
                 }
             }
         }
+    }
+
+    /// add category
+    func setCategoryInNews() {
+        articles.forEach { $0.categoryNews = screenType.param }
     }
 }

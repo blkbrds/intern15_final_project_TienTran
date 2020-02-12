@@ -38,10 +38,14 @@ final class HomeViewController: BaseViewController {
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
 
+        configFlowLayout()
+    }
+
+    private func configFlowLayout() {
         // auto resize item
         if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-            flowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
+            flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         }
     }
 

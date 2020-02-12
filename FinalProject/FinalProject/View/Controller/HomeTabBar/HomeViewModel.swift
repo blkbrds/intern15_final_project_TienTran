@@ -100,7 +100,7 @@ enum CategoryType: Int, CaseIterable {
             return "entertainment"
         }
     }
-    
+
     static var allCases: [CategoryType] {
         return [.us, .health, .science, .technology, .sports, .entertainment, .business]
     }

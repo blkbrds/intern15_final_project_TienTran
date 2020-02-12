@@ -44,10 +44,6 @@ final class NewsDetailViewController: BaseViewController {
         previousNewsButton.isHidden = true
     }
 
-    @objc private func leftBarButtonItemTouchUpInside() {
-        previousToViewController()
-    }
-
     private func configNewsWebView() {
         loadWebView()
         webView.uiDelegate = self

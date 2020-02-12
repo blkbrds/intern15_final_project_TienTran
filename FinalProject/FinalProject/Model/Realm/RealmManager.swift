@@ -11,7 +11,7 @@ import RealmSwift
 
 final class RealmManager {
 
-    // MARK:  Singleton
+    // MARK: singleton
     private static var shareRealmManager: RealmManager = {
         let shareRealmManager = RealmManager()
         return shareRealmManager

@@ -19,6 +19,11 @@ extension FavoritesViewModel {
     }
 
     func getFavoritesCellViewModel(at indexPath: IndexPath) -> FavoritesCellViewModel {
-        return FavoritesCellViewModel(imageName: categories[indexPath.row].imageName)
+        return FavoritesCellViewModel(imageName: categories[indexPath.row].imageName, numberFavorites: getNumberArticlesForCategory(at: indexPath), favoritesType: categories[indexPath.row])
+    }
+
+    func getNumberArticlesForCategory(at indexPath: IndexPath) -> Int {
+        let categoryType = categories[indexPath.row]
+        return RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param).count
     }
 }

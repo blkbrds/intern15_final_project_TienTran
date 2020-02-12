@@ -99,7 +99,7 @@ final class BaseHomeChildViewController: BaseViewController {
     }
 }
 
-// MARK: -  NewsTableViewCellDelegate
+// MARK: - NewsTableViewCellDelegate
 extension BaseHomeChildViewController: NewsTableViewCellDelegate {
     func cell(_ cell: NewsTableViewCell, needPerform action: NewsTableViewCell.Action) {
         switch action {
