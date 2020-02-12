@@ -16,12 +16,7 @@ final class NewsTableViewCellViewModel {
     var urlNews: String
     var indexPath: IndexPath
 
-    init(newsTitle: String,
-        nameSource: String,
-        publishedAt: Date,
-        urlImage: String,
-        urlNews: String,
-        indexPath: IndexPath) {
+    init(newsTitle: String, nameSource: String, publishedAt: Date, urlImage: String, urlNews: String, indexPath: IndexPath) {
         self.newsTitle = newsTitle
         self.nameSource = nameSource
         self.publishedAt = publishedAt

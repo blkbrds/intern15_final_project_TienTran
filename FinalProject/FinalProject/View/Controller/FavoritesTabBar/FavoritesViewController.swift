@@ -15,12 +15,12 @@ final class FavoritesViewController: BaseViewController {
 
     // MARK: - Properties
     var viewModel = FavoritesViewModel()
-    
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         title = "Favorites"
         configCollectionView()
+        configObserve()
     }
 
     // MARK: - Private funcs
@@ -28,6 +28,20 @@ final class FavoritesViewController: BaseViewController {
         collectionView.register(UINib(nibName: Config.favoritesCell, bundle: .main), forCellWithReuseIdentifier: Config.favoritesCell)
         collectionView.dataSource = self
         collectionView.delegate = self
+    }
+
+    private func configObserve() {
+        RealmManager.shared().setupObserve(News.self) { (done, error) in
+            if done {
+                self.collectionView.reloadData()
+            } else {
+                print("Reaml ERROR: \(error)")
+            }
+        }
+    }
+
+    deinit {
+        RealmManager.shared().invalidateNotificationToken()
     }
 }
 

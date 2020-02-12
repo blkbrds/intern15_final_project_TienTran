@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-//MARK: - Defines
+// MARK: - Defines
 enum APIError: Error {
     case error(String)
     case errorURL
@@ -33,7 +33,7 @@ enum APIResult {
 
 // MARK: - API
 struct API {
-    //singleton
+    // singleton
     private static var shareAPI: API = {
         let shareAPI = API()
         return shareAPI
@@ -43,6 +43,6 @@ struct API {
         return shareAPI
     }
 
-    //init
+    // init
     private init() { }
 }

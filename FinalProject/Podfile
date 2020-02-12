@@ -7,6 +7,6 @@ target 'FinalProject' do
 
   # Pods for FinalProject
   pod 'SwiftLint' # A tool to enforce Swift style and conventions.
-
+  pod 'RealmSwift' 
 
 end

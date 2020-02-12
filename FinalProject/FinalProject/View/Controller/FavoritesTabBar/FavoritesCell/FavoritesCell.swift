@@ -22,7 +22,6 @@ final class FavoritesCell: UICollectionViewCell {
 
     private func updateUI() {
         guard let viewModel = viewModel else { return }
-        print(viewModel.imageName)
         categoryImageView.image = UIImage(named: viewModel.imageName)
         numberFavoritesLabel.text = String(viewModel.numberFavorites)
     }

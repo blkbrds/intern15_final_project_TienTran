@@ -10,15 +10,15 @@ import Foundation
 
 struct APIManager {
 
-    static let api_key = "60f0d8ac682040768931b4d4611d7f50"
+    static let apiKey = "60f0d8ac682040768931b4d4611d7f50"
 
     // MARK: - config
     struct Path {
-        static let base_domain = "https://newsapi.org"
-        static let base_path = "/v2"
+        static let baseDomain = "https://newsapi.org"
+        static let basePath = "/v2"
     }
 
-    //MARK: - Domain
+    // MARK: - Domain
     struct News { }
 
     struct Downloader { }
@@ -27,14 +27,16 @@ struct APIManager {
 extension APIManager.Path {
 
     struct TopHeadlines {
-        static let top_headlines = "/top-headlines"
-        static var path: String { return base_domain + base_path + top_headlines }
+        static let topHeadlines = "/top-headlines"
+        static var path: String { return baseDomain + basePath + topHeadlines }
 
         let category: String
         let country: String
         let pageSize: Int
         let page: Int
 
-        var url: String { return APIManager.Path.TopHeadlines.path + "?country=" + country + "&category=" + category + "&apiKey=" + APIManager.api_key + "&page=" + "\(page)" + "&pageSize=" + "\(pageSize)" }
+        var url: String {
+            return APIManager.Path.TopHeadlines.path + "?country=" + country + "&category=" + category + "&apiKey=" + APIManager.apiKey + "&page=" + "\(page)" + "&pageSize=" + "\(pageSize)"
+        }
     }
 }
