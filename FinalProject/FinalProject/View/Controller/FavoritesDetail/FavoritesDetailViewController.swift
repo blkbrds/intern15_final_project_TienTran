@@ -21,7 +21,6 @@ final class FavoritesDetailViewController: BaseViewController {
         super.setupUI()
         title = "Favorites of \(viewModel.categoryType.text)"
         configTableView()
-
     }
 
     override func setupData() {
@@ -29,14 +28,9 @@ final class FavoritesDetailViewController: BaseViewController {
         fetchData()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        fetchData()
-    }
-
     // MARK: - Private funcs
     private func configTableView() {
-        tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
+        tableView.register(UINib(nibName: Config.favoritesDetailCell, bundle: .main), forCellReuseIdentifier: Config.favoritesDetailCell)
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -72,9 +66,23 @@ extension FavoritesDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
-        cell.viewModel = viewModel.getNewsCellViewModel(at: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Config.favoritesDetailCell, for: indexPath) as? FavoritesDetailCell else { return UITableViewCell() }
+        cell.delegate = self
+        cell.viewModel = viewModel.getFavoritesDetailCellViewModel(at: indexPath)
         return cell
+    }
+}
+
+extension FavoritesDetailViewController: FavoritesDetailCellDelegate {
+    func cell(_ cell: FavoritesDetailCell, needPerform action: FavoritesDetailCell.Action) {
+        switch action {
+        case .loadImage(let indexPath):
+            viewModel.loadImage(indexPath: indexPath) { image in
+                if image != nil {
+                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            }
+        }
     }
 }
 
@@ -82,7 +90,7 @@ extension FavoritesDetailViewController: UITableViewDataSource {
 extension FavoritesDetailViewController {
 
     struct Config {
-        static let newsTableViewCell = "NewsTableViewCell"
+        static let favoritesDetailCell = "FavoritesDetailCell"
     }
 }
 

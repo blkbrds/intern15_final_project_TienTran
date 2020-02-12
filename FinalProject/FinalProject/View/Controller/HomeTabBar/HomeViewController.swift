@@ -42,8 +42,6 @@ final class HomeViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configFlowLayout()
-
-        print(RealmManager.shared().configurationFileURL())
     }
 
     private func configFlowLayout() {

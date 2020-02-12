@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class FavoritesDetailViewModel {
 
@@ -28,13 +29,25 @@ extension FavoritesDetailViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: news.titleNews,
-            nameSource: news.nameSource,
+            nameSource: news.source?.name ?? "",
             publishedAt: news.publishedAt,
             urlImage: news.urlImage,
             urlNews: news.urlNews,
             indexPath: indexPath)
         return newsCellViewModel
     }
+
+    func getFavoritesDetailCellViewModel(at indexPath: IndexPath) -> FavoritesDetailCellViewModel {
+        let news = articles[indexPath.row]
+        let favoritesDetailCellViewModel = FavoritesDetailCellViewModel(
+            publishedAt: news.publishedAt,
+            urlImage: news.urlImage,
+            urlNews: news.urlNews,
+            contentNews: news.content,
+            indexPath: indexPath)
+        return favoritesDetailCellViewModel
+    }
+
 
     func getNewsDetailViewModel(at indexPath: IndexPath) -> NewsDetailViewModel {
         let news = articles[indexPath.row]
@@ -52,5 +65,23 @@ extension FavoritesDetailViewModel {
         let articles = RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param)
         self.articles = articles
         completion(true, "")
+    }
+
+    /// dowload image
+    func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
+        let news = articles[indexPath.row]
+
+        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage) {
+            let newsImage = UIImage(data: newsImageData)
+            completion(newsImage)
+        } else {
+            APIManager.Downloader.downloadImage(urlString: news.urlImage) { image in
+                if let image = image {
+                    completion(image)
+                } else {
+                    completion(nil) /// tra ve anh default && khi vao lai cell do no se tiep tuc tai lai anh
+                }
+            }
+        }
     }
 }

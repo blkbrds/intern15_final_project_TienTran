@@ -23,11 +23,11 @@ final class FavoritesViewController: BaseViewController {
         configCollectionView()
         
         
-        RealmManager.shared().setupObserve(News.self) { (done, erro) in
+        RealmManager.shared().setupObserve(News.self) { (done, error) in
             if done {
                 self.collectionView.reloadData()
             } else {
-                print("Reaml ERROR: \(erro)")
+                print("Reaml ERROR: \(error)")
             }
         }
     }

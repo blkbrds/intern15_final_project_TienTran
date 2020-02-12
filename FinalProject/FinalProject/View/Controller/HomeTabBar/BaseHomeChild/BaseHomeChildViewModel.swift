@@ -30,7 +30,7 @@ extension BaseHomeChildViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
             newsTitle: news.titleNews,
-            nameSource: news.nameSource,
+            nameSource: news.source?.name ?? "",
             publishedAt: news.publishedAt,
             urlImage: news.urlImage,
             urlNews: news.urlNews,
