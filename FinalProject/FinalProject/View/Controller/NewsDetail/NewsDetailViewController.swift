@@ -26,13 +26,13 @@ final class NewsDetailViewController: BaseViewController {
         super.setupUI()
         configUI()
         configNewsWebView()
-        configStatusFavoriteButton()
     }
 
     // MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        updateStatusFavoritesButton()
     }
 
     // MARK: - Private funcs
@@ -45,9 +45,11 @@ final class NewsDetailViewController: BaseViewController {
         previousNewsButton.isHidden = true
     }
 
-    private func configStatusFavoriteButton() {
-        if viewModel.isRealmContainsObject() {
-            checkNewsInRealm()
+    private func updateStatusFavoritesButton() {
+        if viewModel.isFavorited {
+            favoritesButton.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
+        } else {
+            favoritesButton.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
         }
     }
 
@@ -63,21 +65,13 @@ final class NewsDetailViewController: BaseViewController {
         webView.load(urlRequest)
     }
 
-    private func checkNewsInRealm() {
-        if viewModel.isFavorited {
-            favoritesButton.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
-        } else {
-            favoritesButton.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
-        }
-    }
-
     // MARK: - IBAction
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
         if viewModel.isFavorited {
             viewModel.removeNewsInFavorites { [weak self] (done, error) in
                 guard let this = self else { return }
                 if done {
-                    this.checkNewsInRealm()
+                    this.updateStatusFavoritesButton()
                     print("delete news, ok!")
                 } else {
                     print("Realm ERROR: \(error)")
@@ -87,7 +81,7 @@ final class NewsDetailViewController: BaseViewController {
             viewModel.addNewsInFavorites { [weak self] (done, error) in
                 guard let this = self else { return }
                 if done {
-                    this.checkNewsInRealm()
+                    this.updateStatusFavoritesButton()
                     print("add in favorites, ok!")
                 } else {
                     print("can't add favorite!, Realm Error: \(error)")
