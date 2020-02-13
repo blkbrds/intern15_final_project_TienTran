@@ -47,7 +47,7 @@ final class SearchNewsViewController: BaseViewController {
     }
 
     private func configCollectionView() {
-        searchCollectionView.register(UINib(nibName: "SearchNewsCell", bundle: .main), forCellWithReuseIdentifier: "SearchNewsCell")
+        searchCollectionView.register(UINib(nibName: Config.searchNewsCell, bundle: .main), forCellWithReuseIdentifier: Config.searchNewsCell)
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
         configFlowLayout()
@@ -74,12 +74,12 @@ final class SearchNewsViewController: BaseViewController {
         }
     }
 
-    func searchNewsApi(with query: String) {
-        viewModel.searchNews(query: query) { (done, _) in
+    func searchNewsApi() {
+        viewModel.searchNews { (done, _) in
             if done {
-                self.searchCollectionView.reloadSections([0])
+                self.searchCollectionView.reloadData()
             } else {
-                #warning("API Error")
+                #warning("Show alert")
             }
         }
     }
@@ -94,8 +94,8 @@ extension SearchNewsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
 
         if let searchString = searchController.searchBar.text, searchString.count > 3 {
-            viewModel.searchItems.removeAll()
-            searchNewsApi(with: searchString)
+            viewModel.queryString = searchString
+            searchNewsApi()
         }
     }
 }
@@ -129,5 +129,13 @@ extension SearchNewsViewController: SearchNewsCellDelegate {
                 }
             }
         }
+    }
+}
+
+// MARK: - Config
+extension SearchNewsViewController {
+
+    struct Config {
+        static let searchNewsCell = "SearchNewsCell"
     }
 }

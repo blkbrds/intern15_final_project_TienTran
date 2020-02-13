@@ -75,7 +75,7 @@
 		F06C195623EBC5FA00EA77C4 /* FavoritesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCellViewModel.swift; sourceTree = "<group>"; };
 		F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModel.swift; sourceTree = "<group>"; };
 		F082A75523F3B7D2002CB0EF /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
-		F094DAA123BED339008221E9 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F094DAA123BED339008221E9 /* News US.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "News US.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F094DAA423BED339008221E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F094DAA623BED339008221E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F094DAAD23BED33B008221E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 		F094DAA223BED339008221E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F094DAA123BED339008221E9 /* FinalProject.app */,
+				F094DAA123BED339008221E9 /* News US.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -334,8 +334,8 @@
 		F0ADAC0023F540970012F1BD /* SearchNewsTabBar */ = {
 			isa = PBXGroup;
 			children = (
-				F0ADAC0123F540970012F1BD /* SearchNewsViewModel.swift */,
 				F0ADAC0223F540970012F1BD /* SearchNewsViewController.xib */,
+				F0ADAC0123F540970012F1BD /* SearchNewsViewModel.swift */,
 				F0ADAC0323F540970012F1BD /* SearchNewsViewController.swift */,
 				F0ADAC0423F540970012F1BD /* SearchNewsCell */,
 			);
@@ -438,7 +438,7 @@
 			);
 			name = FinalProject;
 			productName = FinalProject;
-			productReference = F094DAA123BED339008221E9 /* FinalProject.app */;
+			productReference = F094DAA123BED339008221E9 /* News US.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -744,7 +744,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lybkit.FinalProject;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "News US";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -763,7 +763,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lybkit.FinalProject;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "News US";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

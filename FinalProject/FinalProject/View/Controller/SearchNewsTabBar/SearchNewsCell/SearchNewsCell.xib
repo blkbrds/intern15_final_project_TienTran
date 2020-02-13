@@ -21,7 +21,7 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMs-vG-SrE">
                         <rect key="frame" x="150.5" y="10" width="39.5" height="20"/>
-                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="I0x-JF-6dQ"/>
                         </constraints>
@@ -31,16 +31,14 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5HV-wq-fcw">
                         <rect key="frame" x="10" y="132.5" width="180" height="27.5"/>
-                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
+                        <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="0.48865582191780821" colorSpace="custom" customColorSpace="sRGB"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="23"/>
                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <nil key="highlightedColor"/>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
-                        </variation>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJK-2u-JtZ">
                         <rect key="frame" x="10" y="170" width="39.5" height="20"/>
-                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="Uf5-WN-3RM"/>
                         </constraints>
@@ -74,7 +72,7 @@
                 <outlet property="newsSourceLabel" destination="jJK-2u-JtZ" id="vvU-nC-HfO"/>
                 <outlet property="newsTitleLabel" destination="5HV-wq-fcw" id="eIm-a4-u5Z"/>
             </connections>
-            <point key="canvasLocation" x="-71" y="25"/>
+            <point key="canvasLocation" x="-71.014492753623188" y="24.776785714285712"/>
         </collectionViewCell>
     </objects>
     <resources>

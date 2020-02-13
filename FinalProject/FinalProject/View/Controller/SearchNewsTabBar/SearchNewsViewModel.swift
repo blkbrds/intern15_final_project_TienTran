@@ -11,6 +11,7 @@ import UIKit
 
 final class SearchNewsViewModel {
     var searchItems: [News] = []
+    var queryString = ""
 }
 
 extension SearchNewsViewModel {
@@ -46,8 +47,8 @@ extension SearchNewsViewModel {
     }
 
     /// search news
-    func searchNews(query: String, compeltion: @escaping Completion) {
-        APIManager.News.getEverything(query: query, country: "us") { result in
+    func searchNews(compeltion: @escaping Completion) {
+        APIManager.News.getEverything(query: queryString, country: "us") { result in
             switch result {
             case .failure(let error):
                 // call back
@@ -59,5 +60,4 @@ extension SearchNewsViewModel {
             }
         }
     }
-
 }
