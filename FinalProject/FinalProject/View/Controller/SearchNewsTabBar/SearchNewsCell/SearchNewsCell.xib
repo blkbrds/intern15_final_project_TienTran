@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SearchNewsCell" customModule="FinalProject" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="news-default" translatesAutoresizingMaskIntoConstraints="NO" id="Mfn-SV-N4V" customClass="TSImageView" customModule="FinalProject" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMs-vG-SrE">
+                        <rect key="frame" x="150.5" y="10" width="39.5" height="20"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="I0x-JF-6dQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
+                        <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5HV-wq-fcw">
+                        <rect key="frame" x="10" y="132.5" width="180" height="27.5"/>
+                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
+                        <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="23"/>
+                        </variation>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJK-2u-JtZ">
+                        <rect key="frame" x="10" y="170" width="39.5" height="20"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Uf5-WN-3RM"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Mfn-SV-N4V" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="003-w8-nvp"/>
+                <constraint firstAttribute="bottom" secondItem="Mfn-SV-N4V" secondAttribute="bottom" id="5EY-P5-Nuw"/>
+                <constraint firstAttribute="trailing" secondItem="HMs-vG-SrE" secondAttribute="trailing" constant="10" id="9B3-qF-Vfj"/>
+                <constraint firstItem="Mfn-SV-N4V" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="D6q-kv-Pjx"/>
+                <constraint firstAttribute="trailing" secondItem="Mfn-SV-N4V" secondAttribute="trailing" id="FxJ-Q3-nc8"/>
+                <constraint firstItem="5HV-wq-fcw" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="HrS-75-OXL"/>
+                <constraint firstItem="5HV-wq-fcw" firstAttribute="top" relation="greaterThanOrEqual" secondItem="HMs-vG-SrE" secondAttribute="bottom" constant="10" id="PAm-6M-eJy"/>
+                <constraint firstItem="HMs-vG-SrE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="Pwr-WK-VJ3"/>
+                <constraint firstAttribute="bottom" secondItem="jJK-2u-JtZ" secondAttribute="bottom" constant="10" id="UAA-9U-SgA"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jJK-2u-JtZ" secondAttribute="trailing" constant="10" id="Vql-kK-k6v"/>
+                <constraint firstItem="jJK-2u-JtZ" firstAttribute="top" secondItem="5HV-wq-fcw" secondAttribute="bottom" constant="10" id="XgD-LL-0Pd"/>
+                <constraint firstAttribute="trailing" secondItem="5HV-wq-fcw" secondAttribute="trailing" constant="10" id="bjy-M0-zQS"/>
+                <constraint firstItem="HMs-vG-SrE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="gjS-ic-fc5"/>
+                <constraint firstItem="jJK-2u-JtZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="qGA-Fl-NGh"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="newsImageView" destination="Mfn-SV-N4V" id="r0V-bd-4uy"/>
+                <outlet property="newsPublishedAtLabel" destination="HMs-vG-SrE" id="FUg-kB-bbf"/>
+                <outlet property="newsSourceLabel" destination="jJK-2u-JtZ" id="vvU-nC-HfO"/>
+                <outlet property="newsTitleLabel" destination="5HV-wq-fcw" id="eIm-a4-u5Z"/>
+            </connections>
+            <point key="canvasLocation" x="-71" y="25"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="news-default" width="600" height="400"/>
+    </resources>
+</document>
