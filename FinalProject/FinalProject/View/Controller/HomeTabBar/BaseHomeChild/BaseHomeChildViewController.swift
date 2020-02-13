@@ -54,7 +54,7 @@ final class BaseHomeChildViewController: BaseViewController {
     @objc private func refreshViewController() {
         if !viewModel.isRefreshing {
             viewModel.isRefreshing = true
-            viewModel.refreshData { (done, error) in
+            viewModel.refreshData { (done, _) in
                 if done {
                     self.tableView.reloadData()
                     self.viewModel.isRefreshing = false
@@ -68,7 +68,7 @@ final class BaseHomeChildViewController: BaseViewController {
     }
 
     private func loadAPI() {
-        viewModel.loadAPI { (done, error) in
+        viewModel.loadAPI { (done, _) in
             if done {
                 self.activityIndicatorView.stopAnimating()
                 self.loadingView.isHidden = true
@@ -85,7 +85,7 @@ final class BaseHomeChildViewController: BaseViewController {
         guard !viewModel.isLoading, viewModel.canLoadMore else { return }
 
         viewModel.isLoading = true
-        viewModel.loadMoreAPI { (done, msg) in
+        viewModel.loadMoreAPI { (done, _) in
             if done {
                 self.viewModel.isLoading = false
                 self.tableView.reloadData()

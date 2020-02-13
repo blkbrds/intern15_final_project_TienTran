@@ -22,7 +22,6 @@ final class FavoritesViewController: BaseViewController {
         configCollectionView()
         configObserve()
     }
-    
     // MARK: - Private funcs
     private func configCollectionView() {
         collectionView.register(UINib(nibName: Config.favoritesCell, bundle: .main), forCellWithReuseIdentifier: Config.favoritesCell)
@@ -31,7 +30,7 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        viewModel.setupObserve2 { (done, error) in
+        viewModel.setupObserve2 { (done, _) in
             if done {
                 self.collectionView.reloadData()
             } else {
