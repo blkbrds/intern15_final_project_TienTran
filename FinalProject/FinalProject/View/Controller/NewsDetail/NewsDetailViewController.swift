@@ -68,23 +68,23 @@ final class NewsDetailViewController: BaseViewController {
     // MARK: - IBAction
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
         if viewModel.isFavorited {
-            viewModel.removeNewsInFavorites { [weak self] (done, error) in
+            viewModel.removeNewsInFavorites { [weak self] (done, _) in
                 guard let this = self else { return }
                 if done {
                     this.updateStatusFavoritesButton()
-                    print("delete news, ok!")
+                    #warning("show alert")
                 } else {
-                    print("Realm ERROR: \(error)")
+                    #warning("Realm Error")
                 }
             }
         } else {
-            viewModel.addNewsInFavorites { [weak self] (done, error) in
+            viewModel.addNewsInFavorites { [weak self] (done, _) in
                 guard let this = self else { return }
                 if done {
                     this.updateStatusFavoritesButton()
-                    print("add in favorites, ok!")
+                     #warning("show alert")
                 } else {
-                    print("can't add favorite!, Realm Error: \(error)")
+                    #warning("Realm Error")
                 }
             }
         }

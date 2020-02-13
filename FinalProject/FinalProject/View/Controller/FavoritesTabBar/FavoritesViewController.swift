@@ -31,11 +31,11 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        RealmManager.shared().setupObserve(News.self) { (done, error) in
+        RealmManager.shared().setupObserve(News.self) { (done, _) in
             if done {
                 self.collectionView.reloadData()
             } else {
-                print("Reaml ERROR: \(error)")
+               #warning("Realm Error")
             }
         }
     }
