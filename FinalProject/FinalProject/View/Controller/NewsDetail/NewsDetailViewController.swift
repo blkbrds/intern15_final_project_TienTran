@@ -37,6 +37,7 @@ final class NewsDetailViewController: BaseViewController {
 
     // MARK: - Private funcs
     private func configUI() {
+        navigationItem.title = ""
         title = viewModel.news?.source?.name
         activityIndicatorView.startAnimating()
         view.addSubview(activityIndicatorView)
