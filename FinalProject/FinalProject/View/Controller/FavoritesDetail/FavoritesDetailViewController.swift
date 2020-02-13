@@ -21,6 +21,7 @@ final class FavoritesDetailViewController: BaseViewController {
         super.setupUI()
         title = "Favorites of \(viewModel.categoryType.text)"
         configTableView()
+        configObserve()
     }
 
     override func setupData() {
@@ -40,9 +41,23 @@ final class FavoritesDetailViewController: BaseViewController {
             if done {
                 self.tableView.reloadData()
             } else {
-                print("Realm Error: \(msg)")
+                #warning("Realm Error")
             }
         }
+    }
+
+    private func configObserve() {
+        viewModel.setupObserve2 { (done, error) in
+            if done {
+                self.fetchData()
+                self.tableView.reloadData()
+            } else {
+                #warning("Realm Error")
+            }
+        }
+    }
+    deinit {
+        viewModel.invalidateNotificationToken2()
     }
 }
 
@@ -93,4 +108,3 @@ extension FavoritesDetailViewController {
         static let favoritesDetailCell = "FavoritesDetailCell"
     }
 }
-

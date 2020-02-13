@@ -8,11 +8,13 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 final class FavoritesDetailViewModel {
 
     var categoryType: CategoryType
     var articles: [News] = []
+    var notificationToken: NotificationToken?
 
     init(articles: [News] = [], categoryType: CategoryType = .us) {
         self.articles = articles
@@ -28,11 +30,11 @@ extension FavoritesDetailViewModel {
     func getNewsCellViewModel(at indexPath: IndexPath) -> NewsTableViewCellViewModel {
         let news = articles[indexPath.row]
         let newsCellViewModel = NewsTableViewCellViewModel(
-            newsTitle: news.titleNews,
+            newsTitle: news.titleNews ?? "",
             nameSource: news.source?.name ?? "",
-            publishedAt: news.publishedAt,
-            urlImage: news.urlImage,
-            urlNews: news.urlNews,
+            publishedAt: news.publishedAt ?? Date.currentDate(),
+            urlImage: news.urlImage ?? "",
+            urlNews: news.urlNews ?? "",
             indexPath: indexPath)
         return newsCellViewModel
     }
@@ -40,10 +42,10 @@ extension FavoritesDetailViewModel {
     func getFavoritesDetailCellViewModel(at indexPath: IndexPath) -> FavoritesDetailCellViewModel {
         let news = articles[indexPath.row]
         let favoritesDetailCellViewModel = FavoritesDetailCellViewModel(
-            publishedAt: news.publishedAt,
-            urlImage: news.urlImage,
-            urlNews: news.urlNews,
-            contentNews: news.content,
+            publishedAt: news.publishedAt ?? Date.currentDate(),
+            urlImage: news.urlImage ?? "",
+            urlNews: news.urlNews ?? "",
+            contentNews: news.content ?? "",
             indexPath: indexPath)
         return favoritesDetailCellViewModel
     }
@@ -71,17 +73,34 @@ extension FavoritesDetailViewModel {
     func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
         let news = articles[indexPath.row]
 
-        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage) {
+        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage ?? "") {
             let newsImage = UIImage(data: newsImageData)
             completion(newsImage)
         } else {
-            APIManager.Downloader.downloadImage(urlString: news.urlImage) { image in
+            APIManager.Downloader.downloadImage(urlString: news.urlImage ?? "") { image in
                 if let image = image {
                     completion(image)
                 } else {
-                    completion(nil) /// tra ve anh default && khi vao lai cell do no se tiep tuc tai lai anh
+                    completion(nil)
                 }
             }
         }
+    }
+}
+
+extension FavoritesDetailViewModel {
+
+    func setupObserve2(completion: @escaping Completion) {
+        notificationToken = RealmManager.shared().setupObserve2(News.self) { (done, error) in
+            if done {
+                completion(done, "")
+            } else {
+                completion(done, error)
+            }
+        }
+    }
+
+    func invalidateNotificationToken2() {
+        RealmManager.shared().invalidateNotificationToken2(token: notificationToken)
     }
 }
