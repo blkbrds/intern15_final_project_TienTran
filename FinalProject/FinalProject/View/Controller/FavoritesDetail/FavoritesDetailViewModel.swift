@@ -90,8 +90,8 @@ extension FavoritesDetailViewModel {
 
 extension FavoritesDetailViewModel {
 
-    func setupObserve2(completion: @escaping Completion) {
-        notificationToken = RealmManager.shared().setupObserve2(News.self) { (done, error) in
+    func setupObserve(completion: @escaping Completion) {
+        notificationToken = RealmManager.shared().setupObserve(News.self) { (done, error) in
             if done {
                 completion(done, "")
             } else {
@@ -101,6 +101,6 @@ extension FavoritesDetailViewModel {
     }
 
     func invalidateNotificationToken2() {
-        RealmManager.shared().invalidateNotificationToken2(token: notificationToken)
+        RealmManager.shared().invalidateNotificationToken(token: notificationToken)
     }
 }

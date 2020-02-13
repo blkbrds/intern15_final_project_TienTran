@@ -47,7 +47,7 @@ final class FavoritesDetailViewController: BaseViewController {
     }
 
     private func configObserve() {
-        viewModel.setupObserve2 { (done, error) in
+        viewModel.setupObserve { (done, error) in
             if done {
                 self.fetchData()
                 self.tableView.reloadData()
