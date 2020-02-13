@@ -72,7 +72,7 @@ final class NewsDetailViewController: BaseViewController {
                 guard let this = self else { return }
                 if done {
                     this.updateStatusFavoritesButton()
-                    #warning("show alert")
+                    #warning("Show alert")
                 } else {
                     #warning("Realm Error")
                 }
@@ -82,7 +82,7 @@ final class NewsDetailViewController: BaseViewController {
                 guard let this = self else { return }
                 if done {
                     this.updateStatusFavoritesButton()
-                     #warning("show alert")
+                    #warning("Show alert")
                 } else {
                     #warning("Realm Error")
                 }

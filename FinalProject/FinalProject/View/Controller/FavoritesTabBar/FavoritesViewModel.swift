@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import RealmSwift
 
 final class FavoritesViewModel {
     var categories: [CategoryType] = CategoryType.allCases
+
+    var notificationToken: NotificationToken?
 }
 
 extension FavoritesViewModel {
@@ -25,5 +28,24 @@ extension FavoritesViewModel {
     func getNumberArticlesForCategory(at indexPath: IndexPath) -> Int {
         let categoryType = categories[indexPath.row]
         return RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param).count
+    }
+
+    func getFavoritesDetailViewModel(at indexPath: IndexPath) -> FavoritesDetailViewModel {
+        let categoryType = categories[indexPath.row]
+        return FavoritesDetailViewModel(categoryType: categoryType)
+    }
+
+    func setupObserve(completion: @escaping Completion) {
+        notificationToken = RealmManager.shared().setupObserve(News.self) { (done, error) in
+            if done {
+                completion(done, "")
+            } else {
+                completion(done, error)
+            }
+        }
+    }
+
+    func invalidateNotificationToken() {
+        RealmManager.shared().invalidateNotificationToken(token: notificationToken)
     }
 }

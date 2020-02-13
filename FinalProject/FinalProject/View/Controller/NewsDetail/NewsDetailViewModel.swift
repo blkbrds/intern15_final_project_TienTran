@@ -71,14 +71,4 @@ extension NewsDetailViewModel {
         guard let news = news else { return false }
         return RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews)
     }
-
-    func setupObsever() {
-        RealmManager.shared().setupObserve(News.self) { (done, error) in
-            if done {
-                self.delegate?.viewModel(self, needPerform: .reload)
-            } else {
-                self.delegate?.viewModel(self, needPerform: .error)
-            }
-        }
-    }
 }

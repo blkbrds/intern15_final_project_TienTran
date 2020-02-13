@@ -10,7 +10,7 @@ import RealmSwift
 
 final class Source: Object, Codable {
     @objc dynamic var id: String? = ""
-    @objc dynamic var name: String = ""
+    @objc dynamic var name: String? = ""
 
     override class func primaryKey() -> String? {
         return "name"

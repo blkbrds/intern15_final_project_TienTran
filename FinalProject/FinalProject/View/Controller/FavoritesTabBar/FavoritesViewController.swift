@@ -22,7 +22,6 @@ final class FavoritesViewController: BaseViewController {
         configCollectionView()
         configObserve()
     }
-
     // MARK: - Private funcs
     private func configCollectionView() {
         collectionView.register(UINib(nibName: Config.favoritesCell, bundle: .main), forCellWithReuseIdentifier: Config.favoritesCell)
@@ -31,17 +30,17 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        RealmManager.shared().setupObserve(News.self) { (done, _) in
+        viewModel.setupObserve { (done, _) in
             if done {
                 self.collectionView.reloadData()
             } else {
-               #warning("Realm Error")
+                #warning("Realm Error")
             }
         }
     }
 
     deinit {
-        RealmManager.shared().invalidateNotificationToken()
+        viewModel.invalidateNotificationToken()
     }
 }
 
@@ -58,7 +57,9 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        #warning("show detail favorites")
+        let favoritesDetailVC = FavoritesDetailViewController()
+        favoritesDetailVC.viewModel = viewModel.getFavoritesDetailViewModel(at: indexPath)
+        nextToViewController(viewcontroller: favoritesDetailVC)
     }
 }
 
