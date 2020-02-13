@@ -135,6 +135,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F0046A6123F4E32F0042D99E /* FavoritesTabBar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FavoritesTabBar;
+			sourceTree = "<group>";
+		};
 		F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,10 +174,11 @@
 		F082A76623F3EE65002CB0EF /* FavoritesDetail */ = {
 			isa = PBXGroup;
 			children = (
+				F0046A6123F4E32F0042D99E /* FavoritesTabBar */,
 				F082A76723F3EE65002CB0EF /* FavoritesDetailCell */,
-				F082A76B23F3EE65002CB0EF /* FavoritesDetailViewController.swift */,
 				F082A76C23F3EE65002CB0EF /* FavoritesDetailViewController.xib */,
 				F082A76D23F3EE65002CB0EF /* FavoritesDetailViewModel.swift */,
+				F082A76B23F3EE65002CB0EF /* FavoritesDetailViewController.swift */,
 			);
 			name = FavoritesDetail;
 			path = ../../../../../final/FinalProject/FinalProject/View/Controller/FavoritesDetail;
@@ -256,10 +264,10 @@
 		F094DAE623BED3ED008221E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F082A76623F3EE65002CB0EF /* FavoritesDetail */,
-				F094DAF723BED41A008221E9 /* NewsDetail */,
 				F094DB0023BED41A008221E9 /* SearchNewsTabBar */,
+				F082A76623F3EE65002CB0EF /* FavoritesDetail */,
 				F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */,
+				F094DAF723BED41A008221E9 /* NewsDetail */,
 				F094DAEB23BED41A008221E9 /* HomeTabBar */,
 			);
 			path = Controller;

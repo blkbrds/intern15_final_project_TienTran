@@ -33,7 +33,7 @@ extension UIImageView {
         let dataTask = session.dataTask(with: url) { (data, _, error) in
             DispatchQueue.main.async {
                 if let error = error {
-                    print("Error: \(error.localizedDescription)")
+                    #warning("Error: error.localizedDescription")
                 } else {
                     if let data = data, let image = UIImage(data: data) {
                         self.image = image

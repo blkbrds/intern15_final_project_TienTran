@@ -22,7 +22,7 @@ final class FavoritesViewController: BaseViewController {
         configCollectionView()
         configObserve()
     }
-
+    
     // MARK: - Private funcs
     private func configCollectionView() {
         collectionView.register(UINib(nibName: Config.favoritesCell, bundle: .main), forCellWithReuseIdentifier: Config.favoritesCell)
@@ -31,17 +31,17 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        RealmManager.shared().setupObserve(News.self) { (done, error) in
+        viewModel.setupObserve2 { (done, error) in
             if done {
                 self.collectionView.reloadData()
             } else {
-                print("Reaml ERROR: \(error)")
+                #warning("Realm Error")
             }
         }
     }
 
     deinit {
-        RealmManager.shared().invalidateNotificationToken()
+        viewModel.invalidateNotificationToken2()
     }
 }
 

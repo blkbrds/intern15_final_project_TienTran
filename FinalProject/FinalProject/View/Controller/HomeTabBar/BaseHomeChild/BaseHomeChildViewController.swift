@@ -61,7 +61,7 @@ final class BaseHomeChildViewController: BaseViewController {
                     self.refreshControl.endRefreshing()
                 } else {
                     self.viewModel.isRefreshing = false
-                    print("API ERROR: \(error)")
+                    #warning("API Error")
                 }
             }
         }
@@ -74,10 +74,9 @@ final class BaseHomeChildViewController: BaseViewController {
                 self.loadingView.isHidden = true
                 self.tableView.reloadData()
             } else {
-                print("\(self.viewModel.screenType.text): \(done)")
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
-                print("API ERROR: \(error)")
+                #warning("API Error")
             }
         }
     }
@@ -93,7 +92,7 @@ final class BaseHomeChildViewController: BaseViewController {
             } else {
                 self.viewModel.isLoading = false
                 self.viewModel.canLoadMore = false
-                print("API ERROR: \(msg)")
+                #warning("API Error")
             }
         }
     }

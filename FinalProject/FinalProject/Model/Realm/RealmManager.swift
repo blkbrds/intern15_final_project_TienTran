@@ -28,7 +28,6 @@ final class RealmManager {
     private let realm: Realm = {
         do {
             let realm = try Realm()
-            print("realm ok!")
             return realm
         } catch {
             fatalError("Realm not exist! \(error.localizedDescription)")
@@ -52,9 +51,28 @@ extension RealmManager {
         })
     }
 
+    // MARK: Notifications
+    func setupObserve2<T: Object>(_ type: T.Type, completion: @escaping Completion) -> NotificationToken {
+        let notificationToken = realm.objects(type).observe({ change in
+            switch change {
+            case .error(let error):
+                completion(false, error.localizedDescription)
+            default:
+                completion(true, "")
+            }
+        })
+
+        return notificationToken
+    }
+
     /// invalidate
     func invalidateNotificationToken() {
         notificationToken?.invalidate()
+    }
+
+    /// invalidate
+    func invalidateNotificationToken2(token: NotificationToken?) {
+        token?.invalidate()
     }
 
     /// Add object to the Realm
