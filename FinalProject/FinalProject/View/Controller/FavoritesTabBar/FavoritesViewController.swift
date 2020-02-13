@@ -30,7 +30,7 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        viewModel.setupObserve2 { (done, _) in
+        viewModel.setupObserve { (done, _) in
             if done {
                 self.collectionView.reloadData()
             } else {
@@ -40,7 +40,7 @@ final class FavoritesViewController: BaseViewController {
     }
 
     deinit {
-        viewModel.invalidateNotificationToken2()
+        viewModel.invalidateNotificationToken()
     }
 }
 
