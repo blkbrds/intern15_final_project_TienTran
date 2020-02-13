@@ -54,30 +54,29 @@ final class BaseHomeChildViewController: BaseViewController {
     @objc private func refreshViewController() {
         if !viewModel.isRefreshing {
             viewModel.isRefreshing = true
-            viewModel.refreshData { (done, error) in
+            viewModel.refreshData { (done, _) in
                 if done {
                     self.tableView.reloadData()
                     self.viewModel.isRefreshing = false
                     self.refreshControl.endRefreshing()
                 } else {
                     self.viewModel.isRefreshing = false
-                    print("API ERROR: \(error)")
+                    #warning("API Error")
                 }
             }
         }
     }
 
     private func loadAPI() {
-        viewModel.loadAPI { (done, error) in
+        viewModel.loadAPI { (done, _) in
             if done {
                 self.activityIndicatorView.stopAnimating()
                 self.loadingView.isHidden = true
                 self.tableView.reloadData()
             } else {
-                print("\(self.viewModel.screenType.text): \(done)")
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
-                print("API ERROR: \(error)")
+                #warning("API Error")
             }
         }
     }
@@ -86,14 +85,14 @@ final class BaseHomeChildViewController: BaseViewController {
         guard !viewModel.isLoading, viewModel.canLoadMore else { return }
 
         viewModel.isLoading = true
-        viewModel.loadMoreAPI { (done, msg) in
+        viewModel.loadMoreAPI { (done, _) in
             if done {
                 self.viewModel.isLoading = false
                 self.tableView.reloadData()
             } else {
                 self.viewModel.isLoading = false
                 self.viewModel.canLoadMore = false
-                print("API ERROR: \(msg)")
+                #warning("API Error")
             }
         }
     }

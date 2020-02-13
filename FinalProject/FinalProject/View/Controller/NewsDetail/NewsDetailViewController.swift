@@ -32,6 +32,7 @@ final class NewsDetailViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        updateStatusFavoritesButton()
     }
 
     // MARK: - Private funcs
@@ -42,6 +43,14 @@ final class NewsDetailViewController: BaseViewController {
         view.addSubview(activityIndicatorView)
 
         previousNewsButton.isHidden = true
+    }
+
+    private func updateStatusFavoritesButton() {
+        if viewModel.isFavorited {
+            favoritesButton.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
+        } else {
+            favoritesButton.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
+        }
     }
 
     private func configNewsWebView() {
@@ -58,7 +67,27 @@ final class NewsDetailViewController: BaseViewController {
 
     // MARK: - IBAction
     @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
-        #warning("change favorites")
+        if viewModel.isFavorited {
+            viewModel.removeNewsInFavorites { [weak self] (done, _) in
+                guard let this = self else { return }
+                if done {
+                    this.updateStatusFavoritesButton()
+                    #warning("show alert")
+                } else {
+                    #warning("Realm Error")
+                }
+            }
+        } else {
+            viewModel.addNewsInFavorites { [weak self] (done, _) in
+                guard let this = self else { return }
+                if done {
+                    this.updateStatusFavoritesButton()
+                     #warning("show alert")
+                } else {
+                    #warning("Realm Error")
+                }
+            }
+        }
     }
 
     @IBAction private func previousNewsButtonTouchUpInside(_ sender: Any) {

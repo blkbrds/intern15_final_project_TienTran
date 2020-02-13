@@ -28,7 +28,6 @@ final class RealmManager {
     private let realm: Realm = {
         do {
             let realm = try Realm()
-            print("realm ok!")
             return realm
         } catch {
             fatalError("Realm not exist! \(error.localizedDescription)")
