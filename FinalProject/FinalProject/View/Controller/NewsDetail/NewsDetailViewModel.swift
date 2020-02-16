@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol NewsDetailViewModelDelegate: class {
     func viewModel(_ viewModel: NewsDetailViewModel, needPerform action: NewsDetailViewModel.Action)
@@ -70,5 +71,23 @@ extension NewsDetailViewModel {
     func isRealmContainsObject() -> Bool {
         guard let news = news else { return false }
         return RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews)
+    }
+
+    /// dowload image
+    func loadImage(completion: @escaping (UIImage?) -> Void) {
+        guard let news = news, let urlImage = news.urlImage else { completion(nil); return }
+
+        if let newsImageData = UserDefaults.standard.data(forKey: urlImage) {
+            let newsImage = UIImage(data: newsImageData)
+            completion(newsImage)
+        } else {
+            APIManager.Downloader.downloadImage(urlString: urlImage) { image in
+                if let image = image {
+                    completion(image)
+                } else {
+                    completion(nil)
+                }
+            }
+        }
     }
 }

@@ -105,7 +105,9 @@ extension SearchNewsViewController: UICollectionViewDataSource {
 
 extension SearchNewsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        #warning("Forward")
+        let newsDetail = NewsDetailViewController()
+        newsDetail.viewModel = viewModel.getNewsDetailViewModel(at: indexPath)
+        nextToViewController(viewcontroller: newsDetail)
     }
 }
 

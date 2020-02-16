@@ -24,6 +24,15 @@ extension SearchNewsViewModel {
         let news = searchItems[indexPath.row]
         return SearchNewsCellViewModel(news: news, indexPath: indexPath)
     }
+
+    func getNewsDetailViewModel(at indexPath: IndexPath) -> NewsDetailViewModel {
+        let news = searchItems[indexPath.row]
+        let newsDetailViewModel = NewsDetailViewModel(
+            news: news,
+            indexPath: indexPath,
+            isFavorited: RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews))
+        return newsDetailViewModel
+    }
 }
 
 extension SearchNewsViewModel {

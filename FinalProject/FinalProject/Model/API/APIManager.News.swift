@@ -50,10 +50,9 @@ extension APIManager.News {
     }
 
     static func getEverything(page: Int = 1, pageSize: Int = 20, query: String, country: String, completion: @escaping APICompletion<Response>) {
-//        let urlString = QueryString().getEverything(query: query, country: country, page: page, pageSize: pageSize)
-        let urlString = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=29bc913b0d1046a0a2c022139e9f003f"
+        
+        let urlString = QueryString().getEverything(query: query, country: country, page: page, pageSize: pageSize)
 
-//        let urlString = "        https://newsapi.org/v2/top-headlines?country=us&query=covid&apiKey=60f0d8ac682040768931b4d4611d7f50&page=1&pageSize=20"
         API.shared().request(urlString: urlString) { result in
             switch result {
             case .failure(let error):

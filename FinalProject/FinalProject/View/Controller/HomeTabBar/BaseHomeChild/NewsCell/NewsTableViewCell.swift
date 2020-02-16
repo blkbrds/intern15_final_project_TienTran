@@ -53,9 +53,9 @@ final class NewsTableViewCell: UITableViewCell {
         newsImageView.image = #imageLiteral(resourceName: "news-default")
         if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage,
             let dataImage = dataImages[viewModel.urlImage] {
-            UIView.animate(withDuration: 5,
+            UIView.animate(withDuration: 1.5,
                 delay: 0,
-                options: .curveEaseOut,
+                options: .curveEaseIn,
                 animations: {
                     self.newsImageView.image = UIImage(data: dataImage) },
                 completion: nil)
