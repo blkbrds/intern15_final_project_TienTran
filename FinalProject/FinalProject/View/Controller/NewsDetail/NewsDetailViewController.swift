@@ -12,27 +12,27 @@ import WebKit
 final class NewsDetailViewController: BaseViewController {
 
     // MARK: - Outlets
-    @IBOutlet private weak var favoritesButton: UIButton!
-    @IBOutlet private weak var shareButton: UIButton!
     @IBOutlet private weak var webView: WKWebView!
-    @IBOutlet private weak var previousNewsButton: UIButton!
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
 
     // MARK: - Propertites
     var viewModel = NewsDetailViewModel()
+    private var bookMarksBarButtonItem: UIBarButtonItem {
+        return UIBarButtonItem(image: UIImage(systemName: viewModel.favoritesImageString), style: .plain, target: self, action: #selector(changeBookMarkButtonTouchUpInside))
+    }
 
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         configUI()
         configNewsWebView()
+        addBookMarksBarButtonItem()
     }
 
     // MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-        updateStatusFavoritesButton()
     }
 
     // MARK: - Private funcs
@@ -41,16 +41,6 @@ final class NewsDetailViewController: BaseViewController {
         title = viewModel.news?.source?.name
         activityIndicatorView.startAnimating()
         view.addSubview(activityIndicatorView)
-
-        previousNewsButton.isHidden = true
-    }
-
-    private func updateStatusFavoritesButton() {
-        if viewModel.isFavorited {
-            favoritesButton.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
-        } else {
-            favoritesButton.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
-        }
     }
 
     private func configNewsWebView() {
@@ -65,13 +55,23 @@ final class NewsDetailViewController: BaseViewController {
         webView.load(urlRequest)
     }
 
-    // MARK: - IBAction
-    @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
+    private func addBookMarksBarButtonItem() {
+        navigationItem.rightBarButtonItem = bookMarksBarButtonItem
+    }
+
+    private func changeStatusBookMarkButton() {
+        bookMarksBarButtonItem.image = UIImage(systemName: viewModel.favoritesImageString)
+        navigationItem.rightBarButtonItem = bookMarksBarButtonItem
+//        bookMarksBarButtonItem.setBackgroundImage(UIImage(systemName: viewModel.favoritesImageString), for: .normal, barMetrics: .default)
+        print(viewModel.favoritesImageString)
+    }
+
+    @objc private func changeBookMarkButtonTouchUpInside() {
         if viewModel.isFavorited {
             viewModel.removeNewsInFavorites { [weak self] (done, _) in
                 guard let this = self else { return }
                 if done {
-                    this.updateStatusFavoritesButton()
+                    this.changeStatusBookMarkButton()
                     #warning("Show alert")
                 } else {
                     #warning("Realm Error")
@@ -81,17 +81,13 @@ final class NewsDetailViewController: BaseViewController {
             viewModel.addNewsInFavorites { [weak self] (done, _) in
                 guard let this = self else { return }
                 if done {
-                    this.updateStatusFavoritesButton()
+                    this.changeStatusBookMarkButton()
                     #warning("Show alert")
                 } else {
                     #warning("Realm Error")
                 }
             }
         }
-    }
-
-    @IBAction private func previousNewsButtonTouchUpInside(_ sender: Any) {
-        loadWebView()
     }
 }
 
@@ -100,9 +96,6 @@ extension NewsDetailViewController: WKUIDelegate { }
 
 extension NewsDetailViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if webView.backForwardList.backList.count > 0 {
-            previousNewsButton.isHidden = false
-        }
         activityIndicatorView.stopAnimating()
         activityIndicatorView.isHidden = true
     }

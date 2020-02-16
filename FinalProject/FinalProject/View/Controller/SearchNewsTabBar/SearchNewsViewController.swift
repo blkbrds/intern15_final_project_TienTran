@@ -32,14 +32,6 @@ final class SearchNewsViewController: BaseViewController {
         configCollectionView()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        guard !resultsSearchController.isActive else { return }
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.resultsSearchController.searchBar.becomeFirstResponder()
-        }
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         resultsSearchController.delegate = nil
@@ -74,7 +66,7 @@ final class SearchNewsViewController: BaseViewController {
         }
     }
 
-    func searchNewsApi() {
+    @objc private func searchNewsApi() {
         viewModel.searchNews { (done, _) in
             if done {
                 self.searchCollectionView.reloadData()
@@ -83,19 +75,17 @@ final class SearchNewsViewController: BaseViewController {
             }
         }
     }
-
-    deinit {
-        self.searchCollectionView.delegate = nil
-        self.searchCollectionView.dataSource = nil
-    }
 }
 
 extension SearchNewsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
 
-        if let searchString = searchController.searchBar.text, searchString.count > 3 {
+        if let searchString = searchController.searchBar.text {
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNewsApi), object: searchString)
+            self.perform(#selector(searchNewsApi), with: self, afterDelay: 1.5)
             viewModel.queryString = searchString
-            searchNewsApi()
+            #warning("Delete print later")
+            print(searchString)
         }
     }
 }
@@ -115,7 +105,7 @@ extension SearchNewsViewController: UICollectionViewDataSource {
 
 extension SearchNewsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
+        #warning("Forward")
     }
 }
 

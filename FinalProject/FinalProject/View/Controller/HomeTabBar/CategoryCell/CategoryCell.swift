@@ -31,6 +31,6 @@ final class CategoryCell: UICollectionViewCell {
     func updateUI() {
         guard let viewModel = viewModel else { return }
         categoryLabel.text = viewModel.textCategoryLabel
-        backgroundColorView.backgroundColor = viewModel.isEnable ? #colorLiteral(red: 0.4620226622, green: 0.8382837176, blue: 1, alpha: 1): #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        backgroundColorView.backgroundColor = viewModel.isEnable ? #colorLiteral(red: 0.5818830132, green: 0.2156915367, blue: 1, alpha: 1): #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     }
 }

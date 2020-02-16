@@ -18,7 +18,7 @@ final class FavoritesViewController: BaseViewController {
     // MARK: - config
     override func setupUI() {
         super.setupUI()
-        title = "Favorites"
+        title = "Bookmarks"
         configCollectionView()
         configObserve()
     }

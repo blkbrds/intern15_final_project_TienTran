@@ -48,6 +48,9 @@ extension SearchNewsViewModel {
 
     /// search news
     func searchNews(compeltion: @escaping Completion) {
+        queryString = queryString.trimmingCharacters(in: CharacterSet(charactersIn: " "))
+        queryString = queryString.replacingOccurrences(of: " ", with: "%20")
+        guard queryString != "" else { return compeltion(false, "") }
         APIManager.News.getEverything(query: queryString, country: "us") { result in
             switch result {
             case .failure(let error):

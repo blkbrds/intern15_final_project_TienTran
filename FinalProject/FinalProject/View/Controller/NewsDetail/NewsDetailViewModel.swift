@@ -21,11 +21,11 @@ final class NewsDetailViewModel {
     var news: News?
     var isFavorited: Bool = false
     var indexPath: IndexPath?
-    var favoritesImage: String? {
+    var favoritesImageString: String {
         if isFavorited {
-            return "heart.fill"
+            return "bookmark.fill"
         } else {
-            return "heart"
+            return "bookmark"
         }
     }
 

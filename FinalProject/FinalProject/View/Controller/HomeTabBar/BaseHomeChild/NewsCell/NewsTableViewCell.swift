@@ -41,6 +41,8 @@ final class NewsTableViewCell: UITableViewCell {
     private func configUI() {
         newsImageView.clipsToBounds = true
         newsImageView.layer.cornerRadius = 5
+        iconSourceImageView.clipsToBounds = true
+        iconSourceImageView.layer.cornerRadius = 5
     }
 
     private func updateUI() {
@@ -48,11 +50,16 @@ final class NewsTableViewCell: UITableViewCell {
         publishedLabel.text = viewModel.publishedAt.toString()
         newsTitleLabel.text = viewModel.newsTitle
         nameSourceLabel.text = viewModel.nameSource
-
-        if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage, let dataImage = dataImages[viewModel.urlImage] {
-            newsImageView.image = UIImage(data: dataImage)
+        newsImageView.image = #imageLiteral(resourceName: "news-default")
+        if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage,
+            let dataImage = dataImages[viewModel.urlImage] {
+            UIView.animate(withDuration: 5,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.newsImageView.image = UIImage(data: dataImage) },
+                completion: nil)
         } else {
-            newsImageView.image = #imageLiteral(resourceName: "news-default")
             delegate?.cell(self, needPerform: .loadImage(indexPath: viewModel.indexPath))
         }
     }
