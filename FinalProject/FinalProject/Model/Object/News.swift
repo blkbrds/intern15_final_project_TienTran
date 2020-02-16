@@ -9,8 +9,8 @@
 import RealmSwift
 
 final class Source: Object, Codable {
-    @objc dynamic var id: String? = ""
-    @objc dynamic var name: String? = ""
+    @objc dynamic var id: String = ""
+    @objc dynamic var name: String = ""
 
     override class func primaryKey() -> String? {
         return "name"
@@ -43,21 +43,19 @@ final class News: Object, Codable {
         super.init()
     }
 
-    required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        source = try container.decode(Source.self, forKey: .source)
-        titleNews = try container.decode(String.self, forKey: .titleNews)
-        urlNews = try container.decode(String.self, forKey: .urlNews)
-        urlImage = try container.decode(String.self, forKey: .urlImage)
-        content = try container.decode(String.self, forKey: .content)
-        let dateString = try container.decode(String.self, forKey: .publishedAt)
-        let formatter = DateFormatter.iso8601Full
-        if let date = formatter.date(from: dateString) {
-            publishedAt = date
-        } else {
-            throw DecodingError.dataCorruptedError(forKey: .publishedAt,
-                in: container,
-                debugDescription: "Date string does not match format expected by formatter.")
+    required init(from decoder: Decoder) {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            source = try? container.decode(Source.self, forKey: .source)
+            titleNews = try? container.decode(String.self, forKey: .titleNews)
+            urlNews = try? container.decode(String.self, forKey: .urlNews)
+            urlImage = try? container.decode(String.self, forKey: .urlImage)
+            content = try? container.decode(String.self, forKey: .content)
+
+            let formatter = DateFormatter.iso8601Full
+            if let dateString = try? container.decode(String.self, forKey: .publishedAt),
+                let date = formatter.date(from: dateString) {
+                publishedAt = date
+            }
         }
     }
 }
