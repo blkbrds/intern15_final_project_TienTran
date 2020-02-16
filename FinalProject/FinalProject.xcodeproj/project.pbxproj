@@ -138,10 +138,10 @@
 		F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */ = {
 			isa = PBXGroup;
 			children = (
-				F06C195123EBC5E300EA77C4 /* FavoritesCell */,
-				F06C194823EBBEEB00EA77C4 /* FavoritesViewController.xib */,
-				F06C194B23EBC55100EA77C4 /* FavoritesViewModel.swift */,
 				F06C194723EBBEEB00EA77C4 /* FavoritesViewController.swift */,
+				F06C194B23EBC55100EA77C4 /* FavoritesViewModel.swift */,
+				F06C194823EBBEEB00EA77C4 /* FavoritesViewController.xib */,
+				F06C195123EBC5E300EA77C4 /* FavoritesCell */,
 			);
 			path = FavoritesTabBar;
 			sourceTree = "<group>";
@@ -167,10 +167,10 @@
 		F094DA9823BED338008221E9 = {
 			isa = PBXGroup;
 			children = (
-				F094DAA223BED339008221E9 /* Products */,
 				F094DAA323BED339008221E9 /* FinalProject */,
-				A7500B9A684D20F74B9DF60A /* Pods */,
 				C6A7BF86F0AA6C6FC2CABB28 /* Frameworks */,
+				A7500B9A684D20F74B9DF60A /* Pods */,
+				F094DAA223BED339008221E9 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,11 +186,11 @@
 			isa = PBXGroup;
 			children = (
 				F094DAB223BED33B008221E9 /* Info.plist */,
-				F094DAB923BED3A6008221E9 /* Resource */,
 				F094DAB823BED362008221E9 /* AppDelegate */,
 				F0E9109D23CC6CE300038918 /* Define */,
 				F0DF3D4B23CDBD1400E1CD48 /* Library */,
 				F0DF3D4F23CDBD1400E1CD48 /* Model */,
+				F094DAB923BED3A6008221E9 /* Resource */,
 				F094DABA23BED3B0008221E9 /* View */,
 			);
 			path = FinalProject;
@@ -235,10 +235,10 @@
 			isa = PBXGroup;
 			children = (
 				F0ADABF223F52AC00012F1BD /* FavoritesDetail */,
-				F094DB0023BED41A008221E9 /* SearchNewsTabBar */,
 				F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */,
-				F094DAF723BED41A008221E9 /* NewsDetail */,
 				F094DAEB23BED41A008221E9 /* HomeTabBar */,
+				F094DAF723BED41A008221E9 /* NewsDetail */,
+				F094DB0023BED41A008221E9 /* SearchNewsTabBar */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -246,11 +246,11 @@
 		F094DAEB23BED41A008221E9 /* HomeTabBar */ = {
 			isa = PBXGroup;
 			children = (
-				F094DAF523BED41A008221E9 /* HomeViewController.xib */,
 				F094DAF623BED41A008221E9 /* HomeViewController.swift */,
 				F0E9109723CC5A1D00038918 /* HomeViewModel.swift */,
-				F094DAEC23BED41A008221E9 /* CategoryCell */,
+				F094DAF523BED41A008221E9 /* HomeViewController.xib */,
 				F094DAEF23BED41A008221E9 /* BaseHomeChild */,
+				F094DAEC23BED41A008221E9 /* CategoryCell */,
 			);
 			path = HomeTabBar;
 			sourceTree = "<group>";
@@ -258,9 +258,9 @@
 		F094DAEC23BED41A008221E9 /* CategoryCell */ = {
 			isa = PBXGroup;
 			children = (
-				F094DAED23BED41A008221E9 /* CategoryCell.xib */,
 				F0E910A823CC78BF00038918 /* CategoryCell.swift */,
 				F0E910AA23CC7AA400038918 /* CategoryCellViewModel.swift */,
+				F094DAED23BED41A008221E9 /* CategoryCell.xib */,
 			);
 			path = CategoryCell;
 			sourceTree = "<group>";
@@ -268,10 +268,10 @@
 		F094DAEF23BED41A008221E9 /* BaseHomeChild */ = {
 			isa = PBXGroup;
 			children = (
-				F094DB1E23BEE00E008221E9 /* NewsCell */,
-				F094DB1D23BEE00E008221E9 /* BaseHomeChildViewController.xib */,
 				F094DB2123BEE00E008221E9 /* BaseHomeChildViewController.swift */,
 				F0E9109923CC657400038918 /* BaseHomeChildViewModel.swift */,
+				F094DB1D23BEE00E008221E9 /* BaseHomeChildViewController.xib */,
+				F094DB1E23BEE00E008221E9 /* NewsCell */,
 			);
 			path = BaseHomeChild;
 			sourceTree = "<group>";
@@ -296,9 +296,9 @@
 		F094DB1E23BEE00E008221E9 /* NewsCell */ = {
 			isa = PBXGroup;
 			children = (
-				F094DB1F23BEE00E008221E9 /* NewsTableViewCell.xib */,
 				F094DB2023BEE00E008221E9 /* NewsTableViewCell.swift */,
 				F02657CE23CD675300C530EC /* NewsTableViewCellViewModel.swift */,
+				F094DB1F23BEE00E008221E9 /* NewsTableViewCell.xib */,
 			);
 			path = NewsCell;
 			sourceTree = "<group>";
@@ -306,10 +306,10 @@
 		F0ADABF223F52AC00012F1BD /* FavoritesDetail */ = {
 			isa = PBXGroup;
 			children = (
-				F0ADABF323F52AC00012F1BD /* FavoritesDetailCell */,
 				F0ADABF723F52AC00012F1BD /* FavoritesDetailViewController.swift */,
-				F0ADABF823F52AC00012F1BD /* FavoritesDetailViewController.xib */,
 				F0ADABF923F52AC00012F1BD /* FavoritesDetailViewModel.swift */,
+				F0ADABF823F52AC00012F1BD /* FavoritesDetailViewController.xib */,
+				F0ADABF323F52AC00012F1BD /* FavoritesDetailCell */,
 			);
 			path = FavoritesDetail;
 			sourceTree = "<group>";
@@ -335,8 +335,8 @@
 		F0DF3D4C23CDBD1400E1CD48 /* Ext */ = {
 			isa = PBXGroup;
 			children = (
-				FF466D5D23E28D7A00AC544C /* Utilities.swift */,
 				F0DF3D6223CDC22300E1CD48 /* UIImageViewExt.swift */,
+				FF466D5D23E28D7A00AC544C /* Utilities.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -344,9 +344,9 @@
 		F0DF3D4F23CDBD1400E1CD48 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F0DF3D5423CDBD1400E1CD48 /* API */,
 				F0DF3D5223CDBD1400E1CD48 /* Object */,
 				F082A75723F3B7D7002CB0EF /* Realm */,
-				F0DF3D5423CDBD1400E1CD48 /* API */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -703,6 +703,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PZSS652ZAC;
 				INFOPLIST_FILE = FinalProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -722,6 +723,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PZSS652ZAC;
 				INFOPLIST_FILE = FinalProject/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
