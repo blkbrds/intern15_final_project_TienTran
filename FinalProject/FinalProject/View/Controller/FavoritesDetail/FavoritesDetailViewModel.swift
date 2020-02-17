@@ -41,12 +41,7 @@ extension FavoritesDetailViewModel {
 
     func getFavoritesDetailCellViewModel(at indexPath: IndexPath) -> FavoritesDetailCellViewModel {
         let news = articles[indexPath.row]
-        let favoritesDetailCellViewModel = FavoritesDetailCellViewModel(
-            publishedAt: news.publishedAt ?? Date.currentDate(),
-            urlImage: news.urlImage ?? "",
-            urlNews: news.urlNews ?? "",
-            contentNews: news.content ?? "",
-            indexPath: indexPath)
+        let favoritesDetailCellViewModel = FavoritesDetailCellViewModel(news: news, indexPath: indexPath)
         return favoritesDetailCellViewModel
     }
 
@@ -99,7 +94,19 @@ extension FavoritesDetailViewModel {
         }
     }
 
-    func invalidateNotificationToken2() {
+    func invalidateNotificationToken() {
         RealmManager.shared().invalidateNotificationToken(token: notificationToken)
+    }
+
+    func removeNewsInFavorites(indexPath: IndexPath, completion: @escaping Completion) {
+        let news = articles[indexPath.row]
+        RealmManager.shared().deleteObject(object: news, forPrimaryKey: news.urlNews) { (done, error) in
+            if done {
+                self.articles.remove(at: indexPath.row)
+                completion(done, "")
+            } else {
+                completion(done, error)
+            }
+        }
     }
 }

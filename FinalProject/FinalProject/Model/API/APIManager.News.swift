@@ -50,7 +50,6 @@ extension APIManager.News {
     }
 
     static func getEverything(page: Int = 1, pageSize: Int = 20, query: String, country: String, completion: @escaping APICompletion<Response>) {
-        
         let urlString = QueryString().getEverything(query: query, country: country, page: page, pageSize: pageSize)
 
         API.shared().request(urlString: urlString) { result in

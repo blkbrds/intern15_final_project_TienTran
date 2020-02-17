@@ -9,17 +9,11 @@
 import Foundation
 
 final class FavoritesDetailCellViewModel {
-    var publishedAt: Date
-    var urlImage: String
-    var urlNews: String
-    var contentNews: String
+    var news: News
     var indexPath: IndexPath
 
-    init(publishedAt: Date, urlImage: String, urlNews: String, contentNews: String, indexPath: IndexPath) {
-        self.publishedAt = publishedAt
-        self.urlImage = urlImage
-        self.urlNews = urlNews
-        self.contentNews = contentNews
+    init(news: News, indexPath: IndexPath) {
+        self.news = news
         self.indexPath = indexPath
     }
 }

@@ -75,13 +75,13 @@ extension NewsDetailViewModel {
 
     /// dowload image
     func loadImage(completion: @escaping (UIImage?) -> Void) {
-        guard let news = news, let urlImage = news.urlImage else { completion(nil); return }
+        guard let news = news else { completion(nil); return }
 
-        if let newsImageData = UserDefaults.standard.data(forKey: urlImage) {
+        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage ?? "") {
             let newsImage = UIImage(data: newsImageData)
             completion(newsImage)
         } else {
-            APIManager.Downloader.downloadImage(urlString: urlImage) { image in
+            APIManager.Downloader.downloadImage(urlString: news.urlImage ?? "") { image in
                 if let image = image {
                     completion(image)
                 } else {

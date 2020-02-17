@@ -21,7 +21,9 @@ final class NewsDetailViewController: BaseViewController {
     // MARK: - Propertites
     var viewModel = NewsDetailViewModel()
     private var bookMarksBarButtonItem: UIBarButtonItem {
-        return UIBarButtonItem(image: UIImage(systemName: viewModel.favoritesImageString), style: .plain, target: self, action: #selector(changeBookMarkButtonTouchUpInside))
+        let bookMarksBarButtonItem = UIBarButtonItem(image: UIImage(systemName: viewModel.favoritesImageString), style: .plain, target: self, action: #selector(changeBookMarkButtonTouchUpInside))
+        bookMarksBarButtonItem.tintColor = .purple
+        return bookMarksBarButtonItem
     }
 
     // MARK: - config
@@ -45,21 +47,21 @@ final class NewsDetailViewController: BaseViewController {
         readMoreButton.clipsToBounds = true
         readMoreButton.layer.cornerRadius = 5
 
-        guard let news = viewModel.news,
-            let urlNews = news.urlNews,
-            let author = news.author,
-            let publishedAt = news.publishedAt,
-            let titleNews = news.titleNews,
-            let content = news.content else { return }
+        guard let news = viewModel.news else { return }
 
-        newsTitleLabel.text = titleNews
-        authorLabel.text = author
-        contentNewsLabel.text = content
-        readMoreButton.setTitle("\(publishedAt.relativelyFormatted(short: false)) • Read More...", for: .focused)
+        newsTitleLabel.text = news.titleNews
+        authorLabel.text = news.author
+        contentNewsLabel.text = news.content
+
+        if let publishedAt = news.publishedAt {
+            readMoreButton.setTitle("\(publishedAt.relativelyFormatted(short: false)) • Read More...", for: .focused)
+        } else {
+            readMoreButton.setTitle("Read More...", for: .focused)
+        }
 
         newsImageView.image = #imageLiteral(resourceName: "news-default")
         if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage,
-            let dataImage = dataImages[urlNews] {
+            let dataImage = dataImages[news.urlImage ?? ""] {
             self.newsImageView.image = UIImage(data: dataImage)
         } else {
             viewModel.loadImage { (image) in
@@ -104,9 +106,9 @@ final class NewsDetailViewController: BaseViewController {
     }
 
     private func openInSafari() {
-        guard let news = viewModel.news, let urlNews = news.urlNews else { return }
+        guard let news = viewModel.news else { return }
 
-        if let url = URL(string: urlNews) {
+        if let url = URL(string: news.urlNews ?? "https://www.apple.com") {
             let sfSafariVC = SFSafariViewController(url: url)
             sfSafariVC.delegate = self
             sfSafariVC.preferredControlTintColor = .purple

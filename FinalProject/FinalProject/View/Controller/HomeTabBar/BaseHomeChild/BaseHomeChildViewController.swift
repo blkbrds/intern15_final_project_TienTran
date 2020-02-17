@@ -16,6 +16,7 @@ final class BaseHomeChildViewController: BaseViewController {
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet private weak var errorView: UIView!
     @IBOutlet private weak var errorMessageLabel: UILabel!
+    @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
     var viewModel = BaseHomeChildViewModel()
@@ -54,6 +55,7 @@ final class BaseHomeChildViewController: BaseViewController {
     }
 
     @objc private func refreshViewController() {
+        guard !viewModel.isLoading else { return }
         if !viewModel.isRefreshing {
             viewModel.isRefreshing = true
             viewModel.refreshData { (done, _) in
@@ -106,6 +108,10 @@ final class BaseHomeChildViewController: BaseViewController {
             }
         }
     }
+
+    @IBAction func scrollToTopButtonTochUpInside(_ sender: UIButton) {
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    }
 }
 
 // MARK: - NewsTableViewCellDelegate
@@ -114,6 +120,7 @@ extension BaseHomeChildViewController: NewsTableViewCellDelegate {
         switch action {
         case .loadImage(let indexPath):
             viewModel.loadImage(indexPath: indexPath) { image in
+                guard indexPath.row < self.viewModel.articles.count else { return }
                 if image != nil {
                     self.tableView.reloadRows(at: [indexPath], with: .none)
                 }

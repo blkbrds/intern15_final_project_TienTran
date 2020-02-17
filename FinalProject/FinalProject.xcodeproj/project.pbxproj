@@ -202,11 +202,11 @@
 			isa = PBXGroup;
 			children = (
 				F094DAB223BED33B008221E9 /* Info.plist */,
-				F094DAB923BED3A6008221E9 /* Resource */,
 				F094DAB823BED362008221E9 /* AppDelegate */,
 				F0E9109D23CC6CE300038918 /* Define */,
 				F0DF3D4B23CDBD1400E1CD48 /* Library */,
 				F0DF3D4F23CDBD1400E1CD48 /* Model */,
+				F094DAB923BED3A6008221E9 /* Resource */,
 				F094DABA23BED3B0008221E9 /* View */,
 			);
 			path = FinalProject;
@@ -317,7 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				F0ADABF323F52AC00012F1BD /* FavoritesDetailCell */,
-				F0ADABF423F52AC00012F1BD /* FavoritesDetailCell.swift */,
+				F0ADABF723F52AC00012F1BD /* FavoritesDetailViewController.swift */,
 				F0ADABF923F52AC00012F1BD /* FavoritesDetailViewModel.swift */,
 				F0ADABF823F52AC00012F1BD /* FavoritesDetailViewController.xib */,
 			);
@@ -327,7 +327,7 @@
 		F0ADABF323F52AC00012F1BD /* FavoritesDetailCell */ = {
 			isa = PBXGroup;
 			children = (
-				F0ADABF723F52AC00012F1BD /* FavoritesDetailViewController.swift */,
+				F0ADABF423F52AC00012F1BD /* FavoritesDetailCell.swift */,
 				F0ADABF523F52AC00012F1BD /* FavoritesDetailCellViewModel.swift */,
 				F0ADABF623F52AC00012F1BD /* FavoritesDetailCell.xib */,
 			);
