@@ -21,7 +21,7 @@ final class HomeViewModel {
         }
     }
 
-    var categories: [CategoryType] = CategoryType.allCases
+    var categories: [CategoryType] = []
 }
 
 // MARK: - config tableview
@@ -32,6 +32,10 @@ extension HomeViewModel {
 
     func getCategoryCellViewModel(indexPath: IndexPath) -> CategoryCellViewModel {
         return CategoryCellViewModel(textCategoryLabel: categories[indexPath.row].text, isEnable: currentPage == indexPath.row)
+    }
+
+    func getCategorise(categorise: [CategoryType]) -> [CategoryType] {
+        return categorise
     }
 }
 

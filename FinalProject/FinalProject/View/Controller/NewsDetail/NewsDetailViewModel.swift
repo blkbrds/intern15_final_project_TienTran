@@ -22,13 +22,7 @@ final class NewsDetailViewModel {
     var news: News?
     var isFavorited: Bool = false
     var indexPath: IndexPath?
-    var favoritesImageString: String {
-        if isFavorited {
-            return "bookmark.fill"
-        } else {
-            return "bookmark"
-        }
-    }
+    var favoritesImageString: String { return isFavorited ? "bookmark.fill" : "bookmark" }
 
     weak var delegate: NewsDetailViewModelDelegate?
 

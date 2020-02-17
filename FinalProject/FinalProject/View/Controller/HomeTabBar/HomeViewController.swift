@@ -19,17 +19,31 @@ final class HomeViewController: BaseViewController {
     private var viewControllers = [BaseHomeChildViewController]()
     private var viewModel = HomeViewModel()
 
+    private var settingSubTabsButtonItem: UIBarButtonItem {
+        let settingSubTabsButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.line.vertical.and.square.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(settingSubTabsButtonItemTouchUpInside))
+        settingSubTabsButtonItem.tintColor = .purple
+        return settingSubTabsButtonItem
+    }
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()
-        title = "Headlines"
+        title = "News"
+
         configCategoriesCollectionView()
         configPageViewController()
+        navigationItem.rightBarButtonItem = settingSubTabsButtonItem
     }
 
     override func setupData() {
         super.setupData()
         APIManager.Downloader.configImageDataStorage()
+
+        #warning("setup data")
+        viewModel.categories = viewModel.getCategorise(categorise: [.business, .us, .business])
     }
 
     // MARK: - Private funcs
@@ -67,7 +81,7 @@ final class HomeViewController: BaseViewController {
     }
 
     private func addChildViewController() {
-        for (index, type) in CategoryType.allCases.enumerated() {
+        for (index, type) in viewModel.categories.enumerated() {
             let viewController = BaseHomeChildViewController()
             viewController.viewModel.screenType = type
             viewController.view.tag = index
@@ -88,6 +102,12 @@ final class HomeViewController: BaseViewController {
                 cell.viewModel = viewModel.getCategoryCellViewModel(indexPath: indexPath)
             }
         }
+    }
+
+    @objc private func settingSubTabsButtonItemTouchUpInside() {
+        let settingSubTabsViewController = SettingSubTabsViewController()
+        #warning("Realm -- get data")
+        nextToViewController(viewcontroller: settingSubTabsViewController)
     }
 }
 

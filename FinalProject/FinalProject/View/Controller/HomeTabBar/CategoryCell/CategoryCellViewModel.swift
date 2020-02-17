@@ -16,8 +16,4 @@ final class CategoryCellViewModel {
         self.isEnable = isEnable
         self.textCategoryLabel = textCategoryLabel
     }
-
-    func configData(isEnable: Bool) {
-        self.isEnable = isEnable
-    }
 }
