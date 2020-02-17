@@ -13,6 +13,7 @@ extension App {
 }
 
 extension App.String {
-    static let homeTabBar = "Headlines"
-    static let followingTabBar = "Favorites"
+    static let homeTabBar = "News"
+    static let followingTabBar = "Bookmarks"
+    static let searchTabBar = "Search"
 }

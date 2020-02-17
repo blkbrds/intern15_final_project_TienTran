@@ -15,6 +15,8 @@ final class BaseHomeChildViewController: BaseViewController {
     @IBOutlet private weak var loadingView: UIView!
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet private weak var errorView: UIView!
+    @IBOutlet private weak var errorMessageLabel: UILabel!
+    @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
     var viewModel = BaseHomeChildViewModel()
@@ -34,7 +36,8 @@ final class BaseHomeChildViewController: BaseViewController {
 
     // MARK: - Private funcs
     private func configTableView() {
-        tableView.register(UINib(nibName: Config.newsTableViewCell, bundle: .main), forCellReuseIdentifier: Config.newsTableViewCell)
+        tableView.register(UINib(nibName: Config.largeNewsCell, bundle: .main), forCellReuseIdentifier: Config.largeNewsCell)
+        tableView.register(UINib(nibName: Config.smallNewsCell, bundle: .main), forCellReuseIdentifier: Config.smallNewsCell)
         tableView.register(UINib(nibName: Config.loadingCell, bundle: .main), forCellReuseIdentifier: Config.loadingCell)
         tableView.dataSource = self
         tableView.delegate = self
@@ -52,6 +55,7 @@ final class BaseHomeChildViewController: BaseViewController {
     }
 
     @objc private func refreshViewController() {
+        guard !viewModel.isLoading else { return }
         if !viewModel.isRefreshing {
             viewModel.isRefreshing = true
             viewModel.refreshData { (done, _) in
@@ -59,6 +63,8 @@ final class BaseHomeChildViewController: BaseViewController {
                     self.tableView.reloadData()
                     self.viewModel.isRefreshing = false
                     self.refreshControl.endRefreshing()
+                    #warning("Delete print later")
+                    print(self.viewModel.articles.count)
                 } else {
                     self.viewModel.isRefreshing = false
                     #warning("API Error")
@@ -73,9 +79,12 @@ final class BaseHomeChildViewController: BaseViewController {
                 self.activityIndicatorView.stopAnimating()
                 self.loadingView.isHidden = true
                 self.tableView.reloadData()
+                #warning("Delete print later")
+                print(self.viewModel.articles.count)
             } else {
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
+                self.errorMessageLabel.text = "404!\noops! page \"\(self.viewModel.screenType.text)\" not found"
                 #warning("API Error")
             }
         }
@@ -89,12 +98,19 @@ final class BaseHomeChildViewController: BaseViewController {
             if done {
                 self.viewModel.isLoading = false
                 self.tableView.reloadData()
+                #warning("Delete print later")
+                print(self.viewModel.articles.count)
             } else {
                 self.viewModel.isLoading = false
                 self.viewModel.canLoadMore = false
                 #warning("API Error")
+                print("Can't load more")
             }
         }
+    }
+
+    @IBAction func scrollToTopButtonTochUpInside(_ sender: UIButton) {
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 }
 
@@ -104,6 +120,7 @@ extension BaseHomeChildViewController: NewsTableViewCellDelegate {
         switch action {
         case .loadImage(let indexPath):
             viewModel.loadImage(indexPath: indexPath) { image in
+                guard indexPath.row < self.viewModel.articles.count else { return }
                 if image != nil {
                     self.tableView.reloadRows(at: [indexPath], with: .none)
                 }
@@ -119,7 +136,14 @@ extension BaseHomeChildViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let newsCell = tableView.dequeueReusableCell(withIdentifier: Config.newsTableViewCell, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
+        var identifierString = Config.smallNewsCell
+        switch indexPath.row % 4 {
+        case 0:
+            identifierString = Config.largeNewsCell
+        default:
+            identifierString = Config.smallNewsCell
+        }
+        guard let newsCell = tableView.dequeueReusableCell(withIdentifier: identifierString, for: indexPath) as? NewsTableViewCell else { return UITableViewCell() }
         newsCell.delegate = self
         newsCell.viewModel = viewModel.getNewsCellViewModel(at: indexPath)
         return newsCell
@@ -129,7 +153,12 @@ extension BaseHomeChildViewController: UITableViewDataSource {
 // MARK: - TableView Delegate
 extension BaseHomeChildViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        switch indexPath.row % 4 {
+        case 0:
+            return 240
+        default:
+            return 160
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -153,7 +182,8 @@ extension BaseHomeChildViewController: UITableViewDelegate {
 extension BaseHomeChildViewController {
 
     struct Config {
-        static let newsTableViewCell = "NewsTableViewCell"
+        static let largeNewsCell = "LargeNewsCell"
+        static let smallNewsCell = "SmallNewsCell"
         static let loadingCell = "LoadingCell"
     }
 }

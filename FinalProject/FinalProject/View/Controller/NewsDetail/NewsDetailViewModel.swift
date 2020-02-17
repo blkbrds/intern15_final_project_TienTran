@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol NewsDetailViewModelDelegate: class {
     func viewModel(_ viewModel: NewsDetailViewModel, needPerform action: NewsDetailViewModel.Action)
@@ -21,11 +22,11 @@ final class NewsDetailViewModel {
     var news: News?
     var isFavorited: Bool = false
     var indexPath: IndexPath?
-    var favoritesImage: String? {
+    var favoritesImageString: String {
         if isFavorited {
-            return "heart.fill"
+            return "bookmark.fill"
         } else {
-            return "heart"
+            return "bookmark"
         }
     }
 
@@ -70,5 +71,23 @@ extension NewsDetailViewModel {
     func isRealmContainsObject() -> Bool {
         guard let news = news else { return false }
         return RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews)
+    }
+
+    /// dowload image
+    func loadImage(completion: @escaping (UIImage?) -> Void) {
+        guard let news = news else { completion(nil); return }
+
+        if let newsImageData = UserDefaults.standard.data(forKey: news.urlImage ?? "") {
+            let newsImage = UIImage(data: newsImageData)
+            completion(newsImage)
+        } else {
+            APIManager.Downloader.downloadImage(urlString: news.urlImage ?? "") { image in
+                if let image = image {
+                    completion(image)
+                } else {
+                    completion(nil)
+                }
+            }
+        }
     }
 }

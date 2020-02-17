@@ -7,11 +7,13 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BaseHomeChildViewController" customModule="FinalProject" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BaseHomeChildViewController" customModule="News_US" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicatorView" destination="YzB-2B-5wQ" id="giB-lA-UYZ"/>
+                <outlet property="errorMessageLabel" destination="bah-Tl-Fam" id="VE9-8G-hgh"/>
                 <outlet property="errorView" destination="Hns-Rg-VeR" id="SpP-lp-TrO"/>
                 <outlet property="loadingView" destination="rHV-tl-sVD" id="tnu-in-Ny5"/>
+                <outlet property="scrollToTopButton" destination="Grz-q9-iAn" id="o3X-Y1-dSe"/>
                 <outlet property="tableView" destination="rsw-kO-tij" id="WMw-8S-x96"/>
                 <outlet property="view" destination="iN0-l3-epB" id="4pE-e9-zwh"/>
             </connections>
@@ -73,10 +75,26 @@ oops! "page" not found</string>
                         <constraint firstItem="Hns-Rg-VeR" firstAttribute="leading" secondItem="rHV-tl-sVD" secondAttribute="leading" id="yLv-dx-NnO"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Grz-q9-iAn">
+                    <rect key="frame" x="374" y="812" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="5QP-82-wc5"/>
+                        <constraint firstAttribute="height" constant="30" id="bWw-3w-E8O"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <color key="tintColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="arrow.up.circle.fill" catalog="system">
+                        <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="0.8516160103" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="scrollToTopButtonTochUpInside:" destination="-1" eventType="touchUpInside" id="S7l-l5-CGy"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="rHV-tl-sVD" secondAttribute="bottom" id="4hY-Qq-ZXd"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Grz-q9-iAn" secondAttribute="trailing" constant="10" id="Kl7-9E-mTr"/>
                 <constraint firstItem="rHV-tl-sVD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Kvk-M7-vnO"/>
                 <constraint firstItem="rsw-kO-tij" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="NXC-NP-FQf"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="rsw-kO-tij" secondAttribute="trailing" id="RUh-pe-jMh"/>
@@ -84,12 +102,14 @@ oops! "page" not found</string>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="rHV-tl-sVD" secondAttribute="trailing" id="bsb-au-aSS"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="rsw-kO-tij" secondAttribute="bottom" id="cqY-MV-HS9"/>
                 <constraint firstItem="rsw-kO-tij" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="w0q-gF-uyN"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Grz-q9-iAn" secondAttribute="bottom" constant="20" id="yd2-0U-7pf"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="128.98550724637681" y="6.6964285714285712"/>
         </view>
     </objects>
     <resources>
+        <image name="arrow.up.circle.fill" catalog="system" width="64" height="60"/>
         <image name="error" width="900" height="858"/>
     </resources>
 </document>

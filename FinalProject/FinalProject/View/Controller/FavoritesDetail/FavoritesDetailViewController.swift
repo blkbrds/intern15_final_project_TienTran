@@ -56,8 +56,9 @@ final class FavoritesDetailViewController: BaseViewController {
             }
         }
     }
+
     deinit {
-        viewModel.invalidateNotificationToken2()
+        viewModel.invalidateNotificationToken()
     }
 }
 
@@ -95,6 +96,15 @@ extension FavoritesDetailViewController: FavoritesDetailCellDelegate {
             viewModel.loadImage(indexPath: indexPath) { image in
                 if image != nil {
                     self.tableView.reloadRows(at: [indexPath], with: .none)
+                }
+            }
+        case .delete(let indexPath):
+            #warning("Show alert delete news(Y/N)?")
+            viewModel.removeNewsInFavorites(indexPath: indexPath) { (done, error) in
+                if done {
+                    self.tableView.reloadData()
+                } else {
+                    #warning("Reaml Error")
                 }
             }
         }

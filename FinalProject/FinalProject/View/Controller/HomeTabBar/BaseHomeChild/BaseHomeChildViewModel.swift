@@ -97,6 +97,8 @@ extension BaseHomeChildViewModel {
                 compeltion(false, error.localizedDescription)
             case .success(let response):
                 self.articles = response.articles
+                self.canLoadMore = true
+                self.currentPageParam = 1
                 self.setCategoryInNews()
                 // call back
                 compeltion(true, "")

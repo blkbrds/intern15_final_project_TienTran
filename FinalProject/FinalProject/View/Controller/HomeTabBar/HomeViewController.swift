@@ -44,8 +44,10 @@ final class HomeViewController: BaseViewController {
     private func configFlowLayout() {
         // auto resize item
         if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.scrollDirection = .horizontal
+            flowLayout.minimumLineSpacing = 10
             flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-            flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+            flowLayout.estimatedItemSize = CGSize(width: 1, height: 25)
         }
     }
 

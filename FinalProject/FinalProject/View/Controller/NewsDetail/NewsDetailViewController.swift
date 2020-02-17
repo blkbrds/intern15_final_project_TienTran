@@ -7,71 +7,86 @@
 //
 
 import UIKit
-import WebKit
+import SafariServices
 
 final class NewsDetailViewController: BaseViewController {
 
     // MARK: - Outlets
-    @IBOutlet private weak var favoritesButton: UIButton!
-    @IBOutlet private weak var shareButton: UIButton!
-    @IBOutlet private weak var webView: WKWebView!
-    @IBOutlet private weak var previousNewsButton: UIButton!
-    @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet private weak var newsImageView: UIImageView!
+    @IBOutlet private weak var newsTitleLabel: UILabel!
+    @IBOutlet private weak var authorLabel: UILabel!
+    @IBOutlet private weak var contentNewsLabel: UILabel!
+    @IBOutlet private weak var readMoreButton: UIButton!
 
     // MARK: - Propertites
     var viewModel = NewsDetailViewModel()
+    private var bookMarksBarButtonItem: UIBarButtonItem {
+        let bookMarksBarButtonItem = UIBarButtonItem(image: UIImage(systemName: viewModel.favoritesImageString), style: .plain, target: self, action: #selector(changeBookMarkButtonTouchUpInside))
+        bookMarksBarButtonItem.tintColor = .purple
+        return bookMarksBarButtonItem
+    }
 
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         configUI()
-        configNewsWebView()
+        addBookMarksBarButtonItem()
     }
 
     // MARK: - Life cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
-        updateStatusFavoritesButton()
     }
 
     // MARK: - Private funcs
     private func configUI() {
         navigationItem.title = ""
         title = viewModel.news?.source?.name
-        activityIndicatorView.startAnimating()
-        view.addSubview(activityIndicatorView)
 
-        previousNewsButton.isHidden = true
-    }
+        readMoreButton.clipsToBounds = true
+        readMoreButton.layer.cornerRadius = 5
 
-    private func updateStatusFavoritesButton() {
-        if viewModel.isFavorited {
-            favoritesButton.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
+        guard let news = viewModel.news else { return }
+
+        newsTitleLabel.text = news.titleNews
+        authorLabel.text = news.author
+        contentNewsLabel.text = news.content
+
+        if let publishedAt = news.publishedAt {
+            readMoreButton.setTitle("\(publishedAt.relativelyFormatted(short: false)) • Read More...", for: .focused)
         } else {
-            favoritesButton.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
+            readMoreButton.setTitle("Read More...", for: .focused)
+        }
+
+        newsImageView.image = #imageLiteral(resourceName: "news-default")
+        if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage,
+            let dataImage = dataImages[news.urlImage ?? ""] {
+            self.newsImageView.image = UIImage(data: dataImage)
+        } else {
+            viewModel.loadImage { (image) in
+                if let image = image {
+                    self.newsImageView.image = image
+                }
+            }
         }
     }
 
-    private func configNewsWebView() {
-        loadWebView()
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
+    private func addBookMarksBarButtonItem() {
+        navigationItem.rightBarButtonItem = bookMarksBarButtonItem
     }
 
-    private func loadWebView() {
-        guard let urlNews = viewModel.news?.urlNews, let newsURL = URL(string: urlNews) else { return }
-        let urlRequest = URLRequest(url: newsURL)
-        webView.load(urlRequest)
+    private func changeStatusBookMarkButton() {
+        bookMarksBarButtonItem.image = UIImage(systemName: viewModel.favoritesImageString)
+        navigationItem.rightBarButtonItem = bookMarksBarButtonItem
     }
 
-    // MARK: - IBAction
-    @IBAction private func changeFavoritesButtonTouchUpInside(_ sender: Any) {
+    @objc private func changeBookMarkButtonTouchUpInside() {
         if viewModel.isFavorited {
             viewModel.removeNewsInFavorites { [weak self] (done, _) in
                 guard let this = self else { return }
                 if done {
-                    this.updateStatusFavoritesButton()
+                    this.changeStatusBookMarkButton()
                     #warning("Show alert")
                 } else {
                     #warning("Realm Error")
@@ -81,7 +96,7 @@ final class NewsDetailViewController: BaseViewController {
             viewModel.addNewsInFavorites { [weak self] (done, _) in
                 guard let this = self else { return }
                 if done {
-                    this.updateStatusFavoritesButton()
+                    this.changeStatusBookMarkButton()
                     #warning("Show alert")
                 } else {
                     #warning("Realm Error")
@@ -90,20 +105,29 @@ final class NewsDetailViewController: BaseViewController {
         }
     }
 
-    @IBAction private func previousNewsButtonTouchUpInside(_ sender: Any) {
-        loadWebView()
+    private func openInSafari() {
+        guard let news = viewModel.news else { return }
+
+        if let url = URL(string: news.urlNews ?? "https://www.apple.com") {
+            let sfSafariVC = SFSafariViewController(url: url)
+            sfSafariVC.delegate = self
+            sfSafariVC.preferredControlTintColor = .purple
+            sfSafariVC.modalPresentationStyle = .formSheet
+            present(sfSafariVC, animated: true)
+        }
+    }
+
+    @IBAction private func readMoreButtonTouchUpInside(_ sender: UIButton) {
+        openInSafari()
     }
 }
 
-// MARK: - WKUIDelegate
-extension NewsDetailViewController: WKUIDelegate { }
+extension NewsDetailViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true)
+    }
 
-extension NewsDetailViewController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if webView.backForwardList.backList.count > 0 {
-            previousNewsButton.isHidden = false
-        }
-        activityIndicatorView.stopAnimating()
-        activityIndicatorView.isHidden = true
+    func safariViewController(_ controller: SFSafariViewController, excludedActivityTypesFor URL: URL, title: String?) -> [UIActivity.ActivityType] {
+        return [.copyToPasteboard]
     }
 }

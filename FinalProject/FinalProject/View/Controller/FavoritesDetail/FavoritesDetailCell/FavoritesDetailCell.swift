@@ -16,12 +16,15 @@ final class FavoritesDetailCell: UITableViewCell {
 
     enum Action {
         case loadImage(indexPath: IndexPath)
+        case delete(indexPath: IndexPath)
     }
 
     @IBOutlet private weak var newsImageView: UIImageView!
-    @IBOutlet private weak var contentNewsLabel: UILabel!
+    @IBOutlet private weak var titleNewsLabel: UILabel!
     @IBOutlet private weak var publishedLabel: UILabel!
     @IBOutlet private weak var deleteNewsButton: UIButton!
+    @IBOutlet private weak var nameSourceLabel: UILabel!
+    @IBOutlet private weak var iconSourceImageView: UIImageView!
 
     weak var delegate: FavoritesDetailCellDelegate?
     var viewModel: FavoritesDetailCellViewModel? {
@@ -43,10 +46,11 @@ final class FavoritesDetailCell: UITableViewCell {
 
     private func updateUI() {
         guard let viewModel = viewModel else { return }
-        publishedLabel.text = viewModel.publishedAt.toString()
-        contentNewsLabel.text = viewModel.contentNews
+        publishedLabel.text = (viewModel.news.publishedAt ?? Date.currentDate()).relativelyFormatted(short: false)
+        titleNewsLabel.text = viewModel.news.titleNews
+        nameSourceLabel.text = viewModel.news.source?.name
 
-        if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage, let dataImage = dataImages[viewModel.urlImage] {
+        if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage, let urlImage = viewModel.news.urlImage, let dataImage = dataImages[urlImage] {
             newsImageView.image = UIImage(data: dataImage)
         } else {
             newsImageView.image = #imageLiteral(resourceName: "news-default")
@@ -55,6 +59,7 @@ final class FavoritesDetailCell: UITableViewCell {
     }
 
     @IBAction private func deleteNewsButtonTouchUpInside(_ sender: Any) {
-        #warning("delegate")
+        guard let viewModel = viewModel else { return }
+        delegate?.cell(self, needPerform: .delete(indexPath: viewModel.indexPath))
     }
 }
