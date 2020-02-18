@@ -15,7 +15,6 @@ final class BaseHomeChildViewController: BaseViewController {
     @IBOutlet private weak var loadingView: UIView!
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet private weak var errorView: UIView!
-    @IBOutlet private weak var errorMessageLabel: UILabel!
     @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
@@ -84,7 +83,6 @@ final class BaseHomeChildViewController: BaseViewController {
             } else {
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
-                self.errorMessageLabel.text = "404!\noops! page \"\(self.viewModel.screenType.text)\" not found"
                 #warning("API Error")
             }
         }

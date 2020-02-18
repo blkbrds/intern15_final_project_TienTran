@@ -54,9 +54,9 @@ final class NewsDetailViewController: BaseViewController {
         contentNewsLabel.text = news.content
 
         if let publishedAt = news.publishedAt {
-            readMoreButton.setTitle("\(publishedAt.relativelyFormatted(short: false)) • Read More...", for: .focused)
+            readMoreButton.setTitle("\(publishedAt.relativelyFormatted(short: false)) • Read More...", for: .normal)
         } else {
-            readMoreButton.setTitle("Read More...", for: .focused)
+            readMoreButton.setTitle("Read More...", for: .normal)
         }
 
         newsImageView.image = #imageLiteral(resourceName: "news-default")

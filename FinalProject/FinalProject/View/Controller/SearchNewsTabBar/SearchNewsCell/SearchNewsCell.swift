@@ -18,10 +18,11 @@ class SearchNewsCell: UICollectionViewCell {
         case loadImage(indexPath: IndexPath)
     }
 
-    @IBOutlet weak var newsImageView: UIImageView!
-    @IBOutlet weak var newsTitleLabel: UILabel!
-    @IBOutlet weak var newsSourceLabel: UILabel!
-    @IBOutlet weak var newsPublishedAtLabel: UILabel!
+    @IBOutlet private weak var publishedLabel: UILabel!
+    @IBOutlet private weak var newsImageView: UIImageView!
+    @IBOutlet private weak var newsTitleLabel: UILabel!
+    @IBOutlet private weak var nameSourceLabel: UILabel!
+    @IBOutlet private weak var iconSourceImageView: UIImageView!
 
     weak var delegate: SearchNewsCellDelegate?
     var viewModel: SearchNewsCellViewModel? {
@@ -38,17 +39,17 @@ class SearchNewsCell: UICollectionViewCell {
     private func configUI() {
         newsImageView.clipsToBounds = true
         newsImageView.layer.cornerRadius = 20
-        newsSourceLabel.clipsToBounds = true
-        newsSourceLabel.layer.cornerRadius = 7
-        newsPublishedAtLabel.clipsToBounds = true
-        newsPublishedAtLabel.layer.cornerRadius = 7
+        nameSourceLabel.clipsToBounds = true
+        nameSourceLabel.layer.cornerRadius = 7
+        publishedLabel.clipsToBounds = true
+        publishedLabel.layer.cornerRadius = 7
     }
 
     private func updateUI() {
         guard let viewModel = viewModel else { return }
-        newsPublishedAtLabel.text = viewModel.news.publishedAt?.relativelyFormatted(short: false)
+        publishedLabel.text = viewModel.news.publishedAt?.relativelyFormatted(short: false)
         newsTitleLabel.text = viewModel.news.titleNews
-        newsSourceLabel.text = viewModel.news.source?.name ?? ""
+        nameSourceLabel.text = viewModel.news.source?.name ?? ""
 
         if let dataImages = UserDefaults.standard.dictionary(forKey: "dataImages") as? DictionaryDataImage, let dataImage = dataImages[viewModel.news.urlImage ?? ""] {
             newsImageView.image = UIImage(data: dataImage)

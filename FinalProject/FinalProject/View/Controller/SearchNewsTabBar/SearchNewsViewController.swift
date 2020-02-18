@@ -12,6 +12,8 @@ final class SearchNewsViewController: BaseViewController {
 
     @IBOutlet private weak var searchCollectionView: UICollectionView!
 
+    @IBOutlet private weak var noArticlesSearchView: UIView!
+
     var viewModel = SearchNewsViewModel()
 
     private var resultsSearchController: UISearchController = {
@@ -47,6 +49,7 @@ final class SearchNewsViewController: BaseViewController {
 
     private func configSearch() {
         resultsSearchController.searchResultsUpdater = self
+        resultsSearchController.searchBar.delegate = self
         navigationItem.searchController = resultsSearchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
@@ -66,10 +69,19 @@ final class SearchNewsViewController: BaseViewController {
         }
     }
 
+    private func reloadSearchNewsViewController() {
+        if viewModel.isEmmtySearchItems() {
+            noArticlesSearchView.isHidden = false
+        } else {
+            noArticlesSearchView.isHidden = true
+        }
+        searchCollectionView.reloadData()
+    }
+
     @objc private func searchNewsApi() {
         viewModel.searchNews { (done, _) in
             if done {
-                self.searchCollectionView.reloadData()
+                self.reloadSearchNewsViewController()
             } else {
                 #warning("Show alert")
             }
@@ -77,15 +89,20 @@ final class SearchNewsViewController: BaseViewController {
     }
 }
 
+extension SearchNewsViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.searchItems.removeAll()
+        reloadSearchNewsViewController()
+    }
+}
+
 extension SearchNewsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
 
         if let searchString = searchController.searchBar.text {
-            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNewsApi), object: searchString)
-            self.perform(#selector(searchNewsApi), with: self, afterDelay: 1.5)
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNewsApi), object: nil)
+            self.perform(#selector(searchNewsApi), with: nil, afterDelay: 1.5)
             viewModel.queryString = searchString
-            #warning("Delete print later")
-            print(searchString)
         }
     }
 }

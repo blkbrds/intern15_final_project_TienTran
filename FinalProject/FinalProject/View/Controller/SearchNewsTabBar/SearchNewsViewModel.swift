@@ -12,6 +12,7 @@ import UIKit
 final class SearchNewsViewModel {
     var searchItems: [News] = []
     var queryString = ""
+    private var oldQueryString = ""
 }
 
 extension SearchNewsViewModel {
@@ -32,6 +33,10 @@ extension SearchNewsViewModel {
             indexPath: indexPath,
             isFavorited: RealmManager.shared().isRealmContainsObject(object: news, forPrimaryKey: news.urlNews))
         return newsDetailViewModel
+    }
+
+    func isEmmtySearchItems() -> Bool {
+        return searchItems.count < 1 ? true : false
     }
 }
 
@@ -59,7 +64,7 @@ extension SearchNewsViewModel {
     func searchNews(compeltion: @escaping Completion) {
         queryString = queryString.trimmingCharacters(in: CharacterSet(charactersIn: " "))
         queryString = queryString.replacingOccurrences(of: " ", with: "%20")
-        guard queryString != "" else { return compeltion(false, "") }
+        guard queryString != "", queryString != oldQueryString else { return compeltion(false, "") }
         APIManager.News.getEverything(query: queryString, country: "us") { result in
             switch result {
             case .failure(let error):
@@ -67,6 +72,7 @@ extension SearchNewsViewModel {
                 compeltion(false, error.localizedDescription)
             case .success(let response):
                 self.searchItems = response.articles
+                self.oldQueryString = self.queryString
                 // call back
                 compeltion(true, "")
             }

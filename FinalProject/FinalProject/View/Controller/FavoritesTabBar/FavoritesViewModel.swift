@@ -39,13 +39,19 @@ extension FavoritesViewModel {
         notificationToken = RealmManager.shared().setupObserve(News.self) { (done, error) in
             if done {
                 completion(done, "")
+                print(RealmManager.shared().getObjects(News.self).count)
             } else {
                 completion(done, error)
             }
         }
+
     }
 
     func invalidateNotificationToken() {
         RealmManager.shared().invalidateNotificationToken(token: notificationToken)
+    }
+
+    func isEmtyBookmarks() -> Bool {
+        return RealmManager.shared().getObjects(News.self).count == 0 ? true : false
     }
 }
