@@ -35,11 +35,11 @@ extension HomeViewModel {
     }
 
     func fetchCategorise() {
-        categories = SettingManager.shared().getTabCategories()
+        categories = SettingManager.shared().categories
     }
 
     func fetchCategorise(complete: @escaping Completion) {
-        let newCategories = SettingManager.shared().getTabCategories()
+        let newCategories = SettingManager.shared().categories
         if !newCategories.elementsEqual(categories) {
             categories = newCategories
             complete(true, "")

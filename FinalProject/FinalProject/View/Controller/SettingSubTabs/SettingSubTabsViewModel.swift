@@ -13,7 +13,7 @@ final class SettingSubTabsViewModel {
     var categories: [CategoryType] = CategoryType.allCases
     var cells: [SettingSubTabsCellViewModel] = []
 
-    var settingSubTabs: [String] = []
+    var settingCategories: [CategoryType] = []
 }
 
 extension SettingSubTabsViewModel {
@@ -36,7 +36,7 @@ extension SettingSubTabsViewModel {
     }
 
     func getAllCellViewModel() {
-        settingSubTabs = SettingManager.shared().getSubTabs()
+        settingCategories = SettingManager.shared().categories
 
         categories.enumerated().forEach { (index, category) in
             let isEnable = getIsActive(category)
@@ -49,14 +49,13 @@ extension SettingSubTabsViewModel {
         if category == .us || category == .health {
             return true
         }
-        return settingSubTabs.contains(category.param)
+        return settingCategories.contains(category)
     }
 
     func saveSettingSubTabs(completion: @escaping Completion) {
-        settingSubTabs.removeAll()
-        cells.filter { $0.isEnable }.forEach { settingSubTabs.append($0.category.param) }
-        SettingManager.shared().saveSettingSubTabs(subTabs: settingSubTabs) { (done, error) in
-            completion(done, error)
-        }
+        settingCategories.removeAll()
+        cells.filter { $0.isEnable }.forEach { settingCategories.append($0.category) }
+        SettingManager.shared().categories = settingCategories
+        completion(true, "")
     }
 }

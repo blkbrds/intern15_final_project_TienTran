@@ -38,12 +38,8 @@ final class SettingSubTabsViewController: BaseViewController {
     }
 
     @objc func saveSettingSubTabsTouchUpInside() {
-        viewModel.saveSettingSubTabs { (done, _) in
-            if done {
-                #warning("Show alert ok!")
-            } else {
-                #warning("Setting Error")
-            }
+        viewModel.saveSettingSubTabs { (_, _) in
+            #warning("show alert save success")
         }
     }
 }
