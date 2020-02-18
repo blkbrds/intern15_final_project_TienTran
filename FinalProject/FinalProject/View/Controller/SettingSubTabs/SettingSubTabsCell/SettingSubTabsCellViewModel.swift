@@ -11,7 +11,7 @@ import Foundation
 final class SettingSubTabsCellViewModel {
     var category: CategoryType
     var isEnable: Bool = true
-    var backgroundImageString: String { return isEnable ? "checkmark.circle.fill" : "checkmark.circle" }
+    var backgroundImageString: String { return isEnable ? "checkmark.circle.fill" : "xmark.circle.fill" }
     var indexPath: IndexPath
 
     init(category: CategoryType, isEnable: Bool, indexPath: IndexPath) {

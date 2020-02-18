@@ -9,62 +9,47 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SettingSubTabsCell" customModule="News_US" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="141" id="KGk-i7-Jjw" customClass="SettingSubTabsCell" customModule="News_US" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="325" height="100"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="325" height="100"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BMT-LS-V1w">
-                        <rect key="frame" x="15" y="10" width="25" height="24"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="25" id="KsL-h5-SkZ"/>
-                        </constraints>
-                        <color key="tintColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <state key="normal" image="arrow.up.arrow.down" catalog="system"/>
-                    </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hf6-8W-21k">
-                        <rect key="frame" x="60" y="10" width="72.5" height="24"/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jtL-c5-naF">
+                        <rect key="frame" x="10" y="10" width="155" height="80"/>
+                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cp5-t7-H0J">
-                        <rect key="frame" x="290" y="11" width="20" height="22"/>
+                        <rect key="frame" x="245" y="35.5" width="30" height="29"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="5IO-Pg-4dY"/>
+                            <constraint firstAttribute="width" constant="30" id="Ad1-6Z-d1O"/>
+                            <constraint firstAttribute="width" secondItem="cp5-t7-H0J" secondAttribute="height" multiplier="1:1" id="tO8-Zg-Upw"/>
                         </constraints>
                         <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <state key="normal" image="checkmark.circle.fill" catalog="system"/>
+                        <state key="normal" backgroundImage="checkmark.circle.fill" catalog="system"/>
                         <connections>
                             <action selector="checkButtonTouchUpInside:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="FGf-hA-hAj"/>
                         </connections>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="BMT-LS-V1w" secondAttribute="bottom" constant="10" id="2Ye-aG-GNJ"/>
-                    <constraint firstItem="cp5-t7-H0J" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Hf6-8W-21k" secondAttribute="trailing" constant="10" id="H6I-FS-KUT"/>
-                    <constraint firstItem="BMT-LS-V1w" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="KYz-wk-a8P"/>
-                    <constraint firstItem="Hf6-8W-21k" firstAttribute="centerY" secondItem="BMT-LS-V1w" secondAttribute="centerY" id="W5e-TV-kGO"/>
-                    <constraint firstItem="cp5-t7-H0J" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Zgh-Ay-Pzm"/>
-                    <constraint firstItem="BMT-LS-V1w" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="bH8-80-Aro"/>
-                    <constraint firstItem="Hf6-8W-21k" firstAttribute="height" secondItem="BMT-LS-V1w" secondAttribute="height" id="cpr-eB-Z0g"/>
-                    <constraint firstAttribute="trailing" secondItem="cp5-t7-H0J" secondAttribute="trailing" constant="10" id="t32-rJ-tz1"/>
-                    <constraint firstItem="Hf6-8W-21k" firstAttribute="leading" secondItem="BMT-LS-V1w" secondAttribute="trailing" constant="20" id="yiT-CY-XP4"/>
+                    <constraint firstItem="jtL-c5-naF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="8dh-A4-nyC"/>
+                    <constraint firstAttribute="bottom" secondItem="jtL-c5-naF" secondAttribute="bottom" constant="10" id="PNw-rZ-36m"/>
+                    <constraint firstItem="cp5-t7-H0J" firstAttribute="leading" secondItem="jtL-c5-naF" secondAttribute="trailing" constant="80" id="ZFY-Cm-joI"/>
+                    <constraint firstAttribute="trailing" secondItem="cp5-t7-H0J" secondAttribute="trailing" constant="50" id="ZVY-bY-BW9"/>
+                    <constraint firstItem="cp5-t7-H0J" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="et8-Nz-kaj"/>
+                    <constraint firstItem="jtL-c5-naF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="wgm-v4-dDY"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="categoryLabel" destination="Hf6-8W-21k" id="Wuk-wF-741"/>
+                <outlet property="categoryImageView" destination="jtL-c5-naF" id="Nry-GL-Kuw"/>
                 <outlet property="checkButton" destination="cp5-t7-H0J" id="DzS-v8-cYb"/>
-                <outlet property="moveButton" destination="BMT-LS-V1w" id="izP-3i-YdZ"/>
             </connections>
-            <point key="canvasLocation" x="-23" y="58"/>
+            <point key="canvasLocation" x="-38.405797101449281" y="-35.15625"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="arrow.up.arrow.down" catalog="system" width="64" height="48"/>
         <image name="checkmark.circle.fill" catalog="system" width="64" height="60"/>
     </resources>
 </document>

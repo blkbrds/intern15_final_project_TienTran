@@ -22,7 +22,7 @@ final class SettingSubTabsViewController: BaseViewController {
     override func setupUI() {
         super.setupUI()
         configTableView()
-
+        title = "Customize subtabs"
         navigationItem.rightBarButtonItem = saveSubTabsBarButtonItem
     }
 
@@ -38,13 +38,19 @@ final class SettingSubTabsViewController: BaseViewController {
     }
 
     @objc func saveSettingSubTabsTouchUpInside() {
-        viewModel.saveSettingSubTabs()
+        viewModel.saveSettingSubTabs { (done, _) in
+            if done {
+                #warning("Show alert ok!")
+            } else {
+                #warning("Setting Error")
+            }
+        }
     }
 }
 
 extension SettingSubTabsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }
 

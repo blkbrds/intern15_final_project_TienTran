@@ -18,9 +18,8 @@ final class SettingSubTabsCell: UITableViewCell {
         case changeStatusButton(indexPath: IndexPath)
     }
 
-    @IBOutlet private weak var categoryLabel: UILabel!
+    @IBOutlet private weak var categoryImageView: UIImageView!
     @IBOutlet private weak var checkButton: UIButton!
-    @IBOutlet private weak var moveButton: UIButton!
 
     weak var delegate: SettingSubTabsCellDelegate?
     var viewModel: SettingSubTabsCellViewModel? {
@@ -31,14 +30,13 @@ final class SettingSubTabsCell: UITableViewCell {
 
     func updateUI() {
         guard let viewModel = viewModel else { return }
-        categoryLabel.text = viewModel.category.text
-        print(viewModel.backgroundImageString)
-        checkButton.setImage(UIImage(systemName: viewModel.backgroundImageString), for: .normal)
+        categoryImageView.image = UIImage(named: viewModel.category.imageName)
+        checkButton.setBackgroundImage(UIImage(systemName: viewModel.backgroundImageString), for: .normal)
+        checkButton.tintColor = viewModel.isEnable ? #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1): #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
     }
 
     @IBAction private func checkButtonTouchUpInside(_ sender: UIButton) {
-        guard let viewModel = viewModel else { return }
-        print(viewModel.isEnable)
+        guard let viewModel = viewModel, viewModel.category != .us, viewModel.category != .health else { return }
         delegate?.cell(self, needdPerform: .changeStatusButton(indexPath: viewModel.indexPath))
     }
 }

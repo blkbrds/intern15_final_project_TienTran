@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingSubTabsViewController" customModule="News_US" customModuleProvider="target">
             <connections>
-                <outlet property="tableView" destination="Euc-Xq-P7v" id="xqZ-Lo-jd9"/>
+                <outlet property="tableView" destination="GLc-zp-Fyz" id="v4w-wf-PYL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -18,40 +18,32 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4mm-mY-bbh">
-                    <rect key="frame" x="0.0" y="64" width="414" height="269"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ejM-Gb-SZ5">
-                    <rect key="frame" x="0.0" y="338" width="414" height="524"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Euc-Xq-P7v">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="524"/>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GLc-zp-Fyz">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         </tableView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="Euc-Xq-P7v" secondAttribute="bottom" id="44F-jK-H7R"/>
-                        <constraint firstItem="Euc-Xq-P7v" firstAttribute="top" secondItem="ejM-Gb-SZ5" secondAttribute="top" id="MJM-oo-6YC"/>
-                        <constraint firstItem="Euc-Xq-P7v" firstAttribute="leading" secondItem="ejM-Gb-SZ5" secondAttribute="leading" id="VgF-iX-plo"/>
-                        <constraint firstAttribute="trailing" secondItem="Euc-Xq-P7v" secondAttribute="trailing" id="qYc-e7-ZN8"/>
+                        <constraint firstAttribute="trailing" secondItem="GLc-zp-Fyz" secondAttribute="trailing" id="7mK-1k-8zg"/>
+                        <constraint firstItem="GLc-zp-Fyz" firstAttribute="top" secondItem="ejM-Gb-SZ5" secondAttribute="top" id="Eus-5X-jhM"/>
+                        <constraint firstAttribute="bottom" secondItem="GLc-zp-Fyz" secondAttribute="bottom" id="HWq-Ih-oi9"/>
+                        <constraint firstItem="GLc-zp-Fyz" firstAttribute="leading" secondItem="ejM-Gb-SZ5" secondAttribute="leading" id="tvz-cr-XGz"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ejM-Gb-SZ5" secondAttribute="trailing" id="DT3-vt-ivO"/>
-                <constraint firstItem="4mm-mY-bbh" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.3" id="GNr-kq-Koe"/>
-                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="top" secondItem="4mm-mY-bbh" secondAttribute="bottom" constant="5" id="MBr-Ba-wdT"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ejM-Gb-SZ5" secondAttribute="bottom" id="ONB-f2-P8Q"/>
-                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Qnm-IT-wAH"/>
-                <constraint firstItem="4mm-mY-bbh" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="o1W-Gv-jJA"/>
-                <constraint firstItem="4mm-mY-bbh" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="qEv-JR-7lr"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4mm-mY-bbh" secondAttribute="trailing" id="td9-Jf-XjK"/>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="0DO-t2-0W4"/>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="5Oj-4O-AaI"/>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="T72-hK-LyT"/>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="j3x-DO-1nU"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="236" y="72"/>
+            <point key="canvasLocation" x="-601" y="96"/>
         </view>
     </objects>
 </document>

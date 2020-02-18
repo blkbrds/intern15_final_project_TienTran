@@ -34,8 +34,16 @@ extension HomeViewModel {
         return CategoryCellViewModel(textCategoryLabel: categories[indexPath.row].text, isEnable: currentPage == indexPath.row)
     }
 
-    func getCategorise(categorise: [CategoryType]) -> [CategoryType] {
-        return categorise
+    func fetchCategorise() {
+        categories = SettingManager.shared().getTabCategories()
+    }
+
+    func fetchCategorise(complete: @escaping Completion) {
+        let newCategories = SettingManager.shared().getTabCategories()
+        if !newCategories.elementsEqual(categories) {
+            categories = newCategories
+            complete(true, "")
+        }
     }
 }
 

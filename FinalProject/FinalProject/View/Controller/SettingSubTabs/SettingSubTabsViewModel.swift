@@ -13,7 +13,7 @@ final class SettingSubTabsViewModel {
     var categories: [CategoryType] = CategoryType.allCases
     var cells: [SettingSubTabsCellViewModel] = []
 
-    var subTabscells: [CategoryType] = []
+    var settingSubTabs: [String] = []
 }
 
 extension SettingSubTabsViewModel {
@@ -23,41 +23,40 @@ extension SettingSubTabsViewModel {
     }
 
     func getSettingSubTabsCellViewModel(at indexPath: IndexPath) -> SettingSubTabsCellViewModel {
-        #warning("Realm -- get item")
         return cells[indexPath.row]
-    }
-
-    func getDummyData(at indexPath: IndexPath) -> SettingSubTabsCellViewModel {
-        return SettingSubTabsCellViewModel(category: categories[indexPath.row], isEnable: true, indexPath: indexPath)
-    }
-
-    func getAllCellViewModel() {
-        categories.enumerated().forEach { (index, _) in
-            cells.append(getDummyData(at: IndexPath(row: index, section: 0)))
-        }
     }
 
     func changeStatus(with indexPath: IndexPath, completion: Completion) {
         if indexPath.row >= categories.count {
             completion(false, "Over of range")
         } else {
-            #warning("config later with reaml")
-            let cell = cells[indexPath.row]
             cells[indexPath.row].isEnable = !cells[indexPath.row].isEnable
-            updateStatusCell(with: cell) { (done, _) in
-                completion(done, "")
-            }
+            completion(true, "")
         }
     }
 
-    func updateStatusCell(with cell: SettingSubTabsCellViewModel, completion: Completion) {
-        /// add + func ->> cl
-        completion(true, "")
+    func getAllCellViewModel() {
+        settingSubTabs = SettingManager.shared().getSubTabs()
+
+        categories.enumerated().forEach { (index, category) in
+            let isEnable = getIsActive(category)
+            let cell = SettingSubTabsCellViewModel(category: category, isEnable: isEnable, indexPath: IndexPath(row: index, section: 0))
+            cells.append(cell)
+        }
     }
 
-    func saveSettingSubTabs() {
-        subTabscells.removeAll()
-        cells.filter { $0.isEnable }.forEach { subTabscells.append($0.category) }
-        print(subTabscells)
+    func getIsActive(_ category: CategoryType) -> Bool {
+        if category == .us || category == .health {
+            return true
+        }
+        return settingSubTabs.contains(category.param)
+    }
+
+    func saveSettingSubTabs(completion: @escaping Completion) {
+        settingSubTabs.removeAll()
+        cells.filter { $0.isEnable }.forEach { settingSubTabs.append($0.category.param) }
+        SettingManager.shared().saveSettingSubTabs(subTabs: settingSubTabs) { (done, error) in
+            completion(done, error)
+        }
     }
 }

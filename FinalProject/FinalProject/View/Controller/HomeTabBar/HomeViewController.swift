@@ -20,7 +20,7 @@ final class HomeViewController: BaseViewController {
     private var viewModel = HomeViewModel()
 
     private var settingSubTabsButtonItem: UIBarButtonItem {
-        let settingSubTabsButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.line.vertical.and.square.fill"),
+        let settingSubTabsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
             style: .plain,
             target: self,
             action: #selector(settingSubTabsButtonItemTouchUpInside))
@@ -28,22 +28,38 @@ final class HomeViewController: BaseViewController {
         return settingSubTabsButtonItem
     }
 
+    private var searchButtonItem: UIBarButtonItem {
+        let searchButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"),
+            style: .plain,
+            target: self,
+            action: #selector(goToSearchVCTouchUpInside))
+        searchButtonItem.tintColor = .purple
+        return searchButtonItem
+    }
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()
         title = "News"
-
         configCategoriesCollectionView()
         configPageViewController()
-        navigationItem.rightBarButtonItem = settingSubTabsButtonItem
+        navigationItem.rightBarButtonItems = [settingSubTabsButtonItem, searchButtonItem]
     }
 
     override func setupData() {
         super.setupData()
         APIManager.Downloader.configImageDataStorage()
+        viewModel.fetchCategorise()
+    }
 
-        #warning("setup data")
-        viewModel.categories = viewModel.getCategorise(categorise: [.business, .us, .business])
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchCategorise { (done, _) in
+            if done {
+                self.categoriesCollectionView.reloadData()
+                self.addChildViewController()
+            }
+        }
     }
 
     // MARK: - Private funcs
@@ -72,8 +88,6 @@ final class HomeViewController: BaseViewController {
         pageController.view.frame = contentView.bounds
 
         addChildViewController()
-
-        pageController.setViewControllers([viewControllers[0]], direction: .forward, animated: false)
         pageController.didMove(toParent: self)
 
         pageController.dataSource = self
@@ -81,12 +95,16 @@ final class HomeViewController: BaseViewController {
     }
 
     private func addChildViewController() {
+        var newViewControllers: [BaseHomeChildViewController] = []
         for (index, type) in viewModel.categories.enumerated() {
             let viewController = BaseHomeChildViewController()
             viewController.viewModel.screenType = type
             viewController.view.tag = index
-            viewControllers.append(viewController)
+            newViewControllers.append(viewController)
         }
+        viewControllers = newViewControllers
+        guard viewControllers.count > 0 else { return }
+        pageController.setViewControllers([viewControllers[0]], direction: .forward, animated: false)
     }
 
     private func scrollToPageChildViewController() {
@@ -106,8 +124,11 @@ final class HomeViewController: BaseViewController {
 
     @objc private func settingSubTabsButtonItemTouchUpInside() {
         let settingSubTabsViewController = SettingSubTabsViewController()
-        #warning("Realm -- get data")
         nextToViewController(viewcontroller: settingSubTabsViewController)
+    }
+
+    @objc private func goToSearchVCTouchUpInside() {
+        tabBarController?.selectedIndex = 2
     }
 }
 

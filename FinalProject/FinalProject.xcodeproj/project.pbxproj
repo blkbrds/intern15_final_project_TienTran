@@ -10,6 +10,7 @@
 		884725ADA8167F29D97AE587 /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616A0952860816272EE5A2B1 /* Pods_FinalProject.framework */; };
 		F02657CF23CD675300C530EC /* NewsTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02657CE23CD675300C530EC /* NewsTableViewCellViewModel.swift */; };
 		F038D99323CEBD5D00482320 /* APIManager.DownLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038D99223CEBD5D00482320 /* APIManager.DownLoader.swift */; };
+		F05CAF8523FBA26F008A3C6A /* SettingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CAF8423FBA26F008A3C6A /* SettingManager.swift */; };
 		F06C194923EBBEEB00EA77C4 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C194723EBBEEB00EA77C4 /* FavoritesViewController.swift */; };
 		F06C194A23EBBEEB00EA77C4 /* FavoritesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F06C194823EBBEEB00EA77C4 /* FavoritesViewController.xib */; };
 		F06C194C23EBC55100EA77C4 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C194B23EBC55100EA77C4 /* FavoritesViewModel.swift */; };
@@ -74,6 +75,7 @@
 		DC055EEE24704CF615773AC1 /* Pods-FinalProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.release.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.release.xcconfig"; sourceTree = "<group>"; };
 		F02657CE23CD675300C530EC /* NewsTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		F038D99223CEBD5D00482320 /* APIManager.DownLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.DownLoader.swift; sourceTree = "<group>"; };
+		F05CAF8423FBA26F008A3C6A /* SettingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingManager.swift; sourceTree = "<group>"; };
 		F06C194723EBBEEB00EA77C4 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		F06C194823EBBEEB00EA77C4 /* FavoritesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritesViewController.xib; sourceTree = "<group>"; };
 		F06C194B23EBC55100EA77C4 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
@@ -161,6 +163,23 @@
 				616A0952860816272EE5A2B1 /* Pods_FinalProject.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F05CAF8223FBA22D008A3C6A /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				F05CAF8323FBA25E008A3C6A /* Setting */,
+				F082A75723F3B7D7002CB0EF /* Realm */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		F05CAF8323FBA25E008A3C6A /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				F05CAF8423FBA26F008A3C6A /* SettingManager.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */ = {
@@ -410,9 +429,9 @@
 		F0DF3D4F23CDBD1400E1CD48 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F0DF3D5223CDBD1400E1CD48 /* Object */,
-				F082A75723F3B7D7002CB0EF /* Realm */,
 				F0DF3D5423CDBD1400E1CD48 /* API */,
+				F05CAF8223FBA22D008A3C6A /* Manager */,
+				F0DF3D5223CDBD1400E1CD48 /* Object */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -623,6 +642,7 @@
 				F06C195723EBC5FA00EA77C4 /* FavoritesCellViewModel.swift in Sources */,
 				F082A75623F3B7D2002CB0EF /* RealmManager.swift in Sources */,
 				F02657CF23CD675300C530EC /* NewsTableViewCellViewModel.swift in Sources */,
+				F05CAF8523FBA26F008A3C6A /* SettingManager.swift in Sources */,
 				F0ADAC0A23F540970012F1BD /* SearchNewsViewController.swift in Sources */,
 				F094DB0C23BED41A008221E9 /* NewsDetailViewController.swift in Sources */,
 				F0E910A123CC6D0900038918 /* Errors.swift in Sources */,
