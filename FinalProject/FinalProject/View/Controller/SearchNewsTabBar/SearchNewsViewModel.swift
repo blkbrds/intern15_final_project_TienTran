@@ -62,10 +62,10 @@ extension SearchNewsViewModel {
 
     /// search news
     func searchNews(compeltion: @escaping Completion) {
-        queryString = queryString.trimmingCharacters(in: CharacterSet(charactersIn: " "))
-        queryString = queryString.replacingOccurrences(of: " ", with: "%20")
-        guard queryString != "", queryString != oldQueryString else { return compeltion(false, "") }
-        APIManager.News.getEverything(query: queryString, country: "us") { result in
+        queryString = queryString.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard queryString != "", queryString != oldQueryString, let queryStringEndcode = queryString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else { return compeltion(false, "") }
+        APIManager.News.getEverything(query: queryStringEndcode, country: "us") { result in
             switch result {
             case .failure(let error):
                 // call back
@@ -77,5 +77,10 @@ extension SearchNewsViewModel {
                 compeltion(true, "")
             }
         }
+    }
+
+    func cancelSearchNews() {
+        searchItems.removeAll()
+        oldQueryString = ""
     }
 }

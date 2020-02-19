@@ -10,9 +10,11 @@ import Foundation
 
 struct APIManager {
 
-    static let apiKey = "60f0d8ac682040768931b4d4611d7f50"
+    static let apiKey = "8aca27737cb7450f806b28ae1fa14d88"
     //    29bc913b0d1046a0a2c022139e9f003f
     //    60f0d8ac682040768931b4d4611d7f50
+    //    8aca27737cb7450f806b28ae1fa14d88
+
     // MARK: - config
     struct Path {
         static let baseDomain = "https://newsapi.org"
@@ -46,12 +48,11 @@ extension APIManager.Path {
         static var path: String { return baseDomain + basePath + everything }
 
         let query: String
-        let country: String
         let pageSize: Int
         let page: Int
 
         var url: String {
-            return APIManager.Path.TopHeadlines.path + "?country=" + country + "&query=" + query + "&apiKey=" + APIManager.apiKey + "&page=" + "\(page)" + "&pageSize=" + "\(pageSize)"
+            return APIManager.Path.Everything.path + "?q=" + query + "&apiKey=" + APIManager.apiKey + "&page=" + "\(page)" + "&pageSize=" + "\(pageSize)"
         }
     }
 

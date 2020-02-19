@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -46,7 +46,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" • " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAf-AH-7XO">
-                                        <rect key="frame" x="131.5" y="104" width="14" height="18"/>
+                                        <rect key="frame" x="131.5" y="102" width="14" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -61,14 +61,14 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.24562733210000001" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="cKE-dU-p5T" firstAttribute="centerY" secondItem="tnL-Ck-eaI" secondAttribute="centerY" id="1IC-3l-opp"/>
-                                    <constraint firstItem="FAf-AH-7XO" firstAttribute="height" secondItem="cKE-dU-p5T" secondAttribute="height" multiplier="0.818182" id="2bz-6K-kLy"/>
+                                    <constraint firstItem="FAf-AH-7XO" firstAttribute="height" secondItem="cKE-dU-p5T" secondAttribute="height" id="2bz-6K-kLy"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6mo-0E-fOc" secondAttribute="trailing" constant="10" id="GVV-6g-pc2"/>
                                     <constraint firstItem="FAf-AH-7XO" firstAttribute="leading" secondItem="cKE-dU-p5T" secondAttribute="trailing" id="XHG-0V-Mn1"/>
                                     <constraint firstAttribute="trailing" secondItem="zl8-6M-KKt" secondAttribute="trailing" constant="10" id="Zw5-vS-Qfi"/>
                                     <constraint firstAttribute="bottom" secondItem="tnL-Ck-eaI" secondAttribute="bottom" constant="10" id="ccG-4U-BtP"/>
                                     <constraint firstItem="zl8-6M-KKt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="4DY-dm-s7f" secondAttribute="top" id="ctD-OG-i7n"/>
                                     <constraint firstItem="tnL-Ck-eaI" firstAttribute="leading" secondItem="4DY-dm-s7f" secondAttribute="leading" constant="10" id="eBd-Ep-EZh"/>
-                                    <constraint firstItem="6mo-0E-fOc" firstAttribute="height" secondItem="FAf-AH-7XO" secondAttribute="height" multiplier="1.22222" id="gh6-OU-Y5i"/>
+                                    <constraint firstItem="6mo-0E-fOc" firstAttribute="height" secondItem="FAf-AH-7XO" secondAttribute="height" id="gh6-OU-Y5i"/>
                                     <constraint firstItem="tnL-Ck-eaI" firstAttribute="top" secondItem="zl8-6M-KKt" secondAttribute="bottom" constant="7" id="hUD-oK-0X2"/>
                                     <constraint firstItem="6mo-0E-fOc" firstAttribute="leading" secondItem="FAf-AH-7XO" secondAttribute="trailing" id="ilC-yr-NPz"/>
                                     <constraint firstItem="cKE-dU-p5T" firstAttribute="height" secondItem="tnL-Ck-eaI" secondAttribute="height" id="lrW-Bh-7HP"/>

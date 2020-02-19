@@ -44,22 +44,13 @@ final class HomeViewController: BaseViewController {
         configCategoriesCollectionView()
         configPageViewController()
         navigationItem.rightBarButtonItems = [settingSubTabsButtonItem, searchButtonItem]
+
+        configObserver()
     }
 
     override func setupData() {
         super.setupData()
         APIManager.Downloader.configImageDataStorage()
-        viewModel.fetchCategorise()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.fetchCategorise { (done, _) in
-            if done {
-                self.categoriesCollectionView.reloadData()
-                self.addChildViewController()
-            }
-        }
     }
 
     // MARK: - Private funcs
@@ -122,6 +113,10 @@ final class HomeViewController: BaseViewController {
         }
     }
 
+    private func configObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDataHomeVC), name: NSNotification.Name.settingCategories, object: nil)
+    }
+
     @objc private func settingSubTabsButtonItemTouchUpInside() {
         let settingSubTabsViewController = SettingSubTabsViewController()
         nextToViewController(viewcontroller: settingSubTabsViewController)
@@ -129,6 +124,15 @@ final class HomeViewController: BaseViewController {
 
     @objc private func goToSearchVCTouchUpInside() {
         tabBarController?.selectedIndex = 2
+    }
+
+    @objc private func reloadDataHomeVC() {
+        categoriesCollectionView.reloadData()
+        addChildViewController()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.settingCategories, object: nil)
     }
 }
 

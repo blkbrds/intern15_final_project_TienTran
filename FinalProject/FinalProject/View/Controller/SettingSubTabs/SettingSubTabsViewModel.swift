@@ -13,7 +13,7 @@ final class SettingSubTabsViewModel {
     var categories: [CategoryType] = CategoryType.allCases
     var cells: [SettingSubTabsCellViewModel] = []
 
-    var settingCategories: [CategoryType] = []
+    var categoriesSelected: [CategoryType] = []
 }
 
 extension SettingSubTabsViewModel {
@@ -36,7 +36,7 @@ extension SettingSubTabsViewModel {
     }
 
     func getAllCellViewModel() {
-        settingCategories = SettingManager.shared().categories
+        categoriesSelected = SettingManager.shared().categories
 
         categories.enumerated().forEach { (index, category) in
             let isEnable = getIsActive(category)
@@ -49,13 +49,16 @@ extension SettingSubTabsViewModel {
         if category == .us || category == .health {
             return true
         }
-        return settingCategories.contains(category)
+        return categoriesSelected.contains(category)
     }
 
-    func saveSettingSubTabs(completion: @escaping Completion) {
-        settingCategories.removeAll()
-        cells.filter { $0.isEnable }.forEach { settingCategories.append($0.category) }
-        SettingManager.shared().categories = settingCategories
-        completion(true, "")
+    func saveSettingSubTabs() {
+        categoriesSelected.removeAll()
+        cells.filter { $0.isEnable }.forEach { categoriesSelected.append($0.category) }
+        guard !categoriesSelected.elementsEqual(SettingManager.shared().categories) else { return }
+        SettingManager.shared().categories = categoriesSelected
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.post(name: NSNotification.Name.settingCategories, object: nil)
+
     }
 }

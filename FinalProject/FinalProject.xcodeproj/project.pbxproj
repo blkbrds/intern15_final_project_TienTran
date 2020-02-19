@@ -17,6 +17,7 @@
 		F06C195423EBC5E300EA77C4 /* FavoritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C195223EBC5E300EA77C4 /* FavoritesCell.swift */; };
 		F06C195523EBC5E300EA77C4 /* FavoritesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F06C195323EBC5E300EA77C4 /* FavoritesCell.xib */; };
 		F06C195723EBC5FA00EA77C4 /* FavoritesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06C195623EBC5FA00EA77C4 /* FavoritesCellViewModel.swift */; };
+		F080E9C823FD20FE005175B8 /* NSNotification.Name.Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F080E9C723FD20FE005175B8 /* NSNotification.Name.Ext.swift */; };
 		F082A75423F3B5CA002CB0EF /* NewsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */; };
 		F082A75623F3B7D2002CB0EF /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F082A75523F3B7D2002CB0EF /* RealmManager.swift */; };
 		F094DAA523BED339008221E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F094DAA423BED339008221E9 /* AppDelegate.swift */; };
@@ -82,6 +83,7 @@
 		F06C195223EBC5E300EA77C4 /* FavoritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesCell.swift; sourceTree = "<group>"; };
 		F06C195323EBC5E300EA77C4 /* FavoritesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavoritesCell.xib; sourceTree = "<group>"; };
 		F06C195623EBC5FA00EA77C4 /* FavoritesCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCellViewModel.swift; sourceTree = "<group>"; };
+		F080E9C723FD20FE005175B8 /* NSNotification.Name.Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSNotification.Name.Ext.swift; sourceTree = "<group>"; };
 		F082A75323F3B5CA002CB0EF /* NewsDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModel.swift; sourceTree = "<group>"; };
 		F082A75523F3B7D2002CB0EF /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F094DAA123BED339008221E9 /* News US.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "News US.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,10 +216,10 @@
 		F094DA9823BED338008221E9 = {
 			isa = PBXGroup;
 			children = (
-				F094DAA223BED339008221E9 /* Products */,
 				F094DAA323BED339008221E9 /* FinalProject */,
-				A7500B9A684D20F74B9DF60A /* Pods */,
 				C6A7BF86F0AA6C6FC2CABB28 /* Frameworks */,
+				A7500B9A684D20F74B9DF60A /* Pods */,
+				F094DAA223BED339008221E9 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -237,8 +239,8 @@
 				F0E9109D23CC6CE300038918 /* Define */,
 				F0DF3D4B23CDBD1400E1CD48 /* Library */,
 				F0DF3D4F23CDBD1400E1CD48 /* Model */,
-				F094DAB923BED3A6008221E9 /* Resource */,
 				F094DABA23BED3B0008221E9 /* View */,
+				F094DAB923BED3A6008221E9 /* Resource */,
 			);
 			path = FinalProject;
 			sourceTree = "<group>";
@@ -281,12 +283,12 @@
 		F094DAE623BED3ED008221E9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F0B5784C23FA4CEC00523D1F /* SettingSubTabs */,
-				F0ADAC0023F540970012F1BD /* SearchNewsTabBar */,
 				F0ADABF223F52AC00012F1BD /* FavoritesDetail */,
 				F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */,
-				F094DAF723BED41A008221E9 /* NewsDetail */,
 				F094DAEB23BED41A008221E9 /* HomeTabBar */,
+				F094DAF723BED41A008221E9 /* NewsDetail */,
+				F0ADAC0023F540970012F1BD /* SearchNewsTabBar */,
+				F0B5784C23FA4CEC00523D1F /* SettingSubTabs */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -422,6 +424,7 @@
 				F0ADAC0E23F541F80012F1BD /* Data.Ext.swift */,
 				FF466D5D23E28D7A00AC544C /* Date+DateFormatter.Ext.swift */,
 				F0DF3D6223CDC22300E1CD48 /* UIImageViewExt.swift */,
+				F080E9C723FD20FE005175B8 /* NSNotification.Name.Ext.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				F0E9109823CC5A1D00038918 /* HomeViewModel.swift in Sources */,
 				FF466D5E23E28D7A00AC544C /* Date+DateFormatter.Ext.swift in Sources */,
 				F06C194C23EBC55100EA77C4 /* FavoritesViewModel.swift in Sources */,
+				F080E9C823FD20FE005175B8 /* NSNotification.Name.Ext.swift in Sources */,
 				F0E910A323CC6D2600038918 /* String.swift in Sources */,
 				F0DF3D6323CDC22300E1CD48 /* UIImageViewExt.swift in Sources */,
 				F0ADABFF23F52AC00012F1BD /* FavoritesDetailViewModel.swift in Sources */,

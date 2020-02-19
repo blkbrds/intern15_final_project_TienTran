@@ -21,7 +21,9 @@ final class HomeViewModel {
         }
     }
 
-    var categories: [CategoryType] = []
+    var categories: [CategoryType] {
+        return SettingManager.shared().categories
+    }
 }
 
 // MARK: - config tableview
@@ -32,18 +34,6 @@ extension HomeViewModel {
 
     func getCategoryCellViewModel(indexPath: IndexPath) -> CategoryCellViewModel {
         return CategoryCellViewModel(textCategoryLabel: categories[indexPath.row].text, isEnable: currentPage == indexPath.row)
-    }
-
-    func fetchCategorise() {
-        categories = SettingManager.shared().categories
-    }
-
-    func fetchCategorise(complete: @escaping Completion) {
-        let newCategories = SettingManager.shared().categories
-        if !newCategories.elementsEqual(categories) {
-            categories = newCategories
-            complete(true, "")
-        }
     }
 }
 

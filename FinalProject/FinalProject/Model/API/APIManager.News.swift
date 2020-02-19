@@ -14,8 +14,8 @@ extension APIManager.News {
             return APIManager.Path.TopHeadlines(category: category, country: country, pageSize: pageSize, page: page).url
         }
 
-        func getEverything(query: String, country: String, page: Int, pageSize: Int) -> String {
-            return APIManager.Path.Everything(query: query, country: country, pageSize: pageSize, page: page).url
+        func getEverything(query: String, country: String = "", page: Int, pageSize: Int) -> String {
+            return APIManager.Path.Everything(query: query, pageSize: pageSize, page: page).url
         }
     }
 

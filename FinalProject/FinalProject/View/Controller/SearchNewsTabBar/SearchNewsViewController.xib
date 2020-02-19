@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchNewsViewController" customModule="News_US" customModuleProvider="target">
             <connections>
-                <outlet property="noArticlesSearchView" destination="D02-N8-tOf" id="u89-SE-SnQ"/>
+                <outlet property="messageSearchLabel" destination="yrk-xo-e7K" id="2Gy-U4-Pjj"/>
+                <outlet property="placeholdArticlesSearchNewsView" destination="D02-N8-tOf" id="u89-SE-SnQ"/>
                 <outlet property="searchCollectionView" destination="MwW-UB-tGz" id="qo4-ZP-WxQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -40,7 +41,7 @@
                                 <constraint firstAttribute="width" constant="40" id="h3Z-wu-cYk"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for Articles above" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrk-xo-e7K">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for Articles above" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrk-xo-e7K">
                             <rect key="frame" x="106.5" y="491" width="201" height="20.5"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -51,6 +52,7 @@
                     <constraints>
                         <constraint firstItem="yrk-xo-e7K" firstAttribute="centerX" secondItem="t37-4O-WVp" secondAttribute="centerX" id="72i-YF-DE3"/>
                         <constraint firstItem="yrk-xo-e7K" firstAttribute="top" secondItem="t37-4O-WVp" secondAttribute="bottom" constant="20" id="ebi-tX-rRD"/>
+                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="yrk-xo-e7K" secondAttribute="bottom" constant="10" id="esu-U4-66y"/>
                         <constraint firstItem="t37-4O-WVp" firstAttribute="centerY" secondItem="D02-N8-tOf" secondAttribute="centerY" constant="20" id="hcx-pu-aQ5"/>
                         <constraint firstItem="t37-4O-WVp" firstAttribute="centerX" secondItem="D02-N8-tOf" secondAttribute="centerX" id="n3D-KD-8ky"/>
                     </constraints>
@@ -68,7 +70,7 @@
                 <constraint firstItem="MwW-UB-tGz" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="zk2-Pt-6gv"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="139" y="84"/>
+            <point key="canvasLocation" x="-1122" y="-194"/>
         </view>
     </objects>
     <resources>
