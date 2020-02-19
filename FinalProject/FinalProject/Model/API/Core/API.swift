@@ -13,6 +13,11 @@ import UIKit
 enum APIError: Error {
     case error(String)
     case errorURL
+    case errorData
+    case errorNetwork
+    case emptyData
+    case invalidURL
+    case cancelRequest
 
     var localizedDescription: String {
         switch self {
@@ -20,6 +25,16 @@ enum APIError: Error {
             return string
         case .errorURL:
             return "URL String is error."
+        case .errorData:
+            return "Data is not format."
+        case .emptyData:
+            return "Server returns no data."
+        case .invalidURL:
+            return "Cannot detect URL."
+        case .errorNetwork:
+            return "The internet connection appears to be offline."
+        case .cancelRequest:
+            return "Server returns no information and closes the connection."
         }
     }
 }

@@ -19,6 +19,8 @@ final class HomeViewController: BaseViewController {
     private var viewControllers = [BaseHomeChildViewController]()
     private var viewModel = HomeViewModel()
 
+    var notificationCenter = NotificationCenter.default
+
     private var settingSubTabsButtonItem: UIBarButtonItem {
         let settingSubTabsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
             style: .plain,
@@ -51,9 +53,22 @@ final class HomeViewController: BaseViewController {
     override func setupData() {
         super.setupData()
         APIManager.Downloader.configImageDataStorage()
+        fetchData()
     }
 
     // MARK: - Private funcs
+    private func fetchData() {
+        viewModel.loadApi { [weak self] (done, _) in
+            guard let this = self else { return }
+            if done {
+                this.reloadDataHomeVC()
+                this.notificationCenter.post(name: NSNotification.Name.loadApiHomeChildVC, object: nil)
+            } else {
+                #warning("API Error")
+            }
+        }
+    }
+
     private func configCategoriesCollectionView() {
         categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
         categoriesCollectionView.dataSource = self
@@ -78,18 +93,22 @@ final class HomeViewController: BaseViewController {
         contentView.addSubview(pageController.view)
         pageController.view.frame = contentView.bounds
 
-        addChildViewController()
+        viewModel.resetArrayData()
+
+        configHomeChildViewController()
         pageController.didMove(toParent: self)
 
         pageController.dataSource = self
         pageController.delegate = self
     }
 
-    private func addChildViewController() {
+    private func configHomeChildViewController() {
         var newViewControllers: [BaseHomeChildViewController] = []
-        for (index, type) in viewModel.categories.enumerated() {
+        let categories = viewModel.categories
+        categories.enumerated().forEach { (index, _) in
             let viewController = BaseHomeChildViewController()
-            viewController.viewModel.screenType = type
+            viewController.delegate = self
+            viewController.viewModel = viewModel.getHomeChildViewModel(index: index)
             viewController.view.tag = index
             newViewControllers.append(viewController)
         }
@@ -114,7 +133,7 @@ final class HomeViewController: BaseViewController {
     }
 
     private func configObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadDataHomeVC), name: NSNotification.Name.settingCategories, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchDataSetting), name: NSNotification.Name.settingCategories, object: nil)
     }
 
     @objc private func settingSubTabsButtonItemTouchUpInside() {
@@ -128,7 +147,11 @@ final class HomeViewController: BaseViewController {
 
     @objc private func reloadDataHomeVC() {
         categoriesCollectionView.reloadData()
-        addChildViewController()
+        configHomeChildViewController()
+    }
+
+    @objc private func fetchDataSetting() {
+        fetchData()
     }
 
     deinit {
@@ -191,6 +214,28 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
         if finished, let vc = pageViewController.viewControllers?.first {
             viewModel.currentPage = vc.view.tag
             scrollToCategory()
+        }
+    }
+}
+
+extension HomeViewController: BaseHomeChildViewControllerDelegate {
+    func viewController(_ viewController: BaseHomeChildViewController, needPerform action: BaseHomeChildViewController.Action) {
+        switch action {
+        case .pullToRefresh(let index, let category):
+            viewModel.refreshData(index: index, category: category) { [weak self] (done, _) in
+                guard let this = self else { return }
+                if done {
+                    let articles = this.viewModel.articlesArray[index]
+                    var userInfo: [String: [News]] = [:]
+                    userInfo[category.param] = articles
+
+                    this.notificationCenter.post(name: NSNotification.Name.refreshHomeChildVC, object: nil, userInfo: userInfo)
+                } else {
+                    #warning("Show alert")
+                }
+            }
+        case .loadMore(let index, let category):
+            break
         }
     }
 }

@@ -41,7 +41,7 @@ extension APIManager.News {
                         completion(.failure(.error(error.localizedDescription + "---- \(category)")))
                     }
                 } else {
-                    completion(.failure(.error("Data is not format")))
+                    completion(.failure(.errorData))
                 }
             }
         }
@@ -63,7 +63,7 @@ extension APIManager.News {
                         completion(.failure(.error(error.localizedDescription + "---- \(query)")))
                     }
                 } else {
-                    completion(.failure(.error("Data is not format")))
+                    completion(.failure(.errorData))
                 }
             }
         }

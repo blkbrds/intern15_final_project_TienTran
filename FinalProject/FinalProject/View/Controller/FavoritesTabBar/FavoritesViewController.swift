@@ -16,6 +16,7 @@ final class FavoritesViewController: BaseViewController {
 
     // MARK: - Properties
     var viewModel = FavoritesViewModel()
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()

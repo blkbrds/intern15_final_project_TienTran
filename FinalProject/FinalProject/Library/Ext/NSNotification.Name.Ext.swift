@@ -10,4 +10,6 @@ import Foundation
 
 extension NSNotification.Name {
     static let settingCategories: NSNotification.Name = NSNotification.Name("settingCategories")
+    static let loadApiHomeChildVC: NSNotification.Name = NSNotification.Name("loadApiHomeChildVC")
+    static let refreshHomeChildVC: NSNotification.Name = NSNotification.Name("refreshHomeChildVC")
 }

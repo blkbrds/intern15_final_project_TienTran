@@ -12,12 +12,22 @@ import UIKit
 typealias Completion = (Bool, String) -> Void
 
 final class BaseHomeChildViewModel {
-    var screenType: CategoryType = .us
+    var category: CategoryType = .us
     var articles: [News] = []
     var isRefreshing = false
     var isLoading = false
     var canLoadMore = true
     private var currentPageParam = 1
+    var index: Int = 0
+    
+    init(articles: [News], category: CategoryType, isLoading: Bool, index: Int) {
+        self.articles = articles
+        self.isLoading = isLoading
+        self.category = category
+        self.index = index
+    }
+
+    init() { }
 }
 
 // MARK: - config tableview
@@ -51,26 +61,26 @@ extension BaseHomeChildViewModel {
 // MARK: - handle api
 extension BaseHomeChildViewModel {
 
-    /// load api
-    func loadAPI(compeltion: @escaping Completion) {
-        APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
-            switch result {
-            case .failure(let error):
-                // call back
-                compeltion(false, error.localizedDescription)
-            case .success(let response):
-                self.articles.append(contentsOf: response.articles)
-                self.setCategoryInNews()
-                // call back
-                compeltion(true, "")
-            }
-        }
-    }
+//    /// load api
+//    func loadAPI(compeltion: @escaping Completion) {
+//        APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
+//            switch result {
+//            case .failure(let error):
+//                // call back
+//                compeltion(false, error.localizedDescription)
+//            case .success(let response):
+//                self.articles.append(contentsOf: response.articles)
+//                self.setCategoryInNews()
+//                // call back
+//                compeltion(true, "")
+//            }
+//        }
+//    }
 
     /// loadmore api
     func loadMoreAPI(compeltion: @escaping Completion) {
         currentPageParam += 1
-        APIManager.News.getTopHeadlines(page: currentPageParam, category: screenType.param, country: "us") { result in
+        APIManager.News.getTopHeadlines(page: currentPageParam, category: category.param, country: "us") { result in
             switch result {
             case .failure(let error):
                 compeltion(false, error.localizedDescription)
@@ -86,11 +96,12 @@ extension BaseHomeChildViewModel {
                 }
             }
         }
+        print(articles.count)
     }
 
     /// load api
     func refreshData(compeltion: @escaping Completion) {
-        APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
+        APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
             switch result {
             case .failure(let error):
                 // call back
@@ -126,6 +137,6 @@ extension BaseHomeChildViewModel {
 
     /// add category
     func setCategoryInNews() {
-        articles.forEach { $0.categoryNews = screenType.param }
+        articles.forEach { $0.categoryNews = category.param }
     }
 }

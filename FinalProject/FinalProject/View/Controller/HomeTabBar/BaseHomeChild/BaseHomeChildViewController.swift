@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol BaseHomeChildViewControllerDelegate: class {
+    func viewController(_ viewController: BaseHomeChildViewController, needPerform action: BaseHomeChildViewController.Action)
+}
+
 final class BaseHomeChildViewController: BaseViewController {
+    enum Action {
+        case loadMore(index: Int, category: CategoryType)
+        case pullToRefresh(index: Int, category: CategoryType)
+    }
 
     // MARK: - IBOutlet
     @IBOutlet private weak var tableView: UITableView!
@@ -18,8 +26,10 @@ final class BaseHomeChildViewController: BaseViewController {
     @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
-    var viewModel = BaseHomeChildViewModel()
+    var viewModel: BaseHomeChildViewModel = BaseHomeChildViewModel()
+    var notificationCenter = NotificationCenter.default
     private var refreshControl = UIRefreshControl()
+    weak var delegate: BaseHomeChildViewControllerDelegate?
 
     // MARK: - config
     override func setupUI() {
@@ -30,7 +40,7 @@ final class BaseHomeChildViewController: BaseViewController {
 
     override func setupData() {
         super.setupData()
-        loadAPI()
+        configObserver()
     }
 
     // MARK: - Private funcs
@@ -53,6 +63,21 @@ final class BaseHomeChildViewController: BaseViewController {
         activityIndicatorView.startAnimating()
     }
 
+    private func configObserver() {
+        notificationCenter.addObserver(self, selector: #selector(loadApiHomeChildVC), name: NSNotification.Name.loadApiHomeChildVC, object: nil)
+    }
+
+    @objc private func loadApiHomeChildVC() {
+        if !viewModel.isLoading {
+            self.activityIndicatorView.stopAnimating()
+            self.loadingView.isHidden = true
+            self.tableView.reloadData()
+        } else {
+            self.activityIndicatorView.stopAnimating()
+            self.errorView.isHidden = false
+        }
+    }
+
     @objc private func refreshViewController() {
         guard !viewModel.isLoading else { return }
         if !viewModel.isRefreshing {
@@ -68,20 +93,8 @@ final class BaseHomeChildViewController: BaseViewController {
                 }
             }
         }
-    }
 
-    private func loadAPI() {
-        viewModel.loadAPI { (done, _) in
-            if done {
-                self.activityIndicatorView.stopAnimating()
-                self.loadingView.isHidden = true
-                self.tableView.reloadData()
-            } else {
-                self.activityIndicatorView.stopAnimating()
-                self.errorView.isHidden = false
-                #warning("API Error")
-            }
-        }
+//        delegate?.viewController(self, needPerform: .pullToRefresh(index: viewModel.index, category: viewModel.category))
     }
 
     private func loadMore() {
@@ -103,6 +116,10 @@ final class BaseHomeChildViewController: BaseViewController {
 
     @IBAction func scrollToTopButtonTochUpInside(_ sender: UIButton) {
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.loadApiHomeChildVC, object: nil)
     }
 }
 
