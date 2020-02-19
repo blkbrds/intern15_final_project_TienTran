@@ -36,7 +36,7 @@ extension SearchNewsViewModel {
     }
 
     func isEmmtySearchItems() -> Bool {
-        return searchItems.count < 1 ? true : false
+        return searchItems.count == 0
     }
 }
 
