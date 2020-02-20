@@ -21,7 +21,9 @@ final class HomeViewModel {
         }
     }
 
-    var categories: [CategoryType] = CategoryType.allCases
+    var categories: [CategoryType] {
+        return SettingManager.shared().categories
+    }
 }
 
 // MARK: - config tableview

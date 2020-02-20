@@ -12,6 +12,7 @@ final class FavoritesViewController: BaseViewController {
 
     // MARK: - IBOulets
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var noArticlesBookmarksView: UIView!
 
     // MARK: - Properties
     var viewModel = FavoritesViewModel()
@@ -19,9 +20,11 @@ final class FavoritesViewController: BaseViewController {
     override func setupUI() {
         super.setupUI()
         title = "Bookmarks"
+        noArticlesBookmarksView.isHidden = false
         configCollectionView()
         configObserve()
     }
+
     // MARK: - Private funcs
     private func configCollectionView() {
         collectionView.register(UINib(nibName: Config.favoritesCell, bundle: .main), forCellWithReuseIdentifier: Config.favoritesCell)
@@ -32,6 +35,11 @@ final class FavoritesViewController: BaseViewController {
     private func configObserve() {
         viewModel.setupObserve { (done, _) in
             if done {
+                if self.viewModel.isEmtyBookmarks() {
+                    self.noArticlesBookmarksView.isHidden = false
+                } else {
+                    self.noArticlesBookmarksView.isHidden = true
+                }
                 self.collectionView.reloadData()
             } else {
                 #warning("Realm Error")
@@ -66,7 +74,7 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
 // MARK: - CollectionView DelegateFlowLayout
 extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 2 - 15, height: 175)
+        return CGSize(width: UIScreen.main.bounds.width / 2 - 15, height: 150)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

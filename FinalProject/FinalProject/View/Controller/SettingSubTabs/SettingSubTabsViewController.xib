@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingSubTabsViewController" customModule="News_US" customModuleProvider="target">
+            <connections>
+                <outlet property="tableView" destination="GLc-zp-Fyz" id="v4w-wf-PYL"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ejM-Gb-SZ5">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GLc-zp-Fyz">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="GLc-zp-Fyz" secondAttribute="trailing" id="7mK-1k-8zg"/>
+                        <constraint firstItem="GLc-zp-Fyz" firstAttribute="top" secondItem="ejM-Gb-SZ5" secondAttribute="top" id="Eus-5X-jhM"/>
+                        <constraint firstAttribute="bottom" secondItem="GLc-zp-Fyz" secondAttribute="bottom" id="HWq-Ih-oi9"/>
+                        <constraint firstItem="GLc-zp-Fyz" firstAttribute="leading" secondItem="ejM-Gb-SZ5" secondAttribute="leading" id="tvz-cr-XGz"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="0DO-t2-0W4"/>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="5Oj-4O-AaI"/>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="T72-hK-LyT"/>
+                <constraint firstItem="ejM-Gb-SZ5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="j3x-DO-1nU"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="-601" y="96"/>
+        </view>
+    </objects>
+</document>

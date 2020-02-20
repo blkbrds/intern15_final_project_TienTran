@@ -15,7 +15,6 @@ final class BaseHomeChildViewController: BaseViewController {
     @IBOutlet private weak var loadingView: UIView!
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet private weak var errorView: UIView!
-    @IBOutlet private weak var errorMessageLabel: UILabel!
     @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
@@ -63,8 +62,6 @@ final class BaseHomeChildViewController: BaseViewController {
                     self.tableView.reloadData()
                     self.viewModel.isRefreshing = false
                     self.refreshControl.endRefreshing()
-                    #warning("Delete print later")
-                    print(self.viewModel.articles.count)
                 } else {
                     self.viewModel.isRefreshing = false
                     #warning("API Error")
@@ -79,12 +76,9 @@ final class BaseHomeChildViewController: BaseViewController {
                 self.activityIndicatorView.stopAnimating()
                 self.loadingView.isHidden = true
                 self.tableView.reloadData()
-                #warning("Delete print later")
-                print(self.viewModel.articles.count)
             } else {
                 self.activityIndicatorView.stopAnimating()
                 self.errorView.isHidden = false
-                self.errorMessageLabel.text = "404!\noops! page \"\(self.viewModel.screenType.text)\" not found"
                 #warning("API Error")
             }
         }
@@ -98,13 +92,11 @@ final class BaseHomeChildViewController: BaseViewController {
             if done {
                 self.viewModel.isLoading = false
                 self.tableView.reloadData()
-                #warning("Delete print later")
-                print(self.viewModel.articles.count)
             } else {
                 self.viewModel.isLoading = false
                 self.viewModel.canLoadMore = false
-                #warning("API Error")
-                print("Can't load more")
+                #warning("API Error:")
+                print("Can't load more") /// delete print later
             }
         }
     }

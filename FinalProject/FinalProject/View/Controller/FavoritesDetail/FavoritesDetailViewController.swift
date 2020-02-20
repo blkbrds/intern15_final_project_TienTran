@@ -100,7 +100,7 @@ extension FavoritesDetailViewController: FavoritesDetailCellDelegate {
             }
         case .delete(let indexPath):
             #warning("Show alert delete news(Y/N)?")
-            viewModel.removeNewsInFavorites(indexPath: indexPath) { (done, error) in
+            viewModel.removeNewsInFavorites(indexPath: indexPath) { (done, _) in
                 if done {
                     self.tableView.reloadData()
                 } else {

@@ -11,6 +11,8 @@ import UIKit
 final class SearchNewsViewController: BaseViewController {
 
     @IBOutlet private weak var searchCollectionView: UICollectionView!
+    @IBOutlet private weak var placeholdArticlesSearchNewsView: UIView!
+    @IBOutlet private weak var messageSearchLabel: UILabel!
 
     var viewModel = SearchNewsViewModel()
 
@@ -30,6 +32,8 @@ final class SearchNewsViewController: BaseViewController {
         title = "Search News"
         configSearch()
         configCollectionView()
+
+        configMessageSearch()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,9 +51,14 @@ final class SearchNewsViewController: BaseViewController {
 
     private func configSearch() {
         resultsSearchController.searchResultsUpdater = self
+        resultsSearchController.searchBar.delegate = self
         navigationItem.searchController = resultsSearchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+    }
+
+    private func configMessageSearch() {
+        messageSearchLabel.text = "Search for Articles above"
     }
 
     private func configFlowLayout() {
@@ -66,10 +75,20 @@ final class SearchNewsViewController: BaseViewController {
         }
     }
 
+    private func reloadSearchNewsViewController() {
+        if viewModel.isEmmtySearchItems() {
+            placeholdArticlesSearchNewsView.isHidden = false
+            messageSearchLabel.text = "Sorry, no results found for your\nsearch: \(viewModel.queryString)"
+        } else {
+            placeholdArticlesSearchNewsView.isHidden = true
+        }
+        searchCollectionView.reloadData()
+    }
+
     @objc private func searchNewsApi() {
         viewModel.searchNews { (done, _) in
             if done {
-                self.searchCollectionView.reloadData()
+                self.reloadSearchNewsViewController()
             } else {
                 #warning("Show alert")
             }
@@ -77,15 +96,21 @@ final class SearchNewsViewController: BaseViewController {
     }
 }
 
+extension SearchNewsViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.cancelSearchNews()
+        reloadSearchNewsViewController()
+        configMessageSearch()
+    }
+}
+
 extension SearchNewsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
 
         if let searchString = searchController.searchBar.text {
-            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNewsApi), object: searchString)
-            self.perform(#selector(searchNewsApi), with: self, afterDelay: 1.5)
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNewsApi), object: nil)
+            self.perform(#selector(searchNewsApi), with: nil, afterDelay: 1.5)
             viewModel.queryString = searchString
-            #warning("Delete print later")
-            print(searchString)
         }
     }
 }
@@ -116,6 +141,7 @@ extension SearchNewsViewController: SearchNewsCellDelegate {
         switch action {
         case .loadImage(let indexPath):
             viewModel.loadImage(indexPath: indexPath) { image in
+                guard indexPath.row < self.viewModel.searchItems.count else { return }
                 if image != nil {
                     self.searchCollectionView.reloadItems(at: [indexPath])
                 }

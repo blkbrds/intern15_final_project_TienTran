@@ -12,7 +12,10 @@ extension API {
 
     // with url string
     func request(urlString: String, completion: @escaping (APIResult) -> Void) {
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: urlString) else {
+            completion(.failure(.errorURL))
+            return
+        }
 
         let config = URLSessionConfiguration.ephemeral
         config.waitsForConnectivity = true

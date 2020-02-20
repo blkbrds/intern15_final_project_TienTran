@@ -14,8 +14,8 @@ extension APIManager.News {
             return APIManager.Path.TopHeadlines(category: category, country: country, pageSize: pageSize, page: page).url
         }
 
-        func getEverything(query: String, country: String, page: Int, pageSize: Int) -> String {
-            return APIManager.Path.Everything(query: query, country: country, pageSize: pageSize, page: page).url
+        func getEverything(query: String, country: String = "", page: Int, pageSize: Int) -> String {
+            return APIManager.Path.Everything(query: query, pageSize: pageSize, page: page).url
         }
     }
 
@@ -28,8 +28,6 @@ extension APIManager.News {
 
     static func getTopHeadlines(page: Int, pageSize: Int = 10, category: String, country: String, completion: @escaping APICompletion<Response>) {
         let urlString = QueryString().getTopHeadlines(category: category, country: country, page: page, pageSize: pageSize)
-        #warning("delete print later")
-        print(urlString)
         API.shared().request(urlString: urlString) { result in
             switch result {
             case .failure(let error):
