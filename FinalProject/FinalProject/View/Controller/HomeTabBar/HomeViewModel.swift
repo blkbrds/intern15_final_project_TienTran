@@ -28,8 +28,9 @@ final class HomeViewModel {
     var articlesArray: [[News]] = []
     var isLoading: [Bool] = []
     var currentPageParam: [Int] = []
+    var canLoadMore: [Bool] = []
 
-    var canLoadMore: Bool = true
+    var isRefreshing = false
 
     let group = DispatchGroup()
 }
@@ -41,11 +42,11 @@ extension HomeViewModel {
     }
 
     func getCategoryCellViewModel(indexPath: IndexPath) -> CategoryCellViewModel {
-        return CategoryCellViewModel(textCategoryLabel: categories[indexPath.row].text, isEnable: currentPage == indexPath.row)
+        return CategoryCellViewModel(textCategoryString: categories[indexPath.row].text, isEnable: currentPage == indexPath.row)
     }
 
-    func getHomeChildViewModel(index: Int) -> BaseHomeChildViewModel {
-        return BaseHomeChildViewModel(articles: articlesArray[index], category: categories[index], isLoading: isLoading[index], index: index)
+    func getHomeChildViewModel(index: Int) -> HomeChildViewModel {
+        return HomeChildViewModel(articles: articlesArray[index], category: categories[index], isLoading: isLoading[index], index: index)
     }
 
     func resetArrayData() {
@@ -53,25 +54,25 @@ extension HomeViewModel {
         articlesArray = Array(repeating: [], count: count)
         isLoading = Array(repeating: true, count: count)
         currentPageParam = Array(repeating: 1, count: count)
-
+        canLoadMore = Array(repeating: true, count: count)
     }
 }
 
 extension HomeViewModel {
 
     func loadApi(completion: @escaping Completion) {
+        resetArrayData()
         DispatchQueue.global(qos: .userInitiated).async {
             self.categories.enumerated().forEach { (index, category) in
                 self.group.enter()
                 APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
                     switch result {
                     case .failure(let error):
-                        #warning("API Error")
                         print("\(category.text) load fail: - \(error.localizedDescription)!")
-                        // Delete print later
+                        #warning("Delete print later handle error")
                     case .success(let response):
                         if response.articles.isEmpty {
-                            #warning("API Error")
+                            #warning("Delete print later handle error")
                             print("\(category.text) data empty !")
                             // Delete print later
                         } else {
@@ -82,21 +83,24 @@ extension HomeViewModel {
                     }
                     self.group.leave()
                     self.isLoading[index] = false
-                    print("\(category.imageName) load done!")
+                    #warning("Delete print later")
+                    print("\(category.text) load done!")
                 }
             }
             //        loadApiDispatchGroup.wait()
             self.group.notify(queue: .main) {
-                print("Loaded done!.")
+                print("------Loaded done!.------")
                 completion(true, "")
             }
         }
     }
 
     func refreshData(index: Int, category: CategoryType, completion: @escaping Completion) {
-        DispatchQueue.global(qos: .userInitiated).sync {
+        DispatchQueue.global(qos: .userInitiated).async {
             var bool: Bool = false
             var error: APIError = .error("")
+            self.group.enter()
+            self.isRefreshing = true
             APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
                 switch result {
                 case .failure(let erro):
@@ -107,11 +111,13 @@ extension HomeViewModel {
                     let articles: [News] = response.articles
                     articles.forEach { $0.categoryNews = category.param }
                     self.articlesArray[index] = articles
-                    self.canLoadMore = true
+                    self.canLoadMore[index] = true
                     self.currentPageParam[index] = 1
                     // call back
                     bool = true
                 }
+                self.group.leave()
+                self.isRefreshing = false
             }
 
             self.group.notify(queue: .main) {
@@ -123,6 +129,7 @@ extension HomeViewModel {
     /*
      /// load api
      func refreshData(compeltion: @escaping Completion) {
+         isRefreshing = true
          APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
              switch result {
              case .failure(let error):
@@ -136,7 +143,10 @@ extension HomeViewModel {
                  // call back
                  compeltion(true, "")
              }
+             self.isRefreshing = false
          }
+         #warning("Delete print later")
+         print(articles.count)
      }
 
      */

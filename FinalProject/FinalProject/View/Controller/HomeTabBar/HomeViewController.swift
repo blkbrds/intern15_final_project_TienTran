@@ -16,7 +16,7 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Properties
     private var pageController: UIPageViewController!
-    private var viewControllers = [BaseHomeChildViewController]()
+    private var viewControllers = [HomeChildViewController]()
     private var viewModel = HomeViewModel()
 
     var notificationCenter = NotificationCenter.default
@@ -92,9 +92,6 @@ final class HomeViewController: BaseViewController {
         addChild(pageController)
         contentView.addSubview(pageController.view)
         pageController.view.frame = contentView.bounds
-
-        viewModel.resetArrayData()
-
         configHomeChildViewController()
         pageController.didMove(toParent: self)
 
@@ -103,10 +100,10 @@ final class HomeViewController: BaseViewController {
     }
 
     private func configHomeChildViewController() {
-        var newViewControllers: [BaseHomeChildViewController] = []
+        var newViewControllers: [HomeChildViewController] = []
         let categories = viewModel.categories
         categories.enumerated().forEach { (index, _) in
-            let viewController = BaseHomeChildViewController()
+            let viewController = HomeChildViewController()
             viewController.delegate = self
             viewController.viewModel = viewModel.getHomeChildViewModel(index: index)
             viewController.view.tag = index
@@ -146,6 +143,7 @@ final class HomeViewController: BaseViewController {
     }
 
     @objc private func reloadDataHomeVC() {
+        categoriesCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: false)
         categoriesCollectionView.reloadData()
         configHomeChildViewController()
     }
@@ -186,7 +184,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 // MARK: - PageViewController DataSource, Delegate
 extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
+        guard let viewController = viewController as? HomeChildViewController else { return nil }
         let index: Int = viewController.view.tag
         guard index == 0 else {
             let viewController = viewControllers[index - 1]
@@ -196,7 +194,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
+        guard let viewController = viewController as? HomeChildViewController else { return nil }
         var index: Int = viewController.view.tag
         index += 1
         guard index == viewModel.categories.count else {
@@ -218,8 +216,8 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 }
 
-extension HomeViewController: BaseHomeChildViewControllerDelegate {
-    func viewController(_ viewController: BaseHomeChildViewController, needPerform action: BaseHomeChildViewController.Action) {
+extension HomeViewController: HomeChildViewControllerDelegate {
+    func viewController(_ viewController: HomeChildViewController, needPerform action: HomeChildViewController.Action) {
         switch action {
         case .pullToRefresh(let index, let category):
             viewModel.refreshData(index: index, category: category) { [weak self] (done, _) in
@@ -232,6 +230,7 @@ extension HomeViewController: BaseHomeChildViewControllerDelegate {
                     this.notificationCenter.post(name: NSNotification.Name.refreshHomeChildVC, object: nil, userInfo: userInfo)
                 } else {
                     #warning("Show alert")
+                    print("Show alert Error \(category.param)")
                 }
             }
         case .loadMore(let index, let category):

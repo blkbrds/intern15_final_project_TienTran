@@ -9,11 +9,11 @@
 import Foundation
 
 final class CategoryCellViewModel {
-    var textCategoryLabel: String
+    var textCategoryString: String
     var isEnable: Bool
 
-    init(textCategoryLabel: String, isEnable: Bool) {
+    init(textCategoryString: String, isEnable: Bool) {
         self.isEnable = isEnable
-        self.textCategoryLabel = textCategoryLabel
+        self.textCategoryString = textCategoryString
     }
 }

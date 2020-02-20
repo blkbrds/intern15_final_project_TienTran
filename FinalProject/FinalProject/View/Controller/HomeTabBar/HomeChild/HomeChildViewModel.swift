@@ -11,7 +11,7 @@ import UIKit
 
 typealias Completion = (Bool, String) -> Void
 
-final class BaseHomeChildViewModel {
+final class HomeChildViewModel {
     var category: CategoryType = .us
     var articles: [News] = []
     var isRefreshing = false
@@ -19,7 +19,7 @@ final class BaseHomeChildViewModel {
     var canLoadMore = true
     private var currentPageParam = 1
     var index: Int = 0
-    
+
     init(articles: [News], category: CategoryType, isLoading: Bool, index: Int) {
         self.articles = articles
         self.isLoading = isLoading
@@ -31,7 +31,7 @@ final class BaseHomeChildViewModel {
 }
 
 // MARK: - config tableview
-extension BaseHomeChildViewModel {
+extension HomeChildViewModel {
     func numberOfListNews() -> Int {
         return articles.count
     }
@@ -59,7 +59,7 @@ extension BaseHomeChildViewModel {
 }
 
 // MARK: - handle api
-extension BaseHomeChildViewModel {
+extension HomeChildViewModel {
 
 //    /// load api
 //    func loadAPI(compeltion: @escaping Completion) {
@@ -79,10 +79,12 @@ extension BaseHomeChildViewModel {
 
     /// loadmore api
     func loadMoreAPI(compeltion: @escaping Completion) {
+        isLoading = true
         currentPageParam += 1
         APIManager.News.getTopHeadlines(page: currentPageParam, category: category.param, country: "us") { result in
             switch result {
             case .failure(let error):
+                self.isLoading = false
                 compeltion(false, error.localizedDescription)
             case .success(let response):
                 if response.articles.count > 0 {
@@ -94,13 +96,16 @@ extension BaseHomeChildViewModel {
                     self.canLoadMore = false
                     compeltion(false, "Can't loadmore!")
                 }
+                self.isLoading = false
             }
         }
+        #warning("Delete print later")
         print(articles.count)
     }
 
     /// load api
     func refreshData(compeltion: @escaping Completion) {
+        isRefreshing = true
         APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
             switch result {
             case .failure(let error):
@@ -114,7 +119,10 @@ extension BaseHomeChildViewModel {
                 // call back
                 compeltion(true, "")
             }
+            self.isRefreshing = false
         }
+        #warning("Delete print later")
+        print(articles.count)
     }
 
     /// dowload image

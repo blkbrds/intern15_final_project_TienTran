@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,32 +27,31 @@
                                 <rect key="frame" x="0.0" y="98.5" width="300" height="126.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where to travel during Coronavirus? List of countries and destinations - eTurboNews | Trends | Travel News" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ciE-SF-Vwp">
-                                        <rect key="frame" x="10" y="0.0" width="280" height="87.5"/>
+                                        <rect key="frame" x="10" y="0.0" width="280" height="84"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cnn-logo-white-on-red" translatesAutoresizingMaskIntoConstraints="NO" id="BGM-HX-T10">
-                                        <rect key="frame" x="10" y="94.5" width="22" height="22"/>
+                                        <rect key="frame" x="10" y="91" width="25.5" height="25.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="7xS-Yp-uuh"/>
-                                            <constraint firstAttribute="height" constant="22" id="qbk-XG-34h"/>
+                                            <constraint firstAttribute="width" secondItem="BGM-HX-T10" secondAttribute="height" id="dnb-Z6-tBv"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Youtube.com" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMk-Gn-hSG">
-                                        <rect key="frame" x="39" y="94.5" width="92.5" height="22"/>
+                                        <rect key="frame" x="42.5" y="95" width="92.5" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" • " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIm-ua-MgS">
-                                        <rect key="frame" x="131.5" y="94.5" width="14" height="22"/>
+                                        <rect key="frame" x="135" y="95" width="14" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIw-gG-e3E">
-                                        <rect key="frame" x="145.5" y="94.5" width="90" height="22"/>
+                                        <rect key="frame" x="149" y="95" width="90" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -71,11 +70,11 @@
                                     <constraint firstItem="tIw-gG-e3E" firstAttribute="height" secondItem="gIm-ua-MgS" secondAttribute="height" id="LUP-70-RbA"/>
                                     <constraint firstItem="gIm-ua-MgS" firstAttribute="centerY" secondItem="RMk-Gn-hSG" secondAttribute="centerY" id="MOV-3f-ODc"/>
                                     <constraint firstItem="gIm-ua-MgS" firstAttribute="leading" secondItem="RMk-Gn-hSG" secondAttribute="trailing" id="VcX-TO-O0j"/>
-                                    <constraint firstItem="RMk-Gn-hSG" firstAttribute="height" secondItem="BGM-HX-T10" secondAttribute="height" id="YnR-6k-BPD"/>
                                     <constraint firstItem="RMk-Gn-hSG" firstAttribute="leading" secondItem="BGM-HX-T10" secondAttribute="trailing" constant="7" id="ioH-3t-8Zr"/>
                                     <constraint firstItem="RMk-Gn-hSG" firstAttribute="centerY" secondItem="BGM-HX-T10" secondAttribute="centerY" id="rK2-hv-K3o"/>
                                     <constraint firstItem="BGM-HX-T10" firstAttribute="leading" secondItem="m6g-8D-REO" secondAttribute="leading" constant="10" id="rgv-qh-ME4"/>
                                     <constraint firstItem="BGM-HX-T10" firstAttribute="top" secondItem="ciE-SF-Vwp" secondAttribute="bottom" constant="7" id="v0f-Id-znD"/>
+                                    <constraint firstItem="BGM-HX-T10" firstAttribute="height" secondItem="m6g-8D-REO" secondAttribute="height" multiplier="0.2" id="voN-mf-FqZ"/>
                                 </constraints>
                             </view>
                         </subviews>
