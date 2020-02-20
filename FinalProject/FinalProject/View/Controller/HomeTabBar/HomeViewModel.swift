@@ -77,7 +77,7 @@ extension HomeViewModel {
                             // Delete print later
                         } else {
                             let articles: [News] = response.articles
-                            articles.forEach { $0.categoryNews = category.param }
+                            self.setCategoryInNews(articles: articles, category: category)
                             self.articlesArray[index] = articles
                         }
                     }
@@ -87,7 +87,8 @@ extension HomeViewModel {
                     print("\(category.text) load done!")
                 }
             }
-            //        loadApiDispatchGroup.wait()
+
+            /// loadApiDispatchGroup.wait()
             self.group.notify(queue: .main) {
                 print("------Loaded done!.------")
                 completion(true, "")
@@ -96,10 +97,10 @@ extension HomeViewModel {
     }
 
     func refreshData(index: Int, category: CategoryType, completion: @escaping Completion) {
+
         DispatchQueue.global(qos: .userInitiated).async {
             var bool: Bool = false
             var error: APIError = .error("")
-            self.group.enter()
             self.isRefreshing = true
             APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
                 switch result {
@@ -109,47 +110,47 @@ extension HomeViewModel {
                     error = erro
                 case .success(let response):
                     let articles: [News] = response.articles
-                    articles.forEach { $0.categoryNews = category.param }
+                    self.setCategoryInNews(articles: articles, category: category)
                     self.articlesArray[index] = articles
                     self.canLoadMore[index] = true
                     self.currentPageParam[index] = 1
                     // call back
                     bool = true
                 }
-                self.group.leave()
                 self.isRefreshing = false
-            }
-
-            self.group.notify(queue: .main) {
-                print("Refresh done!.")
                 completion(bool, error.localizedDescription)
             }
         }
     }
-    /*
-     /// load api
-     func refreshData(compeltion: @escaping Completion) {
-         isRefreshing = true
-         APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
-             switch result {
-             case .failure(let error):
-                 // call back
-                 compeltion(false, error.localizedDescription)
-             case .success(let response):
-                 self.articles = response.articles
-                 self.canLoadMore = true
-                 self.currentPageParam = 1
-                 self.setCategoryInNews()
-                 // call back
-                 compeltion(true, "")
-             }
-             self.isRefreshing = false
-         }
-         #warning("Delete print later")
-         print(articles.count)
-     }
 
-     */
+    func loadMoreApi(index: Int, category: CategoryType, completion: @escaping Completion) {
+        isLoading[index] = true
+        currentPageParam[index] += 1
+        APIManager.News.getTopHeadlines(page: currentPageParam[index], category: category.param, country: "us") { result in
+            switch result {
+            case .failure(let error):
+                completion(false, error.localizedDescription)
+            case .success(let response):
+                let articles: [News] = response.articles
+                if articles.count > 0 {
+                    self.setCategoryInNews(articles: articles, category: category)
+                    self.articlesArray[index].append(contentsOf: articles)
+                    completion(true, "")
+                } else {
+                    self.canLoadMore[index] = false
+                    completion(false, "Can't loadmore!")
+                }
+            }
+            self.isLoading[index] = false
+        }
+        #warning("Delete print later")
+        print(articlesArray[index].count)
+    }
+
+/// add category
+    func setCategoryInNews(articles: [News], category: CategoryType) {
+        articles.forEach { $0.categoryNews = category.param }
+    }
 }
 
 enum CategoryType: Int, CaseIterable {

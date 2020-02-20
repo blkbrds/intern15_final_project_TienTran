@@ -26,7 +26,14 @@ final class HomeChildViewController: BaseViewController {
     @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
-    var viewModel: HomeChildViewModel = HomeChildViewModel()
+    var viewModel: HomeChildViewModel = HomeChildViewModel() {
+        didSet {
+            guard !viewModel.articles.isEmpty else { return }
+            tableView?.reloadData()
+            refreshControl.endRefreshing()
+        }
+    }
+
     var notificationCenter = NotificationCenter.default
     private var refreshControl = UIRefreshControl()
     weak var delegate: HomeChildViewControllerDelegate?
@@ -53,7 +60,7 @@ final class HomeChildViewController: BaseViewController {
 
         /// config Refresh Control
         tableView.addSubview(refreshControl)
-        refreshControl.addTarget(self, action: #selector(refreshViewController), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshHomeChildVC), for: .valueChanged)
     }
 
     /// config Loading View
@@ -80,43 +87,20 @@ final class HomeChildViewController: BaseViewController {
         }
     }
 
-    @objc private func refreshViewController() {
-        guard !viewModel.isLoading else { return }
-        if !viewModel.isRefreshing {
-            viewModel.refreshData { (done, _) in
-                if done {
-                    self.tableView.reloadData()
-                    self.refreshControl.endRefreshing()
-                } else {
-                    self.viewModel.isRefreshing = false
-                    #warning("API Error")
-                    print("Show alert Error refresh \(self.viewModel.category.param)")
-                }
-            }
-        }
-        #warning("Comment")
-//        delegate?.viewController(self, needPerform: .pullToRefresh(index: viewModel.index, category: viewModel.category))
+    @objc private func refreshHomeChildVC() {
+        delegate?.viewController(self, needPerform: .pullToRefresh(index: viewModel.index, category: viewModel.category))
     }
 
     private func loadMore() {
-        guard !viewModel.isLoading, viewModel.canLoadMore else { return }
-
-        viewModel.loadMoreAPI { (done, _) in
-            if done {
-                self.tableView.reloadData()
-            } else {
-                #warning("API Error:")
-                print("Can't load more") /// delete print later
-            }
-        }
+        delegate?.viewController(self, needPerform: .loadMore(index: viewModel.index, category: viewModel.category))
     }
 
-    @IBAction func scrollToTopButtonTochUpInside(_ sender: UIButton) {
+    @IBAction private func scrollToTopButtonTochUpInside(_ sender: UIButton) {
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.loadApiHomeChildVC, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .loadApiHomeChildVC, object: nil)
     }
 }
 

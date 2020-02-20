@@ -20,14 +20,14 @@ final class HomeChildViewModel {
     private var currentPageParam = 1
     var index: Int = 0
 
+    init() { }
+
     init(articles: [News], category: CategoryType, isLoading: Bool, index: Int) {
         self.articles = articles
         self.isLoading = isLoading
         self.category = category
         self.index = index
     }
-
-    init() { }
 }
 
 // MARK: - config tableview
@@ -61,70 +61,6 @@ extension HomeChildViewModel {
 // MARK: - handle api
 extension HomeChildViewModel {
 
-//    /// load api
-//    func loadAPI(compeltion: @escaping Completion) {
-//        APIManager.News.getTopHeadlines(page: 1, category: screenType.param, country: "us") { result in
-//            switch result {
-//            case .failure(let error):
-//                // call back
-//                compeltion(false, error.localizedDescription)
-//            case .success(let response):
-//                self.articles.append(contentsOf: response.articles)
-//                self.setCategoryInNews()
-//                // call back
-//                compeltion(true, "")
-//            }
-//        }
-//    }
-
-    /// loadmore api
-    func loadMoreAPI(compeltion: @escaping Completion) {
-        isLoading = true
-        currentPageParam += 1
-        APIManager.News.getTopHeadlines(page: currentPageParam, category: category.param, country: "us") { result in
-            switch result {
-            case .failure(let error):
-                self.isLoading = false
-                compeltion(false, error.localizedDescription)
-            case .success(let response):
-                if response.articles.count > 0 {
-                    self.articles.append(contentsOf: response.articles)
-                    self.setCategoryInNews()
-                    // call back
-                    compeltion(true, "")
-                } else {
-                    self.canLoadMore = false
-                    compeltion(false, "Can't loadmore!")
-                }
-                self.isLoading = false
-            }
-        }
-        #warning("Delete print later")
-        print(articles.count)
-    }
-
-    /// load api
-    func refreshData(compeltion: @escaping Completion) {
-        isRefreshing = true
-        APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
-            switch result {
-            case .failure(let error):
-                // call back
-                compeltion(false, error.localizedDescription)
-            case .success(let response):
-                self.articles = response.articles
-                self.canLoadMore = true
-                self.currentPageParam = 1
-                self.setCategoryInNews()
-                // call back
-                compeltion(true, "")
-            }
-            self.isRefreshing = false
-        }
-        #warning("Delete print later")
-        print(articles.count)
-    }
-
     /// dowload image
     func loadImage(indexPath: IndexPath, completion: @escaping (UIImage?) -> Void) {
         let news = articles[indexPath.row]
@@ -141,10 +77,5 @@ extension HomeChildViewModel {
                 }
             }
         }
-    }
-
-    /// add category
-    func setCategoryInNews() {
-        articles.forEach { $0.categoryNews = category.param }
     }
 }

@@ -285,7 +285,6 @@
 			children = (
 				F0ADABF223F52AC00012F1BD /* FavoritesDetail */,
 				F094DAF723BED41A008221E9 /* NewsDetail */,
-				F0B5784C23FA4CEC00523D1F /* SettingSubTabs */,
 				F0ADAC0023F540970012F1BD /* SearchNewsTabBar */,
 				F06C194623EBBEAD00EA77C4 /* FavoritesTabBar */,
 				F094DAEB23BED41A008221E9 /* HomeTabBar */,
@@ -301,6 +300,7 @@
 				F094DAF523BED41A008221E9 /* HomeViewController.xib */,
 				F094DAEC23BED41A008221E9 /* CategoryCell */,
 				F094DAEF23BED41A008221E9 /* HomeChild */,
+				F0B5784C23FA4CEC00523D1F /* SettingSubTabs */,
 			);
 			path = HomeTabBar;
 			sourceTree = "<group>";

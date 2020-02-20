@@ -62,7 +62,7 @@ final class HomeViewController: BaseViewController {
             guard let this = self else { return }
             if done {
                 this.reloadDataHomeVC()
-                this.notificationCenter.post(name: NSNotification.Name.loadApiHomeChildVC, object: nil)
+                this.notificationCenter.post(name: .loadApiHomeChildVC, object: nil)
             } else {
                 #warning("API Error")
             }
@@ -220,21 +220,32 @@ extension HomeViewController: HomeChildViewControllerDelegate {
     func viewController(_ viewController: HomeChildViewController, needPerform action: HomeChildViewController.Action) {
         switch action {
         case .pullToRefresh(let index, let category):
+            guard !viewModel.isLoading[index] else { return }
             viewModel.refreshData(index: index, category: category) { [weak self] (done, _) in
                 guard let this = self else { return }
                 if done {
                     let articles = this.viewModel.articlesArray[index]
-                    var userInfo: [String: [News]] = [:]
-                    userInfo[category.param] = articles
-
-                    this.notificationCenter.post(name: NSNotification.Name.refreshHomeChildVC, object: nil, userInfo: userInfo)
+                    let homeChildViewModel = HomeChildViewModel()
+                    homeChildViewModel.articles = articles
+                    this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
                     #warning("Show alert")
-                    print("Show alert Error \(category.param)")
                 }
             }
         case .loadMore(let index, let category):
-            break
+            guard !viewModel.isLoading[index], viewModel.canLoadMore[index] else { return }
+            viewModel.loadMoreApi(index: index, category: category) { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    let articles = this.viewModel.articlesArray[index]
+                    let homeChildViewModel = HomeChildViewModel()
+                    homeChildViewModel.articles = articles
+                    this.viewControllers[index].viewModel = homeChildViewModel
+                } else {
+                    #warning("Show alert")
+                    print(error) /// Delete later
+                }
+            }
         }
     }
 }
