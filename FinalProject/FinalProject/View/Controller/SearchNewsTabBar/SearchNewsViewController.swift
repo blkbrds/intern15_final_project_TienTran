@@ -109,6 +109,8 @@ final class SearchNewsViewController: BaseViewController {
                 print(error)
             }
         }
+        #warning("Delete print later")
+        print("Search load more: \(viewModel.searchItems.count)")
     }
 }
 
@@ -127,7 +129,7 @@ extension SearchNewsViewController: UISearchResultsUpdating {
             NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNews), object: nil)
             viewModel.queryString = searchString
             guard viewModel.queryString != viewModel.oldQueryString else { return }
-            perform(#selector(searchNews), with: nil, afterDelay: 1.5)
+            perform(#selector(searchNews), with: nil, afterDelay: 1.2)
         }
     }
 }

@@ -29,6 +29,7 @@ final class HomeChildViewController: BaseViewController {
     var viewModel: HomeChildViewModel = HomeChildViewModel() {
         didSet {
             guard !viewModel.articles.isEmpty, let tableView = tableView else { return }
+            #warning("Delete print later")
             print("\(viewModel.category): \(viewModel.articles.count)")
             tableView.reloadData()
             refreshControl.endRefreshing()
