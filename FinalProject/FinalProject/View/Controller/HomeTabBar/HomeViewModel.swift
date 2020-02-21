@@ -97,29 +97,26 @@ extension HomeViewModel {
     }
 
     func refreshData(index: Int, category: CategoryType, completion: @escaping Completion) {
-
-        DispatchQueue.global(qos: .userInitiated).async {
-            var bool: Bool = false
-            var error: APIError = .error("")
-            self.isRefreshing = true
-            APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
-                switch result {
-                case .failure(let erro):
-                    // call back
-                    bool = false
-                    error = erro
-                case .success(let response):
-                    let articles: [News] = response.articles
-                    self.setCategoryInNews(articles: articles, category: category)
-                    self.articlesArray[index] = articles
-                    self.canLoadMore[index] = true
-                    self.currentPageParam[index] = 1
-                    // call back
-                    bool = true
-                }
-                self.isRefreshing = false
-                completion(bool, error.localizedDescription)
+        var bool: Bool = false
+        var error: APIError = .error("")
+        isRefreshing = true
+        APIManager.News.getTopHeadlines(page: 1, category: category.param, country: "us") { result in
+            switch result {
+            case .failure(let erro):
+                // call back
+                bool = false
+                error = erro
+            case .success(let response):
+                let articles: [News] = response.articles
+                self.setCategoryInNews(articles: articles, category: category)
+                self.articlesArray[index] = articles
+                self.canLoadMore[index] = true
+                self.currentPageParam[index] = 1
+                // call back
+                bool = true
             }
+            self.isRefreshing = false
+            completion(bool, error.localizedDescription)
         }
     }
 
@@ -143,11 +140,9 @@ extension HomeViewModel {
             }
             self.isLoading[index] = false
         }
-        #warning("Delete print later")
-        print(articlesArray[index].count)
     }
 
-/// add category
+    /// add category
     func setCategoryInNews(articles: [News], category: CategoryType) {
         articles.forEach { $0.categoryNews = category.param }
     }

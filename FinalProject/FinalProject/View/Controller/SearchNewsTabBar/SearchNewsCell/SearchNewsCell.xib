@@ -24,7 +24,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4DY-dm-s7f">
-                                <rect key="frame" x="0.0" y="110" width="277" height="134"/>
+                                <rect key="frame" x="0.0" y="105" width="277" height="134"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where to travel during Coronavirus? List of countries and destinations - eTurboNews | Trends | Travel News" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zl8-6M-KKt">
                                         <rect key="frame" x="10" y="0.0" width="257" height="95"/>
@@ -85,7 +85,7 @@
                             <constraint firstAttribute="bottom" secondItem="3wm-dZ-OJd" secondAttribute="bottom" id="Kzh-T3-TIr"/>
                             <constraint firstAttribute="trailing" secondItem="4DY-dm-s7f" secondAttribute="trailing" id="MFc-qB-0fE"/>
                             <constraint firstItem="4DY-dm-s7f" firstAttribute="leading" secondItem="21t-uJ-vtB" secondAttribute="leading" id="TN2-YX-waq"/>
-                            <constraint firstAttribute="bottom" secondItem="4DY-dm-s7f" secondAttribute="bottom" id="c5Q-0a-IGY"/>
+                            <constraint firstAttribute="bottom" secondItem="4DY-dm-s7f" secondAttribute="bottom" constant="5" id="c5Q-0a-IGY"/>
                             <constraint firstItem="3wm-dZ-OJd" firstAttribute="leading" secondItem="21t-uJ-vtB" secondAttribute="leading" id="nJX-ut-4lO"/>
                             <constraint firstItem="3wm-dZ-OJd" firstAttribute="top" secondItem="21t-uJ-vtB" secondAttribute="top" id="vYx-Uo-5Py"/>
                             <constraint firstAttribute="trailing" secondItem="3wm-dZ-OJd" secondAttribute="trailing" id="ySX-dK-aNJ"/>

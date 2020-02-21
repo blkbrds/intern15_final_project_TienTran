@@ -153,7 +153,7 @@ final class HomeViewController: BaseViewController {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.settingCategories, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .settingCategories, object: nil)
     }
 }
 
@@ -225,7 +225,7 @@ extension HomeViewController: HomeChildViewControllerDelegate {
                 guard let this = self else { return }
                 if done {
                     let articles = this.viewModel.articlesArray[index]
-                    let homeChildViewModel = HomeChildViewModel()
+                    let homeChildViewModel = this.viewControllers[index].viewModel
                     homeChildViewModel.articles = articles
                     this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
@@ -238,12 +238,12 @@ extension HomeViewController: HomeChildViewControllerDelegate {
                 guard let this = self else { return }
                 if done {
                     let articles = this.viewModel.articlesArray[index]
-                    let homeChildViewModel = HomeChildViewModel()
+                    let homeChildViewModel = this.viewControllers[index].viewModel
                     homeChildViewModel.articles = articles
                     this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
-                    #warning("Show alert")
-                    print(error) /// Delete later
+                    #warning("Show alert Delete print later")
+                    print(error)
                 }
             }
         }

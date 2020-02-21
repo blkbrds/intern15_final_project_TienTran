@@ -38,7 +38,7 @@ class SearchNewsCell: UICollectionViewCell {
 
     private func configUI() {
         newsImageView.clipsToBounds = true
-        newsImageView.layer.cornerRadius = 20
+        newsImageView.layer.cornerRadius = 5
         nameSourceLabel.clipsToBounds = true
         nameSourceLabel.layer.cornerRadius = 7
         publishedLabel.clipsToBounds = true
