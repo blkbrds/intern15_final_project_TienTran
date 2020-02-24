@@ -28,7 +28,7 @@ enum APIError: Error {
         case .errorData:
             return "Data is not format."
         case .emptyData:
-            return "Server returns no data."
+            return "No data."
         case .invalidURL:
             return "Cannot detect URL."
         case .errorNetwork:

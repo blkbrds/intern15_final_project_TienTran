@@ -14,6 +14,7 @@ protocol HomeChildViewControllerDelegate: class {
 
 final class HomeChildViewController: BaseViewController {
     enum Action {
+        case fetchData(index: Int, category: CategoryType)
         case loadMore(index: Int, category: CategoryType)
         case pullToRefresh(index: Int, category: CategoryType)
     }
@@ -23,16 +24,12 @@ final class HomeChildViewController: BaseViewController {
     @IBOutlet private weak var loadingView: UIView!
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet private weak var errorView: UIView!
-    @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
     var viewModel: HomeChildViewModel = HomeChildViewModel() {
         didSet {
-            guard !viewModel.articles.isEmpty, let tableView = tableView else { return }
-            #warning("Delete print later")
-            print("\(viewModel.category): \(viewModel.articles.count)")
-            tableView.reloadData()
-            refreshControl.endRefreshing()
+            guard tableView != nil else { return }
+            fetchData()
         }
     }
 
@@ -49,7 +46,7 @@ final class HomeChildViewController: BaseViewController {
 
     override func setupData() {
         super.setupData()
-        configObserver()
+        delegate?.viewController(self, needPerform: .fetchData(index: viewModel.index, category: viewModel.category))
     }
 
     // MARK: - Private funcs
@@ -70,22 +67,32 @@ final class HomeChildViewController: BaseViewController {
         errorView.isHidden = true
         loadingView.backgroundColor = .white
         activityIndicatorView.startAnimating()
-        scrollToTopButton.isHidden = true
     }
 
-    private func configObserver() {
-        notificationCenter.addObserver(self, selector: #selector(reloadHomeChildVC), name: NSNotification.Name.loadApiHomeChildVC, object: nil)
+    private func fetchData() {
+        activityIndicatorView.stopAnimating()
+        if viewModel.articles.count > 1 {
+            loadingView.isHidden = true
+            tableView.reloadData()
+            #warning("Delete print later")
+            print("\(viewModel.category.text):  \(viewModel.articles.count)")
+        } else {
+            errorView.isHidden = false
+            #warning("check error here!")
+        }
+
+        guard refreshControl.isRefreshing else { return }
+        refreshControl.endRefreshing()
     }
 
     @objc private func reloadHomeChildVC() {
         activityIndicatorView.stopAnimating()
         if viewModel.articles.count > 1 {
             loadingView.isHidden = true
-            scrollToTopButton.isHidden = false
             tableView.reloadData()
         } else {
             errorView.isHidden = false
-            scrollToTopButton.isHidden = true
+            #warning("check error here!")
         }
     }
 
@@ -95,14 +102,6 @@ final class HomeChildViewController: BaseViewController {
 
     private func loadMore() {
         delegate?.viewController(self, needPerform: .loadMore(index: viewModel.index, category: viewModel.category))
-    }
-
-    @IBAction private func scrollToTopButtonTochUpInside(_ sender: UIButton) {
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .loadApiHomeChildVC, object: nil)
     }
 }
 

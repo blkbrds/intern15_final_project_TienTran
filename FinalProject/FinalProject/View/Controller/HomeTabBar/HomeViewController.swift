@@ -19,7 +19,7 @@ final class HomeViewController: BaseViewController {
     private var viewControllers = [HomeChildViewController]()
     private var viewModel = HomeViewModel()
 
-    var notificationCenter = NotificationCenter.default
+    private var notificationCenter = NotificationCenter.default
 
     private var settingSubTabsButtonItem: UIBarButtonItem {
         let settingSubTabsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
@@ -53,27 +53,18 @@ final class HomeViewController: BaseViewController {
     override func setupData() {
         super.setupData()
         APIManager.Downloader.configImageDataStorage()
-        fetchData()
+        configData()
     }
 
     // MARK: - Private funcs
-    private func fetchData() {
-        viewModel.loadApi { [weak self] (done, _) in
-            guard let this = self else { return }
-            if done {
-                this.reloadDataHomeVC()
-                this.notificationCenter.post(name: .loadApiHomeChildVC, object: nil)
-            } else {
-                #warning("API Error")
-            }
-        }
+    private func configData() {
+        viewModel.configData()
     }
 
     private func configCategoriesCollectionView() {
         categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
-
         configFlowLayout()
     }
 
@@ -114,6 +105,16 @@ final class HomeViewController: BaseViewController {
         pageController.setViewControllers([viewControllers[0]], direction: .forward, animated: false)
     }
 
+    private func configObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchDataSetting), name: NSNotification.Name.settingCategories, object: nil)
+    }
+
+    private func fetchDataHomeChildViewController() {
+        viewControllers.enumerated().forEach { (index, viewController) in
+            viewController.viewModel = viewModel.getHomeChildViewModel(index: index)
+        }
+    }
+
     private func scrollToPageChildViewController() {
         let direction: UIPageViewController.NavigationDirection = viewModel.navigationDirection ? UIPageViewController.NavigationDirection.forward : UIPageViewController.NavigationDirection.reverse
         pageController.setViewControllers([viewControllers[viewModel.currentPage]], direction: direction, animated: true)
@@ -129,10 +130,6 @@ final class HomeViewController: BaseViewController {
         }
     }
 
-    private func configObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(fetchDataSetting), name: NSNotification.Name.settingCategories, object: nil)
-    }
-
     @objc private func settingSubTabsButtonItemTouchUpInside() {
         let settingSubTabsViewController = SettingSubTabsViewController()
         nextToViewController(viewcontroller: settingSubTabsViewController)
@@ -142,14 +139,12 @@ final class HomeViewController: BaseViewController {
         tabBarController?.selectedIndex = 2
     }
 
-    @objc private func reloadDataHomeVC() {
-        categoriesCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .centeredHorizontally, animated: false)
-        categoriesCollectionView.reloadData()
-        configHomeChildViewController()
-    }
-
     @objc private func fetchDataSetting() {
-        fetchData()
+        viewModel.configData()
+        configHomeChildViewController()
+        viewModel.currentPage = 0
+        categoriesCollectionView.reloadData()
+        categoriesCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
     }
 
     deinit {
@@ -221,7 +216,7 @@ extension HomeViewController: HomeChildViewControllerDelegate {
         switch action {
         case .pullToRefresh(let index, let category):
             guard !viewModel.isLoading[index] else { return }
-            viewModel.refreshData(index: index, category: category) { [weak self] (done, _) in
+            viewModel.refreshData(index: index, category: category) { [weak self] (done, error) in
                 guard let this = self else { return }
                 if done {
                     let articles = this.viewModel.articlesArray[index]
@@ -230,6 +225,7 @@ extension HomeViewController: HomeChildViewControllerDelegate {
                     this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
                     #warning("Show alert")
+                    print("\(this.viewModel.categories[index]): \(error)")
                 }
             }
         case .loadMore(let index, let category):
@@ -243,7 +239,20 @@ extension HomeViewController: HomeChildViewControllerDelegate {
                     this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
                     #warning("Show alert Delete print later")
-                    print(error)
+                    print("\(this.viewModel.categories[index]): \(error)")
+                }
+            }
+        case .fetchData(let index, let category):
+            viewModel.fecthData(index: index, category: category) { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    let articles = this.viewModel.articlesArray[index]
+                    let homeChildViewModel = this.viewControllers[index].viewModel
+                    homeChildViewModel.articles = articles
+                    this.viewControllers[index].viewModel = homeChildViewModel
+                } else {
+                    #warning("Show alert Delete print later")
+                    print("\(this.viewModel.categories[index]): \(error)")
                 }
             }
         }
