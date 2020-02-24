@@ -102,11 +102,35 @@ extension RealmManager {
         }
     }
 
+    /// Delete  objects  from the Realm
+    func deleteObjects<T: Object, KeyType>(object: T, forPrimaryKey keys: [KeyType], completion: @escaping Completion) {
+        var objectsForPKInRealm: [T] = []
+        keys.forEach { key in
+            if let objectForPKInRealm = getObjectForKey(object: object, forPrimaryKey: key) {
+                objectsForPKInRealm.append(objectForPKInRealm)
+            }
+        }
+
+        do {
+            try realm?.write {
+                realm?.delete(objectsForPKInRealm)
+                completion(true, "")
+            }
+        } catch {
+            completion(false, error.localizedDescription)
+        }
+    }
+
     /// Get all object in the Realm
     func getObjects<T: Object>(_ type: T.Type) -> [T] {
         guard let realm = realm else { return [] }
         let objects = Array(realm.objects(type))
         return objects
+    }
+
+    /// Get objec for key
+    func getObjectForKey<Element: Object, KeyType>(object: Element, forPrimaryKey key: KeyType) -> Element? {
+        return realm?.object(ofType: Element.self, forPrimaryKey: key)
     }
 
     /// The local URL of the Realm file
@@ -118,11 +142,6 @@ extension RealmManager {
     func isRealmContainsObject<T: Object, KeyType>(object: T, forPrimaryKey key: KeyType) -> Bool {
         guard getObjectForKey(object: object, forPrimaryKey: key) != nil else { return false }
         return true
-    }
-
-    /// Get objec for key
-    func getObjectForKey<Element: Object, KeyType>(object: Element, forPrimaryKey key: KeyType) -> Element? {
-        return realm?.object(ofType: Element.self, forPrimaryKey: key)
     }
 
     /// Get all news for Category in the Realm

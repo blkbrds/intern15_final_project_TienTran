@@ -113,4 +113,21 @@ extension FavoritesDetailViewModel {
             }
         }
     }
+
+    func removeArticlesInFavorites(articles: [News], completion: @escaping Completion) {
+        let keys: [String] = articles.map { $0.urlNews ?? "No url" }
+        let obj = articles[0]
+        RealmManager.shared().deleteObjects(object: obj, forPrimaryKey: keys) { (done, error) in
+            if done {
+                articles.forEach { news in
+                    if let index = self.articles.firstIndex(of: news) {
+                        self.articles.remove(at: index)
+                    }
+                }
+                completion(done, "")
+            } else {
+                completion(done, error)
+            }
+        }
+    }
 }

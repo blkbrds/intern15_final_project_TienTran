@@ -15,6 +15,11 @@ final class FavoritesDetailViewController: BaseViewController {
 
     // MARK: - Properties
     var viewModel = FavoritesDetailViewModel()
+    private var editBarButtonItem = UIBarButtonItem()
+    private var deleteBarButtonItem: UIBarButtonItem {
+        let deleteBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .done, target: self, action: #selector(deleteNewsButtonTouchUpInside))
+        return deleteBarButtonItem
+    }
 
     // MARK: - config
     override func setupUI() {
@@ -22,6 +27,9 @@ final class FavoritesDetailViewController: BaseViewController {
         title = "Favorites of \(viewModel.categoryType.text)"
         configTableView()
         configObserve()
+
+        editBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTouchUpInside))
+        navigationItem.rightBarButtonItem = editBarButtonItem
     }
 
     override func setupData() {
@@ -61,6 +69,34 @@ final class FavoritesDetailViewController: BaseViewController {
         }
     }
 
+    @objc private func editButtonTouchUpInside() {
+        let isEditing = !tableView.isEditing
+        tableView.setEditing(isEditing, animated: true)
+        if tableView.isEditing {
+            editBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(editButtonTouchUpInside))
+            navigationItem.rightBarButtonItems = [editBarButtonItem, deleteBarButtonItem]
+        } else {
+            editBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTouchUpInside))
+            navigationItem.rightBarButtonItems = [editBarButtonItem]
+        }
+    }
+
+    @objc private func deleteNewsButtonTouchUpInside() {
+        alert(title: "Delete this news?", msg: "This action cannot be undone", buttons: ["Ok", "Cancel"], preferButton: "Ok") { _ in
+            guard let selectedRows = self.tableView.indexPathsForSelectedRows else { return }
+            let articles: [News] = selectedRows.compactMap { self.viewModel.articles[$0.row] }
+            self.viewModel.removeArticlesInFavorites(articles: articles) { [weak self] (done, message) in
+                guard let this = self else { return }
+                if done {
+                    this.tableView.beginUpdates()
+                    this.tableView.deleteRows(at: selectedRows, with: .automatic)
+                    this.tableView.endUpdates()
+                } else {
+                    this.alert(title: "Bookmarks Detail", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil) }
+            }
+        }
+    }
+
     deinit {
         viewModel.invalidateNotificationToken()
     }
@@ -75,6 +111,8 @@ extension FavoritesDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newsDetail = NewsDetailViewController()
         newsDetail.viewModel = viewModel.getNewsDetailViewModel(at: indexPath)
+        if tableView.isEditing { return }
+        tableView.deselectRow(at: indexPath, animated: true)
         nextToViewController(viewcontroller: newsDetail)
     }
 }

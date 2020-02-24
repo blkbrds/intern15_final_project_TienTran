@@ -42,6 +42,7 @@ final class FavoritesDetailCell: UITableViewCell {
         newsImageView.clipsToBounds = true
         newsImageView.layer.cornerRadius = 5
         deleteNewsButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .selected)
+        tintColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
     }
 
     private func updateUI() {
