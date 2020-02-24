@@ -11,7 +11,7 @@ import Foundation
 final class SettingSubTabsViewModel {
 
     var categories: [CategoryType] = CategoryType.allCases
-    var cells: [SettingSubTabsCellViewModel] = []
+    var cells: [SubTabsCellViewModel] = []
 
     var categoriesSelected: [CategoryType] = []
 }
@@ -22,7 +22,7 @@ extension SettingSubTabsViewModel {
         return categories.count
     }
 
-    func getSettingSubTabsCellViewModel(at indexPath: IndexPath) -> SettingSubTabsCellViewModel {
+    func getSettingSubTabsCellViewModel(at indexPath: IndexPath) -> SubTabsCellViewModel {
         return cells[indexPath.row]
     }
 
@@ -40,7 +40,7 @@ extension SettingSubTabsViewModel {
 
         categories.enumerated().forEach { (index, category) in
             let isEnable = getIsActive(category)
-            let cell = SettingSubTabsCellViewModel(category: category, isEnable: isEnable, indexPath: IndexPath(row: index, section: 0))
+            let cell = SubTabsCellViewModel(category: category, isEnable: isEnable, indexPath: IndexPath(row: index, section: 0))
             cells.append(cell)
         }
     }
