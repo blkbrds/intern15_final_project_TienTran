@@ -78,7 +78,6 @@ final class HomeChildViewController: BaseViewController {
             print("\(viewModel.category.text):  \(viewModel.articles.count)")
         } else {
             errorView.isHidden = false
-            #warning("check error here!")
         }
 
         guard refreshControl.isRefreshing else { return }
@@ -92,7 +91,6 @@ final class HomeChildViewController: BaseViewController {
             tableView.reloadData()
         } else {
             errorView.isHidden = false
-            #warning("check error here!")
         }
     }
 

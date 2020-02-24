@@ -36,12 +36,6 @@ final class SearchNewsViewController: BaseViewController {
         configMessageSearch()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        resultsSearchController.delegate = nil
-        resultsSearchController.searchBar.delegate = nil
-    }
-
     private func configCollectionView() {
         searchCollectionView.register(UINib(nibName: Config.searchNewsCell, bundle: .main), forCellWithReuseIdentifier: Config.searchNewsCell)
         searchCollectionView.dataSource = self
@@ -78,7 +72,8 @@ final class SearchNewsViewController: BaseViewController {
     private func reloadSearchNewsViewController() {
         if viewModel.isEmmtySearchItems() {
             placeholdArticlesSearchNewsView.isHidden = false
-            messageSearchLabel.text = "Sorry, no results found for your\nsearch: \(viewModel.queryString)"
+            let message = "Sorry, no results found for your\nsearch"
+            messageSearchLabel.text = "\(message): \(viewModel.queryString)"
         } else {
             placeholdArticlesSearchNewsView.isHidden = true
         }
@@ -87,26 +82,25 @@ final class SearchNewsViewController: BaseViewController {
 
     @objc private func searchNews() {
         guard !viewModel.isLoading else { return }
-        viewModel.searchNews(page: 1) { [weak self] (done, _) in
+        viewModel.searchNews { [weak self] (done, message) in
             guard let this = self else { return }
             if done {
                 this.reloadSearchNewsViewController()
+                this.searchCollectionView.scrollsToTop = true
             } else {
-                #warning("Show alert")
+                this.alert(title: App.String.searchTabBar, msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil)
             }
         }
     }
 
     private func loadMoreSearchNews() {
         guard !viewModel.isLoading, viewModel.canLoadMore else { return }
-        let nextPage = viewModel.currentPage + 1
-        viewModel.searchNews(page: nextPage) { [weak self] (done, error) in
+        viewModel.loadMoreSearchNews { [weak self] (done, message) in
             guard let this = self else { return }
             if done {
                 this.reloadSearchNewsViewController()
             } else {
-                #warning("Show alert/ Delete print later")
-                print(error)
+                this.alert(title: App.String.searchTabBar, msg: message, buttons: ["Ok"], preferButton: "Oke", handler: nil)
             }
         }
         #warning("Delete print later")
@@ -128,8 +122,8 @@ extension SearchNewsViewController: UISearchResultsUpdating {
         if let searchString = searchController.searchBar.text {
             NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNews), object: nil)
             viewModel.queryString = searchString
-            guard viewModel.queryString != viewModel.oldQueryString else { return }
-            perform(#selector(searchNews), with: nil, afterDelay: 1.2)
+            guard viewModel.queryString != viewModel.oldQueryString, searchString != "" else { return }
+            perform(#selector(searchNews), with: nil, afterDelay: 1.5)
         }
     }
 }

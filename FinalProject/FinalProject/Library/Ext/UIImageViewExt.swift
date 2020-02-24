@@ -33,7 +33,6 @@ extension UIImageView {
         let dataTask = session.dataTask(with: url) { (data, _, error) in
             DispatchQueue.main.async {
                 if error != nil {
-                    #warning("API Error")
                 } else {
                     if let data = data, let image = UIImage(data: data) {
                         self.image = image

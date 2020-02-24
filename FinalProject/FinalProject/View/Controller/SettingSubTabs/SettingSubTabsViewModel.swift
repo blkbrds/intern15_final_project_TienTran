@@ -52,13 +52,15 @@ extension SettingSubTabsViewModel {
         return categoriesSelected.contains(category)
     }
 
-    func saveSettingSubTabs() {
+    func saveSettingSubTabs(completion: @escaping Completion) {
         categoriesSelected.removeAll()
         cells.filter { $0.isEnable }.forEach { categoriesSelected.append($0.category) }
-        guard !categoriesSelected.elementsEqual(SettingManager.shared().categories) else { return }
+        guard !categoriesSelected.elementsEqual(SettingManager.shared().categories) else {
+            completion(false, "Duplicated with previous settings")
+            return }
         SettingManager.shared().categories = categoriesSelected
         let notificationCenter = NotificationCenter.default
         notificationCenter.post(name: NSNotification.Name.settingCategories, object: nil)
-
+        completion(true, "")
     }
 }

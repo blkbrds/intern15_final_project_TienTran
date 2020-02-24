@@ -59,8 +59,12 @@ extension FavoritesDetailViewModel {
 
     func fetchData(completion: @escaping Completion) {
         let articles = RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param)
-        self.articles = articles
-        completion(true, "")
+        if articles.isEmpty {
+            completion(false, "No articles!")
+        } else {
+            self.articles = articles
+            completion(true, "")
+        }
     }
 
     /// dowload image

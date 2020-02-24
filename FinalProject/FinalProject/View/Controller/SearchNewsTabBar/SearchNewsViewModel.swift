@@ -15,7 +15,7 @@ final class SearchNewsViewModel {
     var oldQueryString = ""
     var canLoadMore = true
     var isLoading = false
-    var currentPage = 0
+    var currentPage = 1
 }
 
 extension SearchNewsViewModel {
@@ -64,12 +64,43 @@ extension SearchNewsViewModel {
     }
 
     /// search news
-    func searchNews(page: Int, completion: @escaping Completion) {
+    func searchNews(completion: @escaping Completion) {
         queryString = queryString.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        guard queryString != "", let queryStringEndcode = queryString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else { return completion(false, "") }
+        guard queryString != "",
+            let queryStringEndcode = queryString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else {
+                completion(false, "")
+                return
+        }
+
         isLoading = true
-        APIManager.News.getEverything(page: page, query: queryStringEndcode, country: "us") { result in
+        APIManager.News.getEverything(query: queryStringEndcode, country: "us") { result in
+            switch result {
+            case .failure(let error):
+                // call back
+                completion(false, error.localizedDescription)
+            case .success(let response):
+                let articles = response.articles
+                self.searchItems = articles
+                self.oldQueryString = self.queryString
+                completion(true, "")
+            }
+            self.isLoading = false
+        }
+    }
+
+    /// search news
+    func loadMoreSearchNews(completion: @escaping Completion) {
+        queryString = queryString.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard queryString != "",
+            let queryStringEndcode = queryString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else {
+                completion(false, "")
+                return
+        }
+        isLoading = true
+        currentPage += 1
+        APIManager.News.getEverything(page: currentPage, query: queryStringEndcode, country: "us") { result in
             switch result {
             case .failure(let error):
                 // call back
@@ -84,7 +115,6 @@ extension SearchNewsViewModel {
                     completion(false, "Can't loadmore!")
                 }
                 self.oldQueryString = self.queryString
-                self.currentPage = page
             }
             self.isLoading = false
         }
@@ -93,5 +123,7 @@ extension SearchNewsViewModel {
     func cancelSearchNews() {
         searchItems.removeAll()
         currentPage = 0
+        isLoading = false
+        canLoadMore = true
     }
 }

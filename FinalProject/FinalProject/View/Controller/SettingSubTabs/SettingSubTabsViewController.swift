@@ -15,7 +15,7 @@ final class SettingSubTabsViewController: BaseViewController {
     var viewModel = SettingSubTabsViewModel()
     private var saveSubTabsBarButtonItem: UIBarButtonItem {
         let saveSubTabsBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveSettingSubTabsTouchUpInside))
-        saveSubTabsBarButtonItem.tintColor = .purple
+        saveSubTabsBarButtonItem.tintColor = UIColor.purple.withAlphaComponent(0.55)
         return saveSubTabsBarButtonItem
     }
 
@@ -38,7 +38,15 @@ final class SettingSubTabsViewController: BaseViewController {
     }
 
     @objc func saveSettingSubTabsTouchUpInside() {
-        viewModel.saveSettingSubTabs()
+        viewModel.saveSettingSubTabs { (done, message) in
+            if done {
+                self.alert(title: "Setting SubTabs", msg: "Change setting success", buttons: ["Ok"], preferButton: "Ok", handler: { _ in
+                    self.previousToViewController()
+                    })
+            } else {
+                self.alert(title: "Setting SubTabs", msg: message, buttons: ["Please setting again"], preferButton: "", handler: nil)
+            }
+        }
     }
 }
 
@@ -72,13 +80,12 @@ extension SettingSubTabsViewController: SubTabsCellDelegate {
     func cell(_ cell: SubTabsCell, needdPerform action: SubTabsCell.Action) {
         switch action {
         case .changeStatusButton(let indexPath):
-            viewModel.changeStatus(with: indexPath) { [weak self] (done, error) in
+            viewModel.changeStatus(with: indexPath) { [weak self] (done, message) in
                 guard let this = self else { return }
                 if done {
                     this.collectionView.reloadItems(at: [indexPath])
                 } else {
-                    #warning("Delete print later")
-                    print("Error: \(error)")
+                    alert(title: this.description, msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil)
                 }
             }
         }

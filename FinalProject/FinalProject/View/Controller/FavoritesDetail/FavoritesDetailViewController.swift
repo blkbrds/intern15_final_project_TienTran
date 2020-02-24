@@ -37,25 +37,27 @@ final class FavoritesDetailViewController: BaseViewController {
     }
 
     private func fetchData() {
-        viewModel.fetchData { [weak self] (done, _) in
+        viewModel.fetchData { [weak self] (done, message) in
             guard let this = self else { return }
             if done {
                 this.tableView.reloadData()
             } else {
-                #warning("Realm Error")
+                let titleDetail = this.viewModel.categoryType.text
+                this.alert(title: "Bookmarks Detail \(titleDetail)", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: { _ in
+                        this.previousToViewController()
+                    })
             }
         }
     }
 
     private func configObserve() {
-        viewModel.setupObserve { [weak self] (done, _) in
+        viewModel.setupObserve { [weak self] (done, message) in
             guard let this = self else { return }
             if done {
                 this.fetchData()
                 this.tableView.reloadData()
             } else {
-                #warning("Realm Error")
-            }
+                this.alert(title: "Bookmarks Detail", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil) }
         }
     }
 
@@ -96,18 +98,20 @@ extension FavoritesDetailViewController: FavoritesDetailCellDelegate {
         switch action {
         case .loadImage(let indexPath):
             viewModel.loadImage(indexPath: indexPath) { image in
+                guard indexPath.row < self.viewModel.articles.count else { return }
                 if image != nil {
                     self.tableView.reloadRows(at: [indexPath], with: .none)
                 }
             }
         case .delete(let indexPath):
-            #warning("Show alert delete news(Y/N)?")
-            viewModel.removeNewsInFavorites(indexPath: indexPath) { [weak self] (done, _) in
-                guard let this = self else { return }
-                if done {
-                    this.tableView.reloadData()
-                } else {
-                    #warning("Reaml Error")
+            alert(title: "Delete this news?", msg: "This action cannot be undone", buttons: ["Ok", "Cancel"], preferButton: "Ok") { _ in
+                self.viewModel.removeNewsInFavorites(indexPath: indexPath) { [weak self] (done, message) in
+                    guard let this = self else { return }
+                    if done {
+                        this.tableView.deleteRows(at: [indexPath], with: .left)
+                    } else {
+                        this.alert(title: "Bookmarks Detail", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil)
+                    }
                 }
             }
         }

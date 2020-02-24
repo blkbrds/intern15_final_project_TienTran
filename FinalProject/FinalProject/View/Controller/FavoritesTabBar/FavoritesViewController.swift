@@ -34,7 +34,7 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        viewModel.setupObserve { [weak self] (done, _) in
+        viewModel.setupObserve { [weak self] (done, message) in
             guard let this = self else { return }
             if done {
                 if this.viewModel.isEmtyBookmarks() {
@@ -44,7 +44,7 @@ final class FavoritesViewController: BaseViewController {
                 }
                 this.collectionView.reloadData()
             } else {
-                #warning("Realm Error")
+                this.alert(title: "Bookmarks", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil)
             }
         }
     }
