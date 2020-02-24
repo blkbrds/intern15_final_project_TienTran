@@ -27,10 +27,6 @@ extension APIManager.News {
     }
 
     static func getTopHeadlines(page: Int, pageSize: Int = 10, category: String, country: String, completion: @escaping APICompletion<Response>) {
-        //Test
-        #warning("Delete later")
-        guard category != CategoryType.health.param else { completion(.failure(.emptyData)); return }
-
         let urlString = QueryString().getTopHeadlines(category: category, country: country, page: page, pageSize: pageSize)
         API.shared().request(urlString: urlString) { result in
             switch result {
