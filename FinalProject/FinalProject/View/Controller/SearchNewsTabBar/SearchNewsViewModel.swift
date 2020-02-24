@@ -12,7 +12,10 @@ import UIKit
 final class SearchNewsViewModel {
     var searchItems: [News] = []
     var queryString = ""
-    private var oldQueryString = ""
+    var oldQueryString = ""
+    var canLoadMore = true
+    var isLoading = false
+    var currentPage = 0
 }
 
 extension SearchNewsViewModel {
@@ -61,26 +64,34 @@ extension SearchNewsViewModel {
     }
 
     /// search news
-    func searchNews(compeltion: @escaping Completion) {
+    func searchNews(page: Int, completion: @escaping Completion) {
         queryString = queryString.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        guard queryString != "", queryString != oldQueryString, let queryStringEndcode = queryString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else { return compeltion(false, "") }
-        APIManager.News.getEverything(query: queryStringEndcode, country: "us") { result in
+        guard queryString != "", let queryStringEndcode = queryString.addingPercentEncoding(withAllowedCharacters: .alphanumerics) else { return completion(false, "") }
+        isLoading = true
+        APIManager.News.getEverything(page: page, query: queryStringEndcode, country: "us") { result in
             switch result {
             case .failure(let error):
                 // call back
-                compeltion(false, error.localizedDescription)
+                completion(false, error.localizedDescription)
             case .success(let response):
-                self.searchItems = response.articles
+                let articles = response.articles
+                if articles.count > 0 {
+                    self.searchItems.append(contentsOf: articles)
+                    completion(true, "")
+                } else {
+                    self.canLoadMore = false
+                    completion(false, "Can't loadmore!")
+                }
                 self.oldQueryString = self.queryString
-                // call back
-                compeltion(true, "")
+                self.currentPage = page
             }
+            self.isLoading = false
         }
     }
 
     func cancelSearchNews() {
         searchItems.removeAll()
-        oldQueryString = ""
+        currentPage = 0
     }
 }

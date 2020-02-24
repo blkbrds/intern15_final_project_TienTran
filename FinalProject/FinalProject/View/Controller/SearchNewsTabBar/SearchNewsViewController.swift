@@ -69,7 +69,7 @@ final class SearchNewsViewController: BaseViewController {
 
             let width = UIScreen.main.bounds.width
             let itemWidth: CGFloat = width - 20
-            let itemHeight: CGFloat = itemWidth * 0.7
+            let itemHeight: CGFloat = itemWidth * 0.6
 
             flowLayout.itemSize = CGSize(width: itemWidth, height: itemHeight)
         }
@@ -85,14 +85,32 @@ final class SearchNewsViewController: BaseViewController {
         searchCollectionView.reloadData()
     }
 
-    @objc private func searchNewsApi() {
-        viewModel.searchNews { (done, _) in
+    @objc private func searchNews() {
+        guard !viewModel.isLoading else { return }
+        viewModel.searchNews(page: 1) { [weak self] (done, _) in
+            guard let this = self else { return }
             if done {
-                self.reloadSearchNewsViewController()
+                this.reloadSearchNewsViewController()
             } else {
                 #warning("Show alert")
             }
         }
+    }
+
+    private func loadMoreSearchNews() {
+        guard !viewModel.isLoading, viewModel.canLoadMore else { return }
+        let nextPage = viewModel.currentPage + 1
+        viewModel.searchNews(page: nextPage) { [weak self] (done, error) in
+            guard let this = self else { return }
+            if done {
+                this.reloadSearchNewsViewController()
+            } else {
+                #warning("Show alert/ Delete print later")
+                print(error)
+            }
+        }
+        #warning("Delete print later")
+        print("Search load more: \(viewModel.searchItems.count)")
     }
 }
 
@@ -108,9 +126,10 @@ extension SearchNewsViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
 
         if let searchString = searchController.searchBar.text {
-            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNewsApi), object: nil)
-            self.perform(#selector(searchNewsApi), with: nil, afterDelay: 1.5)
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchNews), object: nil)
             viewModel.queryString = searchString
+            guard viewModel.queryString != viewModel.oldQueryString else { return }
+            perform(#selector(searchNews), with: nil, afterDelay: 1.2)
         }
     }
 }
@@ -133,6 +152,17 @@ extension SearchNewsViewController: UICollectionViewDelegate {
         let newsDetail = NewsDetailViewController()
         newsDetail.viewModel = viewModel.getNewsDetailViewModel(at: indexPath)
         nextToViewController(viewcontroller: newsDetail)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !viewModel.searchItems.isEmpty else { return }
+        let contentOffsetY = scrollView.contentOffset.y
+        let contentSizeHeight = scrollView.contentSize.height
+        let scrollViewFrameHeigth = scrollView.frame.height
+
+        if contentOffsetY >= contentSizeHeight - scrollViewFrameHeigth * 1 {
+            loadMoreSearchNews()
+        }
     }
 }
 

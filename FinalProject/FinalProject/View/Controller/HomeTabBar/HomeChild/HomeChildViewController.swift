@@ -8,18 +8,34 @@
 
 import UIKit
 
-final class BaseHomeChildViewController: BaseViewController {
+protocol HomeChildViewControllerDelegate: class {
+    func viewController(_ viewController: HomeChildViewController, needPerform action: HomeChildViewController.Action)
+}
+
+final class HomeChildViewController: BaseViewController {
+    enum Action {
+        case fetchData(index: Int, category: CategoryType)
+        case loadMore(index: Int, category: CategoryType)
+        case pullToRefresh(index: Int, category: CategoryType)
+    }
 
     // MARK: - IBOutlet
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var loadingView: UIView!
     @IBOutlet private weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet private weak var errorView: UIView!
-    @IBOutlet weak var scrollToTopButton: UIButton!
 
     // MARK: - Properties
-    var viewModel = BaseHomeChildViewModel()
+    var viewModel: HomeChildViewModel = HomeChildViewModel() {
+        didSet {
+            guard tableView != nil else { return }
+            fetchData()
+        }
+    }
+
+    var notificationCenter = NotificationCenter.default
     private var refreshControl = UIRefreshControl()
+    weak var delegate: HomeChildViewControllerDelegate?
 
     // MARK: - config
     override func setupUI() {
@@ -30,7 +46,7 @@ final class BaseHomeChildViewController: BaseViewController {
 
     override func setupData() {
         super.setupData()
-        loadAPI()
+        delegate?.viewController(self, needPerform: .fetchData(index: viewModel.index, category: viewModel.category))
     }
 
     // MARK: - Private funcs
@@ -43,7 +59,7 @@ final class BaseHomeChildViewController: BaseViewController {
 
         /// config Refresh Control
         tableView.addSubview(refreshControl)
-        refreshControl.addTarget(self, action: #selector(refreshViewController), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshHomeChildVC), for: .valueChanged)
     }
 
     /// config Loading View
@@ -53,61 +69,44 @@ final class BaseHomeChildViewController: BaseViewController {
         activityIndicatorView.startAnimating()
     }
 
-    @objc private func refreshViewController() {
-        guard !viewModel.isLoading else { return }
-        if !viewModel.isRefreshing {
-            viewModel.isRefreshing = true
-            viewModel.refreshData { (done, _) in
-                if done {
-                    self.tableView.reloadData()
-                    self.viewModel.isRefreshing = false
-                    self.refreshControl.endRefreshing()
-                } else {
-                    self.viewModel.isRefreshing = false
-                    #warning("API Error")
-                }
-            }
+    private func fetchData() {
+        activityIndicatorView.stopAnimating()
+        if viewModel.articles.count > 1 {
+            loadingView.isHidden = true
+            tableView.reloadData()
+            #warning("Delete print later")
+            print("\(viewModel.category.text):  \(viewModel.articles.count)")
+        } else {
+            errorView.isHidden = false
+            #warning("check error here!")
+        }
+
+        guard refreshControl.isRefreshing else { return }
+        refreshControl.endRefreshing()
+    }
+
+    @objc private func reloadHomeChildVC() {
+        activityIndicatorView.stopAnimating()
+        if viewModel.articles.count > 1 {
+            loadingView.isHidden = true
+            tableView.reloadData()
+        } else {
+            errorView.isHidden = false
+            #warning("check error here!")
         }
     }
 
-    private func loadAPI() {
-        viewModel.loadAPI { (done, _) in
-            if done {
-                self.activityIndicatorView.stopAnimating()
-                self.loadingView.isHidden = true
-                self.tableView.reloadData()
-            } else {
-                self.activityIndicatorView.stopAnimating()
-                self.errorView.isHidden = false
-                #warning("API Error")
-            }
-        }
+    @objc private func refreshHomeChildVC() {
+        delegate?.viewController(self, needPerform: .pullToRefresh(index: viewModel.index, category: viewModel.category))
     }
 
     private func loadMore() {
-        guard !viewModel.isLoading, viewModel.canLoadMore else { return }
-
-        viewModel.isLoading = true
-        viewModel.loadMoreAPI { (done, _) in
-            if done {
-                self.viewModel.isLoading = false
-                self.tableView.reloadData()
-            } else {
-                self.viewModel.isLoading = false
-                self.viewModel.canLoadMore = false
-                #warning("API Error:")
-                print("Can't load more") /// delete print later
-            }
-        }
-    }
-
-    @IBAction func scrollToTopButtonTochUpInside(_ sender: UIButton) {
-        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        delegate?.viewController(self, needPerform: .loadMore(index: viewModel.index, category: viewModel.category))
     }
 }
 
 // MARK: - NewsTableViewCellDelegate
-extension BaseHomeChildViewController: NewsTableViewCellDelegate {
+extension HomeChildViewController: NewsTableViewCellDelegate {
     func cell(_ cell: NewsTableViewCell, needPerform action: NewsTableViewCell.Action) {
         switch action {
         case .loadImage(let indexPath):
@@ -122,7 +121,7 @@ extension BaseHomeChildViewController: NewsTableViewCellDelegate {
 }
 
 // MARK: - TableView Datasource
-extension BaseHomeChildViewController: UITableViewDataSource {
+extension HomeChildViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfListNews()
     }
@@ -143,7 +142,7 @@ extension BaseHomeChildViewController: UITableViewDataSource {
 }
 
 // MARK: - TableView Delegate
-extension BaseHomeChildViewController: UITableViewDelegate {
+extension HomeChildViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row % 4 {
         case 0:
@@ -171,7 +170,7 @@ extension BaseHomeChildViewController: UITableViewDelegate {
 }
 
 // MARK: - Config
-extension BaseHomeChildViewController {
+extension HomeChildViewController {
 
     struct Config {
         static let largeNewsCell = "LargeNewsCell"

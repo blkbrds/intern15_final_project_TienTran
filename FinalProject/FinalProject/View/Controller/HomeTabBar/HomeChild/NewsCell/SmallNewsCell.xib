@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,19 +23,19 @@
                                 <rect key="frame" x="0.0" y="0.0" width="131" height="130"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cnn-logo-white-on-red" translatesAutoresizingMaskIntoConstraints="NO" id="7sX-an-bRa">
-                                <rect key="frame" x="141" y="5" width="17" height="17"/>
+                                <rect key="frame" x="141" y="5" width="19.5" height="19.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="7sX-an-bRa" secondAttribute="height" id="xbu-F7-TNI"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ABC News" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9r-Lh-AHA">
-                                <rect key="frame" x="163" y="5" width="68" height="17"/>
+                                <rect key="frame" x="165.5" y="5" width="68" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMF-MC-O7H">
-                                <rect key="frame" x="141" y="27" width="204" height="81"/>
+                                <rect key="frame" x="141" y="29.5" width="204" height="76"/>
                                 <string key="text">The 100 Days of Swift is a free collection of videos, tutorials, tests, and more to help you learn Swift faster
 The 100 Days of Swift is a free collection of videos, tutorials, tests, and more to help you learn Swift faster</string>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
@@ -43,7 +43,7 @@ The 100 Days of Swift is a free collection of videos, tutorials, tests, and more
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6 days ago" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPQ-g3-wrb">
-                                <rect key="frame" x="141" y="113" width="71" height="17"/>
+                                <rect key="frame" x="141" y="110.5" width="71" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <nil key="highlightedColor"/>
@@ -64,6 +64,7 @@ The 100 Days of Swift is a free collection of videos, tutorials, tests, and more
                             <constraint firstItem="X9r-Lh-AHA" firstAttribute="centerY" secondItem="7sX-an-bRa" secondAttribute="centerY" id="QQo-dG-tq3"/>
                             <constraint firstItem="IaM-Dr-Y26" firstAttribute="top" secondItem="a6f-fD-hG8" secondAttribute="top" id="RTu-NB-ztZ"/>
                             <constraint firstItem="IaM-Dr-Y26" firstAttribute="width" secondItem="a6f-fD-hG8" secondAttribute="width" multiplier="0.38" id="VuE-W4-azs"/>
+                            <constraint firstItem="7sX-an-bRa" firstAttribute="height" secondItem="a6f-fD-hG8" secondAttribute="height" multiplier="0.15" id="b7z-1I-R8e"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sPQ-g3-wrb" secondAttribute="trailing" id="oIr-FC-YZP"/>
                             <constraint firstItem="X9r-Lh-AHA" firstAttribute="leading" secondItem="7sX-an-bRa" secondAttribute="trailing" constant="5" id="rof-WQ-JJx"/>
                             <constraint firstItem="FMF-MC-O7H" firstAttribute="leading" secondItem="7sX-an-bRa" secondAttribute="leading" id="tGJ-Sy-W1A"/>
@@ -71,12 +72,22 @@ The 100 Days of Swift is a free collection of videos, tutorials, tests, and more
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="X9r-Lh-AHA" secondAttribute="trailing" id="yrv-Cq-IZc"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Duf-VX-dvS">
+                        <rect key="frame" x="15" y="149" width="345" height="1"/>
+                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="dj0-Qg-7o6"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="a6f-fD-hG8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="OCz-3N-n2g"/>
                     <constraint firstItem="a6f-fD-hG8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Wjp-ul-Ib4"/>
+                    <constraint firstAttribute="bottom" secondItem="Duf-VX-dvS" secondAttribute="bottom" id="ZsN-hC-mWt"/>
                     <constraint firstAttribute="bottom" secondItem="a6f-fD-hG8" secondAttribute="bottom" constant="10" id="bOF-il-4r2"/>
+                    <constraint firstItem="Duf-VX-dvS" firstAttribute="leading" secondItem="a6f-fD-hG8" secondAttribute="leading" id="bPh-t1-7cz"/>
                     <constraint firstAttribute="trailing" secondItem="a6f-fD-hG8" secondAttribute="trailing" constant="15" id="c1n-mm-PPQ"/>
+                    <constraint firstItem="Duf-VX-dvS" firstAttribute="trailing" secondItem="a6f-fD-hG8" secondAttribute="trailing" id="vZ0-DZ-EjX"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -88,7 +99,7 @@ The 100 Days of Swift is a free collection of videos, tutorials, tests, and more
                 <outlet property="newsTitleLabel" destination="FMF-MC-O7H" id="nED-IS-80R"/>
                 <outlet property="publishedLabel" destination="sPQ-g3-wrb" id="yNS-lm-W7g"/>
             </connections>
-            <point key="canvasLocation" x="-49" y="316"/>
+            <point key="canvasLocation" x="138" y="23"/>
         </tableViewCell>
     </objects>
     <resources>

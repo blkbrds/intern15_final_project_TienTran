@@ -16,8 +16,10 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Properties
     private var pageController: UIPageViewController!
-    private var viewControllers = [BaseHomeChildViewController]()
+    private var viewControllers = [HomeChildViewController]()
     private var viewModel = HomeViewModel()
+
+    private var notificationCenter = NotificationCenter.default
 
     private var settingSubTabsButtonItem: UIBarButtonItem {
         let settingSubTabsButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
@@ -51,14 +53,18 @@ final class HomeViewController: BaseViewController {
     override func setupData() {
         super.setupData()
         APIManager.Downloader.configImageDataStorage()
+        configData()
     }
 
     // MARK: - Private funcs
+    private func configData() {
+        viewModel.configData()
+    }
+
     private func configCategoriesCollectionView() {
         categoriesCollectionView.register(UINib(nibName: Config.categoryCell, bundle: .main), forCellWithReuseIdentifier: Config.categoryCell)
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
-
         configFlowLayout()
     }
 
@@ -77,25 +83,36 @@ final class HomeViewController: BaseViewController {
         addChild(pageController)
         contentView.addSubview(pageController.view)
         pageController.view.frame = contentView.bounds
-
-        addChildViewController()
+        configHomeChildViewController()
         pageController.didMove(toParent: self)
 
         pageController.dataSource = self
         pageController.delegate = self
     }
 
-    private func addChildViewController() {
-        var newViewControllers: [BaseHomeChildViewController] = []
-        for (index, type) in viewModel.categories.enumerated() {
-            let viewController = BaseHomeChildViewController()
-            viewController.viewModel.screenType = type
+    private func configHomeChildViewController() {
+        var newViewControllers: [HomeChildViewController] = []
+        let categories = viewModel.categories
+        categories.enumerated().forEach { (index, _) in
+            let viewController = HomeChildViewController()
+            viewController.delegate = self
+            viewController.viewModel = viewModel.getHomeChildViewModel(index: index)
             viewController.view.tag = index
             newViewControllers.append(viewController)
         }
         viewControllers = newViewControllers
         guard viewControllers.count > 0 else { return }
         pageController.setViewControllers([viewControllers[0]], direction: .forward, animated: false)
+    }
+
+    private func configObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchDataSetting), name: NSNotification.Name.settingCategories, object: nil)
+    }
+
+    private func fetchDataHomeChildViewController() {
+        viewControllers.enumerated().forEach { (index, viewController) in
+            viewController.viewModel = viewModel.getHomeChildViewModel(index: index)
+        }
     }
 
     private func scrollToPageChildViewController() {
@@ -113,10 +130,6 @@ final class HomeViewController: BaseViewController {
         }
     }
 
-    private func configObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadDataHomeVC), name: NSNotification.Name.settingCategories, object: nil)
-    }
-
     @objc private func settingSubTabsButtonItemTouchUpInside() {
         let settingSubTabsViewController = SettingSubTabsViewController()
         nextToViewController(viewcontroller: settingSubTabsViewController)
@@ -126,13 +139,16 @@ final class HomeViewController: BaseViewController {
         tabBarController?.selectedIndex = 2
     }
 
-    @objc private func reloadDataHomeVC() {
+    @objc private func fetchDataSetting() {
+        viewModel.configData()
+        configHomeChildViewController()
+        viewModel.currentPage = 0
         categoriesCollectionView.reloadData()
-        addChildViewController()
+        categoriesCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.settingCategories, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .settingCategories, object: nil)
     }
 }
 
@@ -163,7 +179,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 // MARK: - PageViewController DataSource, Delegate
 extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
+        guard let viewController = viewController as? HomeChildViewController else { return nil }
         let index: Int = viewController.view.tag
         guard index == 0 else {
             let viewController = viewControllers[index - 1]
@@ -173,7 +189,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewController = viewController as? BaseHomeChildViewController else { return nil }
+        guard let viewController = viewController as? HomeChildViewController else { return nil }
         var index: Int = viewController.view.tag
         index += 1
         guard index == viewModel.categories.count else {
@@ -191,6 +207,54 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
         if finished, let vc = pageViewController.viewControllers?.first {
             viewModel.currentPage = vc.view.tag
             scrollToCategory()
+        }
+    }
+}
+
+extension HomeViewController: HomeChildViewControllerDelegate {
+    func viewController(_ viewController: HomeChildViewController, needPerform action: HomeChildViewController.Action) {
+        switch action {
+        case .pullToRefresh(let index, let category):
+            guard !viewModel.isLoading[index] else { return }
+            viewModel.refreshData(index: index, category: category) { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    let articles = this.viewModel.articlesArray[index]
+                    let homeChildViewModel = this.viewControllers[index].viewModel
+                    homeChildViewModel.articles = articles
+                    this.viewControllers[index].viewModel = homeChildViewModel
+                } else {
+                    #warning("Show alert")
+                    print("\(this.viewModel.categories[index]): \(error)")
+                }
+            }
+        case .loadMore(let index, let category):
+            guard !viewModel.isLoading[index], viewModel.canLoadMore[index] else { return }
+            viewModel.loadMoreApi(index: index, category: category) { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    let articles = this.viewModel.articlesArray[index]
+                    let homeChildViewModel = this.viewControllers[index].viewModel
+                    homeChildViewModel.articles = articles
+                    this.viewControllers[index].viewModel = homeChildViewModel
+                } else {
+                    #warning("Show alert Delete print later")
+                    print("\(this.viewModel.categories[index]): \(error)")
+                }
+            }
+        case .fetchData(let index, let category):
+            viewModel.fecthData(index: index, category: category) { [weak self] (done, error) in
+                guard let this = self else { return }
+                if done {
+                    let articles = this.viewModel.articlesArray[index]
+                    let homeChildViewModel = this.viewControllers[index].viewModel
+                    homeChildViewModel.articles = articles
+                    this.viewControllers[index].viewModel = homeChildViewModel
+                } else {
+                    #warning("Show alert Delete print later")
+                    print("\(this.viewModel.categories[index]): \(error)")
+                }
+            }
         }
     }
 }

@@ -37,9 +37,10 @@ final class FavoritesDetailViewController: BaseViewController {
     }
 
     private func fetchData() {
-        viewModel.fetchData { (done, _) in
+        viewModel.fetchData { [weak self] (done, _) in
+            guard let this = self else { return }
             if done {
-                self.tableView.reloadData()
+                this.tableView.reloadData()
             } else {
                 #warning("Realm Error")
             }
@@ -47,10 +48,11 @@ final class FavoritesDetailViewController: BaseViewController {
     }
 
     private func configObserve() {
-        viewModel.setupObserve { (done, _) in
+        viewModel.setupObserve { [weak self] (done, _) in
+            guard let this = self else { return }
             if done {
-                self.fetchData()
-                self.tableView.reloadData()
+                this.fetchData()
+                this.tableView.reloadData()
             } else {
                 #warning("Realm Error")
             }
@@ -100,9 +102,10 @@ extension FavoritesDetailViewController: FavoritesDetailCellDelegate {
             }
         case .delete(let indexPath):
             #warning("Show alert delete news(Y/N)?")
-            viewModel.removeNewsInFavorites(indexPath: indexPath) { (done, _) in
+            viewModel.removeNewsInFavorites(indexPath: indexPath) { [weak self] (done, _) in
+                guard let this = self else { return }
                 if done {
-                    self.tableView.reloadData()
+                    this.tableView.reloadData()
                 } else {
                     #warning("Reaml Error")
                 }

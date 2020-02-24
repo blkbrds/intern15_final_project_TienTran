@@ -65,9 +65,10 @@ extension SettingSubTabsViewController: SettingSubTabsCellDelegate {
     func cell(_ cell: SettingSubTabsCell, needdPerform action: SettingSubTabsCell.Action) {
         switch action {
         case .changeStatusButton(let indexPath):
-            viewModel.changeStatus(with: indexPath) { (done, error) in
+            viewModel.changeStatus(with: indexPath) { [weak self] (done, error) in
+                guard let this = self else { return }
                 if done {
-                    self.tableView.reloadRows(at: [indexPath], with: .none)
+                    this.tableView.reloadRows(at: [indexPath], with: .none)
                 } else {
                     #warning("Delete print later")
                     print("Error: \(error)")

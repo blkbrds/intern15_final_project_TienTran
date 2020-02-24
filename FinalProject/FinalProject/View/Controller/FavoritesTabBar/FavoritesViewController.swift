@@ -16,6 +16,7 @@ final class FavoritesViewController: BaseViewController {
 
     // MARK: - Properties
     var viewModel = FavoritesViewModel()
+
     // MARK: - config
     override func setupUI() {
         super.setupUI()
@@ -33,14 +34,15 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        viewModel.setupObserve { (done, _) in
+        viewModel.setupObserve { [weak self] (done, _) in
+            guard let this = self else { return }
             if done {
-                if self.viewModel.isEmtyBookmarks() {
-                    self.noArticlesBookmarksView.isHidden = false
+                if this.viewModel.isEmtyBookmarks() {
+                    this.noArticlesBookmarksView.isHidden = false
                 } else {
-                    self.noArticlesBookmarksView.isHidden = true
+                    this.noArticlesBookmarksView.isHidden = true
                 }
-                self.collectionView.reloadData()
+                this.collectionView.reloadData()
             } else {
                 #warning("Realm Error")
             }
