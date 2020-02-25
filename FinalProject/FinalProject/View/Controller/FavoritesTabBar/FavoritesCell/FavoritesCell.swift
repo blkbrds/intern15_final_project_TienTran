@@ -20,6 +20,16 @@ final class FavoritesCell: UICollectionViewCell {
         }
     }
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configUI()
+    }
+
+    private func configUI() {
+        categoryImageView.clipsToBounds = true
+        categoryImageView.layer.cornerRadius = 10
+    }
+
     private func updateUI() {
         guard let viewModel = viewModel else { return }
         categoryImageView.image = UIImage(named: viewModel.imageName)

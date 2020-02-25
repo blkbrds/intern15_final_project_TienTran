@@ -10,6 +10,12 @@ import Foundation
 
 final class HomeViewModel {
     var navigationDirection = false
+    var articlesArray: [[News]] = []
+    var isLoading: [Bool] = []
+    var currentPageParam: [Int] = []
+    var canLoadMore: [Bool] = []
+    var isRefreshing = false
+    var errors: [String] = []
 
     var currentPage = 0 {
         didSet {
@@ -20,19 +26,9 @@ final class HomeViewModel {
             }
         }
     }
-
     var categories: [CategoryType] {
         return SettingManager.shared().categories
     }
-
-    var articlesArray: [[News]] = []
-    var isLoading: [Bool] = []
-    var currentPageParam: [Int] = []
-    var canLoadMore: [Bool] = []
-
-    var isRefreshing = false
-
-    let group = DispatchGroup()
 }
 
 extension HomeViewModel {
@@ -55,6 +51,7 @@ extension HomeViewModel {
         isLoading = Array(repeating: true, count: count)
         currentPageParam = Array(repeating: 1, count: count)
         canLoadMore = Array(repeating: true, count: count)
+        errors = Array(repeating: "", count: count)
     }
 }
 

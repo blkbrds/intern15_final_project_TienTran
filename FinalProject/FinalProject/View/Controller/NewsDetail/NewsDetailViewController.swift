@@ -83,23 +83,21 @@ final class NewsDetailViewController: BaseViewController {
 
     @objc private func changeBookMarkButtonTouchUpInside() {
         if viewModel.isFavorited {
-            viewModel.removeNewsInFavorites { [weak self] (done, _) in
+            viewModel.removeNewsInFavorites { [weak self] (done, message) in
                 guard let this = self else { return }
                 if done {
                     this.changeStatusBookMarkButton()
-                    #warning("Show alert")
                 } else {
-                    #warning("Realm Error")
+                    this.alert(title: "News Detail", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil)
                 }
             }
         } else {
-            viewModel.addNewsInFavorites { [weak self] (done, _) in
+            viewModel.addNewsInFavorites { [weak self] (done, message) in
                 guard let this = self else { return }
                 if done {
                     this.changeStatusBookMarkButton()
-                    #warning("Show alert")
                 } else {
-                    #warning("Realm Error")
+                    this.alert(title: "News Detail", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil)
                 }
             }
         }

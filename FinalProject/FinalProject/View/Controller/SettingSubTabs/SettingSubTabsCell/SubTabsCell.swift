@@ -1,18 +1,18 @@
 //
-//  SettingSubTabsCell.swift
+//  SubTabsCell.swift
 //  FinalProject
 //
-//  Created by PCI0002 on 2/17/20.
+//  Created by TranVanTien on 2/24/20.
 //  Copyright © 2020 TranVanTien. All rights reserved.
 //
 
 import UIKit
 
-protocol SettingSubTabsCellDelegate: class {
-    func cell(_ cell: SettingSubTabsCell, needdPerform action: SettingSubTabsCell.Action)
+protocol SubTabsCellDelegate: class {
+    func cell(_ cell: SubTabsCell, needdPerform action: SubTabsCell.Action)
 }
 
-final class SettingSubTabsCell: UITableViewCell {
+final class SubTabsCell: UICollectionViewCell {
 
     enum Action {
         case changeStatusButton(indexPath: IndexPath)
@@ -21,11 +21,21 @@ final class SettingSubTabsCell: UITableViewCell {
     @IBOutlet private weak var categoryImageView: UIImageView!
     @IBOutlet private weak var checkButton: UIButton!
 
-    weak var delegate: SettingSubTabsCellDelegate?
-    var viewModel: SettingSubTabsCellViewModel? {
+    weak var delegate: SubTabsCellDelegate?
+    var viewModel: SubTabsCellViewModel? {
         didSet {
             updateUI()
         }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configUI()
+    }
+
+    private func configUI() {
+        categoryImageView.clipsToBounds = true
+        categoryImageView.layer.cornerRadius = 10
     }
 
     func updateUI() {

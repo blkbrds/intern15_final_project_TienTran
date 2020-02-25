@@ -59,8 +59,12 @@ extension FavoritesDetailViewModel {
 
     func fetchData(completion: @escaping Completion) {
         let articles = RealmManager.shared().getNewsForCategoryInRealm(query: categoryType.param)
-        self.articles = articles
-        completion(true, "")
+        if articles.isEmpty {
+            completion(false, "No articles!")
+        } else {
+            self.articles = articles
+            completion(true, "")
+        }
     }
 
     /// dowload image
@@ -103,6 +107,23 @@ extension FavoritesDetailViewModel {
         RealmManager.shared().deleteObject(object: news, forPrimaryKey: news.urlNews) { (done, error) in
             if done {
                 self.articles.remove(at: indexPath.row)
+                completion(done, "")
+            } else {
+                completion(done, error)
+            }
+        }
+    }
+
+    func removeArticlesInFavorites(articles: [News], completion: @escaping Completion) {
+        let keys: [String] = articles.map { $0.urlNews ?? "No url" }
+        let obj = articles[0]
+        RealmManager.shared().deleteObjects(object: obj, forPrimaryKey: keys) { (done, error) in
+            if done {
+                articles.forEach { news in
+                    if let index = self.articles.firstIndex(of: news) {
+                        self.articles.remove(at: index)
+                    }
+                }
                 completion(done, "")
             } else {
                 completion(done, error)

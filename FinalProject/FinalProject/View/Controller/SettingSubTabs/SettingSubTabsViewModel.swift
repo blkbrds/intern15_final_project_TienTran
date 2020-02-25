@@ -11,7 +11,7 @@ import Foundation
 final class SettingSubTabsViewModel {
 
     var categories: [CategoryType] = CategoryType.allCases
-    var cells: [SettingSubTabsCellViewModel] = []
+    var cells: [SubTabsCellViewModel] = []
 
     var categoriesSelected: [CategoryType] = []
 }
@@ -22,7 +22,7 @@ extension SettingSubTabsViewModel {
         return categories.count
     }
 
-    func getSettingSubTabsCellViewModel(at indexPath: IndexPath) -> SettingSubTabsCellViewModel {
+    func getSettingSubTabsCellViewModel(at indexPath: IndexPath) -> SubTabsCellViewModel {
         return cells[indexPath.row]
     }
 
@@ -40,7 +40,7 @@ extension SettingSubTabsViewModel {
 
         categories.enumerated().forEach { (index, category) in
             let isEnable = getIsActive(category)
-            let cell = SettingSubTabsCellViewModel(category: category, isEnable: isEnable, indexPath: IndexPath(row: index, section: 0))
+            let cell = SubTabsCellViewModel(category: category, isEnable: isEnable, indexPath: IndexPath(row: index, section: 0))
             cells.append(cell)
         }
     }
@@ -52,13 +52,15 @@ extension SettingSubTabsViewModel {
         return categoriesSelected.contains(category)
     }
 
-    func saveSettingSubTabs() {
+    func saveSettingSubTabs(completion: @escaping Completion) {
         categoriesSelected.removeAll()
         cells.filter { $0.isEnable }.forEach { categoriesSelected.append($0.category) }
-        guard !categoriesSelected.elementsEqual(SettingManager.shared().categories) else { return }
+        guard !categoriesSelected.elementsEqual(SettingManager.shared().categories) else {
+            completion(false, "Duplicated with previous settings")
+            return }
         SettingManager.shared().categories = categoriesSelected
         let notificationCenter = NotificationCenter.default
         notificationCenter.post(name: NSNotification.Name.settingCategories, object: nil)
-
+        completion(true, "")
     }
 }

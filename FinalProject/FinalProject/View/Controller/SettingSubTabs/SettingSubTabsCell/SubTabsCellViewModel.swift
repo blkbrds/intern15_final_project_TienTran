@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class SettingSubTabsCellViewModel {
+final class SubTabsCellViewModel {
     var category: CategoryType
     var isEnable: Bool = true
     var backgroundImageString: String { return isEnable ? "checkmark.circle.fill" : "xmark.circle.fill" }

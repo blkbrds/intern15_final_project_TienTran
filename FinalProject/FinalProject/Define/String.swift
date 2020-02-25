@@ -15,5 +15,5 @@ extension App {
 extension App.String {
     static let homeTabBar = "News"
     static let followingTabBar = "Bookmarks"
-    static let searchTabBar = "Search"
+    static let searchTabBar = "Search News"
 }

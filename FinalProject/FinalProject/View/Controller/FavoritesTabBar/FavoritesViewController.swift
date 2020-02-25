@@ -34,7 +34,7 @@ final class FavoritesViewController: BaseViewController {
     }
 
     private func configObserve() {
-        viewModel.setupObserve { [weak self] (done, _) in
+        viewModel.setupObserve { [weak self] (done, message) in
             guard let this = self else { return }
             if done {
                 if this.viewModel.isEmtyBookmarks() {
@@ -44,7 +44,7 @@ final class FavoritesViewController: BaseViewController {
                 }
                 this.collectionView.reloadData()
             } else {
-                #warning("Realm Error")
+                this.alert(title: "Bookmarks", msg: message, buttons: ["Ok"], preferButton: "Ok", handler: nil)
             }
         }
     }
@@ -76,11 +76,13 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
 // MARK: - CollectionView DelegateFlowLayout
 extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width / 2 - 15, height: 150)
-    }
+        let width = UIScreen.main.bounds.width
+        let itemWidth: CGFloat = width / 2 - 15
+        let itemHeight: CGFloat = itemWidth * 0.7
+        return CGSize(width: itemWidth, height: itemHeight) }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
     }
 }
 

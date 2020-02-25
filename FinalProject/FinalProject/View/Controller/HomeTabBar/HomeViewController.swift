@@ -128,6 +128,15 @@ final class HomeViewController: BaseViewController {
                 cell.viewModel = viewModel.getCategoryCellViewModel(indexPath: indexPath)
             }
         }
+
+        guard viewModel.errors[viewModel.currentPage] != "" else { return }
+        let error = viewModel.errors[viewModel.currentPage]
+        alert(title: App.String.homeTabBar, msg: error, buttons: ["Ok"], preferButton: "Ok", handler: { _ in
+                let currentPage = self.viewModel.currentPage
+                let homeChildViewModel = self.viewControllers[currentPage].viewModel
+                homeChildViewModel.articles = []
+                self.viewControllers[currentPage].viewModel = homeChildViewModel
+            })
     }
 
     @objc private func settingSubTabsButtonItemTouchUpInside() {
@@ -216,7 +225,7 @@ extension HomeViewController: HomeChildViewControllerDelegate {
         switch action {
         case .pullToRefresh(let index, let category):
             guard !viewModel.isLoading[index] else { return }
-            viewModel.refreshData(index: index, category: category) { [weak self] (done, error) in
+            viewModel.refreshData(index: index, category: category) { [weak self] (done, message) in
                 guard let this = self else { return }
                 if done {
                     let articles = this.viewModel.articlesArray[index]
@@ -224,13 +233,13 @@ extension HomeViewController: HomeChildViewControllerDelegate {
                     homeChildViewModel.articles = articles
                     this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
-                    #warning("Show alert")
-                    print("\(this.viewModel.categories[index]): \(error)")
+                    this.alert(title: App.String.homeTabBar, msg: message, buttons: ["Ok"], preferButton: "Oke", handler: nil)
+                    print("\(this.viewModel.categories[index]): \(message)") // Delete print later
                 }
             }
         case .loadMore(let index, let category):
             guard !viewModel.isLoading[index], viewModel.canLoadMore[index] else { return }
-            viewModel.loadMoreApi(index: index, category: category) { [weak self] (done, error) in
+            viewModel.loadMoreApi(index: index, category: category) { [weak self] (done, message) in
                 guard let this = self else { return }
                 if done {
                     let articles = this.viewModel.articlesArray[index]
@@ -238,12 +247,12 @@ extension HomeViewController: HomeChildViewControllerDelegate {
                     homeChildViewModel.articles = articles
                     this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
-                    #warning("Show alert Delete print later")
-                    print("\(this.viewModel.categories[index]): \(error)")
+                    this.alert(title: App.String.homeTabBar, msg: message, buttons: ["Ok"], preferButton: "Oke", handler: nil)
+                    print("\(this.viewModel.categories[index]): \(message)") // Delete print later
                 }
             }
         case .fetchData(let index, let category):
-            viewModel.fecthData(index: index, category: category) { [weak self] (done, error) in
+            viewModel.fecthData(index: index, category: category) { [weak self] (done, message) in
                 guard let this = self else { return }
                 if done {
                     let articles = this.viewModel.articlesArray[index]
@@ -251,8 +260,7 @@ extension HomeViewController: HomeChildViewControllerDelegate {
                     homeChildViewModel.articles = articles
                     this.viewControllers[index].viewModel = homeChildViewModel
                 } else {
-                    #warning("Show alert Delete print later")
-                    print("\(this.viewModel.categories[index]): \(error)")
+                    this.viewModel.errors[index] = message
                 }
             }
         }
